@@ -1,0 +1,331 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shoumipay.dao.MemberDevicesMapper">
+  <resultMap id="BaseResultMap" type="com.shoumipay.domain.MemberDevices">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="memberId" jdbcType="BIGINT" property="memberid" />
+    <result column="devices_phone" jdbcType="VARCHAR" property="devicesPhone" />
+    <result column="devices_ifa" jdbcType="VARCHAR" property="devicesIfa" />
+    <result column="devices_mac" jdbcType="VARCHAR" property="devicesMac" />
+    <result column="devices_wifi" jdbcType="VARCHAR" property="devicesWifi" />
+    <result column="devices_ip" jdbcType="VARCHAR" property="devicesIp" />
+    <result column="devices_System_Type" jdbcType="VARCHAR" property="devicesSystemType" />
+    <result column="devices_System_Version" jdbcType="VARCHAR" property="devicesSystemVersion" />
+    <result column="devices_app_Version" jdbcType="VARCHAR" property="devicesAppVersion" />
+    <result column="devices_addtime" jdbcType="TIMESTAMP" property="devicesAddtime" />
+    <result column="devices_upptime" jdbcType="TIMESTAMP" property="devicesUpptime" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, memberId, devices_phone, devices_ifa, devices_mac, devices_wifi, devices_ip, 
+    devices_System_Type, devices_System_Version, devices_app_Version, devices_addtime, 
+    devices_upptime
+  </sql>
+  <select id="selectByExample" parameterType="com.shoumipay.domain.MemberDevicesExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from cl_member_devices
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from cl_member_devices
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="selectByMemberId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from cl_member_devices
+    where memberId=#{1}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from cl_member_devices
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.shoumipay.domain.MemberDevicesExample">
+    delete from cl_member_devices
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.shoumipay.domain.MemberDevices">
+    insert into cl_member_devices (id, memberId, devices_phone, 
+      devices_ifa, devices_mac, devices_wifi, 
+      devices_ip, devices_System_Type, devices_System_Version, 
+      devices_app_Version, devices_addtime, devices_upptime
+      )
+    values (#{id,jdbcType=BIGINT}, #{memberid,jdbcType=BIGINT}, #{devicesPhone,jdbcType=VARCHAR}, 
+      #{devicesIfa,jdbcType=VARCHAR}, #{devicesMac,jdbcType=VARCHAR}, #{devicesWifi,jdbcType=VARCHAR}, 
+      #{devicesIp,jdbcType=VARCHAR}, #{devicesSystemType,jdbcType=VARCHAR}, #{devicesSystemVersion,jdbcType=VARCHAR}, 
+      #{devicesAppVersion,jdbcType=VARCHAR}, #{devicesAddtime,jdbcType=TIMESTAMP}, #{devicesUpptime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.shoumipay.domain.MemberDevices">
+    insert into cl_member_devices
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="memberid != null">
+        memberId,
+      </if>
+      <if test="devicesPhone != null">
+        devices_phone,
+      </if>
+      <if test="devicesIfa != null">
+        devices_ifa,
+      </if>
+      <if test="devicesMac != null">
+        devices_mac,
+      </if>
+      <if test="devicesWifi != null">
+        devices_wifi,
+      </if>
+      <if test="devicesIp != null">
+        devices_ip,
+      </if>
+      <if test="devicesSystemType != null">
+        devices_System_Type,
+      </if>
+      <if test="devicesSystemVersion != null">
+        devices_System_Version,
+      </if>
+      <if test="devicesAppVersion != null">
+        devices_app_Version,
+      </if>
+      <if test="devicesAddtime != null">
+        devices_addtime,
+      </if>
+      <if test="devicesUpptime != null">
+        devices_upptime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="memberid != null">
+        #{memberid,jdbcType=BIGINT},
+      </if>
+      <if test="devicesPhone != null">
+        #{devicesPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="devicesIfa != null">
+        #{devicesIfa,jdbcType=VARCHAR},
+      </if>
+      <if test="devicesMac != null">
+        #{devicesMac,jdbcType=VARCHAR},
+      </if>
+      <if test="devicesWifi != null">
+        #{devicesWifi,jdbcType=VARCHAR},
+      </if>
+      <if test="devicesIp != null">
+        #{devicesIp,jdbcType=VARCHAR},
+      </if>
+      <if test="devicesSystemType != null">
+        #{devicesSystemType,jdbcType=VARCHAR},
+      </if>
+      <if test="devicesSystemVersion != null">
+        #{devicesSystemVersion,jdbcType=VARCHAR},
+      </if>
+      <if test="devicesAppVersion != null">
+        #{devicesAppVersion,jdbcType=VARCHAR},
+      </if>
+      <if test="devicesAddtime != null">
+        #{devicesAddtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="devicesUpptime != null">
+        #{devicesUpptime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.shoumipay.domain.MemberDevicesExample" resultType="java.lang.Long">
+    select count(*) from cl_member_devices
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update cl_member_devices
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.memberid != null">
+        memberId = #{record.memberid,jdbcType=BIGINT},
+      </if>
+      <if test="record.devicesPhone != null">
+        devices_phone = #{record.devicesPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.devicesIfa != null">
+        devices_ifa = #{record.devicesIfa,jdbcType=VARCHAR},
+      </if>
+      <if test="record.devicesMac != null">
+        devices_mac = #{record.devicesMac,jdbcType=VARCHAR},
+      </if>
+      <if test="record.devicesWifi != null">
+        devices_wifi = #{record.devicesWifi,jdbcType=VARCHAR},
+      </if>
+      <if test="record.devicesIp != null">
+        devices_ip = #{record.devicesIp,jdbcType=VARCHAR},
+      </if>
+      <if test="record.devicesSystemType != null">
+        devices_System_Type = #{record.devicesSystemType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.devicesSystemVersion != null">
+        devices_System_Version = #{record.devicesSystemVersion,jdbcType=VARCHAR},
+      </if>
+      <if test="record.devicesAppVersion != null">
+        devices_app_Version = #{record.devicesAppVersion,jdbcType=VARCHAR},
+      </if>
+      <if test="record.devicesAddtime != null">
+        devices_addtime = #{record.devicesAddtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.devicesUpptime != null">
+        devices_upptime = #{record.devicesUpptime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update cl_member_devices
+    set id = #{record.id,jdbcType=BIGINT},
+      memberId = #{record.memberid,jdbcType=BIGINT},
+      devices_phone = #{record.devicesPhone,jdbcType=VARCHAR},
+      devices_ifa = #{record.devicesIfa,jdbcType=VARCHAR},
+      devices_mac = #{record.devicesMac,jdbcType=VARCHAR},
+      devices_wifi = #{record.devicesWifi,jdbcType=VARCHAR},
+      devices_ip = #{record.devicesIp,jdbcType=VARCHAR},
+      devices_System_Type = #{record.devicesSystemType,jdbcType=VARCHAR},
+      devices_System_Version = #{record.devicesSystemVersion,jdbcType=VARCHAR},
+      devices_app_Version = #{record.devicesAppVersion,jdbcType=VARCHAR},
+      devices_addtime = #{record.devicesAddtime,jdbcType=TIMESTAMP},
+      devices_upptime = #{record.devicesUpptime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.shoumipay.domain.MemberDevices">
+    update cl_member_devices
+    <set>
+      <if test="memberid != null">
+        memberId = #{memberid,jdbcType=BIGINT},
+      </if>
+      <if test="devicesPhone != null">
+        devices_phone = #{devicesPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="devicesIfa != null">
+        devices_ifa = #{devicesIfa,jdbcType=VARCHAR},
+      </if>
+      <if test="devicesMac != null">
+        devices_mac = #{devicesMac,jdbcType=VARCHAR},
+      </if>
+      <if test="devicesWifi != null">
+        devices_wifi = #{devicesWifi,jdbcType=VARCHAR},
+      </if>
+      <if test="devicesIp != null">
+        devices_ip = #{devicesIp,jdbcType=VARCHAR},
+      </if>
+      <if test="devicesSystemType != null">
+        devices_System_Type = #{devicesSystemType,jdbcType=VARCHAR},
+      </if>
+      <if test="devicesSystemVersion != null">
+        devices_System_Version = #{devicesSystemVersion,jdbcType=VARCHAR},
+      </if>
+      <if test="devicesAppVersion != null">
+        devices_app_Version = #{devicesAppVersion,jdbcType=VARCHAR},
+      </if>
+      <if test="devicesAddtime != null">
+        devices_addtime = #{devicesAddtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="devicesUpptime != null">
+        devices_upptime = #{devicesUpptime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.shoumipay.domain.MemberDevices">
+    update cl_member_devices
+    set memberId = #{memberid,jdbcType=BIGINT},
+      devices_phone = #{devicesPhone,jdbcType=VARCHAR},
+      devices_ifa = #{devicesIfa,jdbcType=VARCHAR},
+      devices_mac = #{devicesMac,jdbcType=VARCHAR},
+      devices_wifi = #{devicesWifi,jdbcType=VARCHAR},
+      devices_ip = #{devicesIp,jdbcType=VARCHAR},
+      devices_System_Type = #{devicesSystemType,jdbcType=VARCHAR},
+      devices_System_Version = #{devicesSystemVersion,jdbcType=VARCHAR},
+      devices_app_Version = #{devicesAppVersion,jdbcType=VARCHAR},
+      devices_addtime = #{devicesAddtime,jdbcType=TIMESTAMP},
+      devices_upptime = #{devicesUpptime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="utf-8"/>
+		<meta http-equiv="x-ua-compatible" content="ie=edge"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+		<meta name="application-name" content=""/>
+		<meta name="description" content=""/>
+		<meta name="keywords" content="" />
+        <meta content="yes" name="apple-mobile-web-app-capable"/>
+		<title>哆啦付</title>
+		<link rel="stylesheet" href="../../static/assets/h5/css/reset.css" th:href="@{/assets/h5/css/reset.css}"/>
+		<link rel="stylesheet" href="../../static/assets/h5/css/first.css" th:href="@{/assets/h5/css/first.css}"/>
+        <style>
+
+        </style>
+	</head>
+	<body style="background: #fff;">
+		<div class="begin_title" >
+			<a href="javascript:self.location=document.referrer;" ><span class="back">
+				<img src="../../static/assets/h5/images/jiantouhl.png" th:src="@{/assets/h5/images/jiantouhl.png}"/></span></a>
+				哆啦付
+		</div>
+		<div class="index_bg"><img src="../../static/assets/h5/images/first_page.png" th:src="@{/assets/h5/images/first_page.png}"/></div>
+		<div class="index_picbg">
+            <p class="index_name" style="font-size: 20px;" th:if="${!verify}"><b style="float: left;"></b>消费升级 用哆啦付<b  style="float: right;"></b></p>
+            <p class="index_nameed"  th:if="${verify}">可用额度<br/>
+                <span th:text="${#numbers.formatDecimal(money,1,2)+'元'}">10000元</span>
+            </p>
+			<a href="material" th:if="${!verify}"><p class="index_jh" >激活使用</p></a>
+		    <a  th:if="${verify}"><p class="index_jh" >激活成功</p></a>
+		</div>
+		<div class="index_fluid">
+		   <div class="index_fluid_one">
+		   		<a href="bills">
+		   			<dl>
+		   				<dt><img src="../../static/assets/h5/images/bill.png" th:src="@{/assets/h5/images/bill.png}"/></dt>
+		   				<dd>账单</dd>
+		   			</dl>
+		   		</a>
+		   </div>
+		   <div class="index_fluid_two">
+		   		<a href="myOrder">
+			   		<dl>
+			   			<dt><img src="../../static/assets/h5/images/order2.png" th:src="@{/assets/h5/images/order2.png}"/></dt>
+			   			<dd>订单</dd></dl>
+		  		</a>
+		   </div>
+		   <div class="index_fluid_one">
+		   		<a href="platfom">
+			   		<dl>
+			   			<dt><img src="../../static/assets/h5/images/platform.png" th:src="@{/assets/h5/images/platform.png}"/></dt>
+			   			<dd>平台</dd>
+			   		</dl>
+		        </a>
+		   </div>
+        </div>
+        <div class="index_fluid">
+		   <div class="index_fluid_one margin22">
+		   		<a href="repayment">
+			   		<dl>
+			   			<dt><img src="../../static/assets/h5/images/payment.png" th:src="@{/assets/h5/images/payment.png}"/></dt>
+			   			<dd>付款</dd>
+			   		</dl>
+		   		</a>
+		   	</div>
+		   <div class="index_fluid_two margin22">
+		   		<a href="help">
+			   		<dl>
+			   			<dt><img src="../../static/assets/h5/images/help.png" th:src="@{/assets/h5/images/help.png}"/></dt>
+			   			<dd>帮助</dd></dl>
+		   		</a>
+		   </div>
+		   <div class="index_fluid_one margin22">
+		   		<a href="myself">
+			   		<dl>
+			   			<dt><img src="../../static/assets/h5/images/myself.png" th:src="@{/assets/h5/images/myself.png}"/></dt>
+			   			<dd>我的</dd>
+			   		</dl>
+		  		 </a>
+		   </div>
+        </div>
+        <div class="index_cp"><b class="index_cp_l"></b>哆啦付出品<b class="index_cp_r"></b></div>
+	</body>
+
+</html>

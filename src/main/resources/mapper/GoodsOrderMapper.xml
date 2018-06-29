@@ -1,0 +1,843 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shoumipay.dao.GoodsOrderMapper">
+    <resultMap id="BaseResultMap" type="com.shoumipay.domain.GoodsOrder">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="order_number" jdbcType="VARCHAR" property="orderNumber"/>
+        <result column="member_Id" jdbcType="BIGINT" property="memberId"/>
+        <result column="order_create_time" jdbcType="TIMESTAMP" property="orderCreateTime"/>
+        <result column="goods_Id" jdbcType="BIGINT" property="goodsId"/>
+    <result column="daifu_id" jdbcType="BIGINT" property="daifuId" />
+        <result column="order_code" jdbcType="VARCHAR" property="orderCode"/>
+        <result column="order_amount" jdbcType="DECIMAL" property="orderAmount"/>
+        <result column="order_status" jdbcType="INTEGER" property="orderStatus"/>
+        <result column="order_types" jdbcType="INTEGER" property="orderTypes"/>
+        <result column="order_auditor" jdbcType="VARCHAR" property="orderAuditor"/>
+        <result column="order_upptime" jdbcType="TIMESTAMP" property="orderUpptime"/>
+        <result column="order_level" jdbcType="CHAR" property="orderLevel"/>
+        <result column="order_verify_amount" jdbcType="DECIMAL" property="orderVerifyAmount"/>
+        <result column="order_channel" jdbcType="VARCHAR" property="orderChannel"/>
+        <result column="order_discount" jdbcType="BIGINT" property="orderDiscount"/>
+        <result column="order_cardId" jdbcType="BIGINT" property="orderCardid"/>
+        <result column="order_amount_recognized" jdbcType="DECIMAL" property="orderAmountRecognized"/>
+        <result column="oid_paybill" jdbcType="VARCHAR" property="oidPaybill"/>
+        <result column="order_repayment" jdbcType="DECIMAL" property="orderRepayment"/>
+        <result column="order_penalty" jdbcType="DECIMAL" property="orderPenalty"/>
+        <result column="order_fullName" jdbcType="VARCHAR" property="orderFullname"/>
+        <result column="order_next_Pay_Time" jdbcType="TIMESTAMP" property="orderNextPayTime"/>
+        <result column="order_overdue_Pay_Time" jdbcType="TIMESTAMP" property="orderOverduePayTime"/>
+        <result column="order_bad_Pay_Time" jdbcType="TIMESTAMP" property="orderBadPayTime"/>
+        <result column="order_audit_fail_msg" jdbcType="VARCHAR" property="orderAuditFailMsg"/>
+        <result column="order_annotate" jdbcType="VARCHAR" property="orderAnnotate"/>
+        <result column="order_is_show" jdbcType="INTEGER" property="orderIsShow"/>
+	<result column="bills_flag" jdbcType="INTEGER" property="billsFlag" />
+    </resultMap>
+
+    <resultMap id="RepaymentResultMap" type="com.shoumipay.vo.RepaymentVO">
+        <result column="orderId" jdbcType="BIGINT" property="orderId"/>
+        <result column="unRepay" jdbcType="DECIMAL" property="unRepay"/>
+        <result column="loanTime" jdbcType="TIMESTAMP" property="loanTime"/>
+        <result column="amount" jdbcType="DECIMAL" property="amount"/>
+        <result column="remainderTimes" jdbcType="INTEGER" property="remainderTimes"/>
+        <result column="status" jdbcType="VARCHAR" property="status"/>
+    </resultMap>
+
+    <sql id="Example_Where_Clause">
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause">
+        <where>
+            <foreach collection="example.oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Base_Column_List">
+   id, order_number, member_Id, order_create_time, goods_Id,daifu_id, order_code, order_amount, 
+    order_status, order_types, order_auditor, order_upptime, order_level, order_verify_amount, 
+    order_channel, order_discount, order_cardId, order_amount_recognized, oid_paybill, 
+    order_repayment, order_penalty, order_fullName, order_next_Pay_Time, order_overdue_Pay_Time, 
+    order_bad_Pay_Time, order_audit_fail_msg, order_annotate, order_is_show, bills_flag
+  </sql>
+    <select id="selectByExample" parameterType="com.shoumipay.domain.GoodsOrderExample" resultMap="BaseResultMap">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        'true' as QUERYID,
+        <include refid="Base_Column_List"/>
+        from cl_goods_order
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+    </select>
+
+    <select id="selectNormal" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from cl_goods_order
+        WHERE order_types = 0 AND order_status = 7
+    </select>
+    <select id="selectByMemberid" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from cl_goods_order
+        WHERE member_Id = #{memberId,jdbcType=BIGINT}
+    </select>
+    <select id="countTimesByTime" resultType="java.lang.Integer">
+    select count(*)
+    from cl_goods_order
+    WHERE order_create_time >= #{startTime,jdbcType=TIMESTAMP} AND  #{endTime,jdbcType=TIMESTAMP} >= order_create_time
+  </select>
+    <select id="queryByPreLoanVO" parameterType="com.shoumipay.vo.PreLoanVO"
+            resultType="com.shoumipay.vo.PreLoanOrderVO">
+        SELECT
+        o.id AS id,
+        order_number AS orderNumber,
+        order_create_time AS applyTime,
+        order_amount_recognized AS loanAmount,
+        o.member_Id AS memberId,
+        m.phone_number AS phoneNumber,
+        o.goods_Id AS goodId,
+        order_code AS goodCode,
+        order_status AS statusCode,
+        order_auditor AS processorName,
+        order_upptime AS processorTime,
+        order_channel AS orderChannel,
+        order_discount AS orderDiscount
+        FROM (cl_goods_order AS o INNER JOIN cl_member AS m ON o.member_Id = m.uid)
+        INNER JOIN cl_goods AS g ON o.goods_Id = g.id
+        WHERE 1=1
+        <if test="null != vo.phoneNumber">
+            AND m.phone_number = #{vo.phoneNUmber}
+        </if>
+        <if test="null != vo.goodAlias">
+            AND g.alias = #{vo.goodAlias}
+        </if>
+        <if test="null != vo.applyStart">
+            AND o.order_create_time >= #{vo.applyStart}
+        </if>
+        <if test="null != vo.applyEnd">
+            AND #{vo.applyEnd} >= o.order_create_time
+        </if>
+        <if test="null != vo.minApplyAmount">
+            AND o.order_amount_recognized >= #{vo.minApplyAmount}
+        </if>
+        <if test="null != vo.maxApplyAmount">
+            AND #{vo.maxApplyAmount} >= o.order_amount_recognized
+        </if>
+        <if test="null != vo.approvalStart">
+            AND o.order_upptime >= #{vo.approvalStart}
+        </if>
+        <if test="null != vo.applyEnd">
+            AND #{vo.approvalEnd} >= o.order_upptime
+        </if>
+        <if test="null != vo.status">
+            AND #{vo.status} = order_status
+        </if>
+        ORDER BY order_create_time DESC
+    </select>
+
+    <select id="queryByPreLoanVOOverdue" parameterType="com.shoumipay.vo.PreLoanVO"
+            resultType="com.shoumipay.vo.PreLoanOrderVO">
+        SELECT
+        o.id AS id,
+        order_number AS orderNumber,
+        order_create_time AS applyTime,
+        order_amount_recognized AS loanAmount,
+        o.member_Id AS memberId,
+        m.phone_number AS phoneNumber,
+        o.goods_Id AS goodId,
+        order_code AS goodCode,
+        order_status AS statusCode,
+        order_auditor AS processorName,
+        order_upptime AS processorTime,
+        order_channel AS orderChannel,
+        order_discount AS orderDiscount
+        FROM (cl_goods_order AS o INNER JOIN cl_member AS m ON o.member_Id = m.uid)
+        INNER JOIN cl_goods AS g ON o.goods_Id = g.id
+        WHERE 1=1
+        <if test="null != vo.phoneNumber">
+            AND m.phone_number = #{vo.phoneNUmber}
+        </if>
+        <if test="null != vo.goodAlias">
+            AND g.alias = #{vo.goodAlias}
+        </if>
+        <if test="null != vo.applyStart">
+            AND o.order_create_time >= #{vo.applyStart}
+        </if>
+        <if test="null != vo.applyEnd">
+            AND #{vo.applyEnd} >= o.order_create_time
+        </if>
+        <if test="null != vo.minApplyAmount">
+            AND o.order_amount_recognized >= #{vo.minApplyAmount}
+        </if>
+        <if test="null != vo.maxApplyAmount">
+            AND #{vo.maxApplyAmount} >= o.order_amount_recognized
+        </if>
+        <if test="null != vo.approvalStart">
+            AND o.order_upptime >= #{vo.approvalStart}
+        </if>
+        <if test="null != vo.applyEnd">
+            AND #{vo.approvalEnd} >= o.order_upptime
+        </if>
+        AND 1 = order_types
+        ORDER BY order_create_time DESC
+    </select>
+    <select id="queryByOrderVO" resultType="com.shoumipay.vo.OrderVO">
+        SELECT
+        t1.id id,t1.member_Id memberId,t.username username,t1.order_number orderNumber,t1.order_create_time
+        orderCreateTime,
+        t1.order_amount orderAmount,t1.goods_Id goodsId,t1.order_code orderCode,t1.order_status
+        orderStatus,t1.order_types orderTypes,t1.daifu_id daifuId,
+        t1.order_auditor orderAuditor,t1.order_upptime orderUpptime,t1.order_verify_amount orderVerifyAmount,
+        t1.order_audit_fail_msg orderAuditFailMsg,t1.order_annotate orderAnnotate,t1.order_is_show orderIsShow
+        FROM cl_member t,cl_goods_order t1
+        WHERE t1.member_Id=t.uid
+        <if test="vo.memberId !=null and vo.memberId !='' ">
+            AND t1.member_Id = ${vo.memberId}
+        </if>
+        <if test="vo.goodsId !=null and vo.goodsId !='' ">
+            AND t1.goods_Id = ${vo.goodsId}
+        </if>
+        <if test="vo.orderTypes !=null and vo.orderTypes !='' ">
+            AND t1.order_types = ${vo.orderTypes}
+        </if>
+        <if test="vo.orderNumber !=null and vo.orderNumber!='' ">
+            AND t1.id in (select order_Id from cl_goods_repayment where t1.id=order_Id )
+        </if>
+        <if test="vo.orderStatus !=null and vo.orderStatus !='' ">
+            <choose>
+                <when test="vo.orderStatus ==12 ">
+                    AND t1.id in (select order_Id from cl_goods_repayment where t1.id=order_Id AND repayment_status=1)
+                </when>
+                <otherwise>
+                    <if test="vo.orderStatus > 10 ">
+                        AND t1.order_types = 1
+                    </if>
+                    <if test="vo.orderStatus &lt; 11 ">
+                        AND t1.order_types != 1
+                    </if>
+                    AND t1.order_status = ${vo.orderStatus}
+                </otherwise>
+            </choose>
+        </if>
+        <if test="vo.username !=null and vo.username !='' ">
+            AND t.username LIKE CONCAT('%', #{vo.username}, '%')
+        </if>
+        <if test="vo.minApplyForTime !=null and vo.minApplyForTime !='' ">
+            <![CDATA[ and t1.order_create_time  >=  #{vo.minApplyForTime}  ]]>
+        </if>
+        <if test="vo.maxApplyForTime !=null and vo.maxApplyForTime!='' ">
+            <![CDATA[ and t1.order_create_time <=  #{vo.maxApplyForTime}  ]]>
+        </if>
+        <if test="vo.minAuditTime !=null and vo.minAuditTime !='' ">
+            <![CDATA[ and t1.order_upptime  >=  #{vo.minAuditTime}  ]]>
+        </if>
+        <if test="vo.maxAuditTime !=null and vo.maxAuditTime!='' ">
+            <![CDATA[ and t1.order_upptime <=  #{vo.maxAuditTime}  ]]>
+        </if>
+        <if test="vo.minAuditAmount !=null and vo.minAuditAmount !='' ">
+            <![CDATA[ and t1.order_verify_amount  >=  #{vo.minAuditAmount}  ]]>
+        </if>
+        <if test="vo.maxAuditAmount !=null and vo.maxAuditAmount!='' ">
+            <![CDATA[ and t1.order_verify_amount <=  #{vo.maxAuditAmount}  ]]>
+        </if>
+        <if test="vo.minApplyForAmount !=null and vo.minApplyForAmount !='' ">
+            <![CDATA[ and t1.order_amount  >=  #{vo.minApplyForAmount}  ]]>
+        </if>
+        <if test="vo.maxApplyForAmount !=null and vo.maxApplyForAmount!='' ">
+            <![CDATA[ and t1.order_amount <=  #{vo.maxApplyForAmount}  ]]>
+        </if>
+        ORDER BY order_create_time DESC
+    </select>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from cl_goods_order
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+
+    <select id="selectLatest" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from cl_goods_order
+        where member_Id = #{memberId,jdbcType=BIGINT}
+        ORDER BY order_create_time DESC
+        LIMIT 1
+    </select>
+
+    <select id="selectByOrderNumber" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from cl_goods_order
+        where order_number = #{orderNumber,jdbcType=BIGINT}
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from cl_goods_order
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+    <delete id="deleteByExample" parameterType="com.shoumipay.domain.GoodsOrderExample">
+        delete from cl_goods_order
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </delete>
+    <insert id="insert" parameterType="com.shoumipay.domain.GoodsOrder">
+    insert into cl_goods_order (id, order_number, member_Id, 
+      order_create_time, goods_Id, order_code, daifu_id, 
+      order_amount, order_status, order_types, 
+      order_auditor, order_upptime, order_level, 
+      order_verify_amount, order_channel, order_discount, 
+      order_cardId, order_amount_recognized, oid_paybill, 
+      order_repayment, order_penalty, order_fullName, 
+      order_next_Pay_Time, order_overdue_Pay_Time, 
+      order_bad_Pay_Time, order_audit_fail_msg, order_annotate, 
+      order_is_show, bills_flag)
+     values (#{id,jdbcType=BIGINT}, #{orderNumber,jdbcType=VARCHAR}, #{memberId,jdbcType=BIGINT}, 
+      #{orderCreateTime,jdbcType=TIMESTAMP}, #{goodsId,jdbcType=BIGINT}, #{orderCode,jdbcType=VARCHAR},  #{daifuId,jdbcType=BIGINT}, 
+      #{orderAmount,jdbcType=DECIMAL}, #{orderStatus,jdbcType=INTEGER}, #{orderTypes,jdbcType=INTEGER}, 
+      #{orderAuditor,jdbcType=VARCHAR}, #{orderUpptime,jdbcType=TIMESTAMP}, #{orderLevel,jdbcType=CHAR}, 
+      #{orderVerifyAmount,jdbcType=DECIMAL}, #{orderChannel,jdbcType=VARCHAR}, #{orderDiscount,jdbcType=BIGINT}, 
+      #{orderCardid,jdbcType=BIGINT}, #{orderAmountRecognized,jdbcType=DECIMAL}, #{oidPaybill,jdbcType=VARCHAR}, 
+      #{orderRepayment,jdbcType=DECIMAL}, #{orderPenalty,jdbcType=DECIMAL}, #{orderFullname,jdbcType=VARCHAR}, 
+      #{orderNextPayTime,jdbcType=TIMESTAMP}, #{orderOverduePayTime,jdbcType=TIMESTAMP}, 
+      #{orderBadPayTime,jdbcType=TIMESTAMP}, #{orderAuditFailMsg,jdbcType=VARCHAR}, #{orderAnnotate,jdbcType=VARCHAR}, 
+      #{orderIsShow,jdbcType=INTEGER}, #{billsFlag,jdbcType=INTEGER})
+  </insert>
+    <insert id="insertSelective" useGeneratedKeys="true" keyProperty="id"
+            parameterType="com.shoumipay.domain.GoodsOrder">
+        insert into cl_goods_order
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="orderNumber != null">
+                order_number,
+            </if>
+            <if test="memberId != null">
+                member_Id,
+            </if>
+            <if test="orderCreateTime != null">
+                order_create_time,
+            </if>
+            <if test="goodsId != null">
+                goods_Id,
+</if>
+      <if test="daifuId != null">
+        daifu_id,
+            </if>
+            <if test="orderCode != null">
+                order_code,
+            </if>
+            <if test="orderAmount != null">
+                order_amount,
+            </if>
+            <if test="orderStatus != null">
+                order_status,
+            </if>
+            <if test="orderTypes != null">
+                order_types,
+            </if>
+            <if test="orderAuditor != null">
+                order_auditor,
+            </if>
+            <if test="orderUpptime != null">
+                order_upptime,
+            </if>
+            <if test="orderLevel != null">
+                order_level,
+            </if>
+            <if test="orderVerifyAmount != null">
+                order_verify_amount,
+            </if>
+            <if test="orderChannel != null">
+                order_channel,
+            </if>
+            <if test="orderDiscount != null">
+                order_discount,
+            </if>
+            <if test="orderCardid != null">
+                order_cardId,
+            </if>
+            <if test="orderAmountRecognized != null">
+                order_amount_recognized,
+            </if>
+            <if test="oidPaybill != null">
+                oid_paybill,
+            </if>
+            <if test="orderRepayment != null">
+                order_repayment,
+            </if>
+            <if test="orderPenalty != null">
+                order_penalty,
+            </if>
+            <if test="orderFullname != null">
+                order_fullName,
+            </if>
+            <if test="orderNextPayTime != null">
+                order_next_Pay_Time,
+            </if>
+            <if test="orderOverduePayTime != null">
+                order_overdue_Pay_Time,
+            </if>
+            <if test="orderBadPayTime != null">
+                order_bad_Pay_Time,
+            </if>
+            <if test="orderAuditFailMsg != null">
+                order_audit_fail_msg,
+            </if>
+            <if test="orderAnnotate != null">
+                order_annotate,
+            </if>
+            <if test="orderIsShow != null">
+                order_is_show,
+            </if>
+<if test="billsFlag != null">
+        bills_flag,
+      </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="orderNumber != null">
+                #{orderNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="memberId != null">
+                #{memberId,jdbcType=BIGINT},
+            </if>
+            <if test="orderCreateTime != null">
+                #{orderCreateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="goodsId != null">
+                #{goodsId,jdbcType=BIGINT},
+            </if>
+<if test="daifuId != null">
+        #{daifuId,jdbcType=BIGINT},
+      </if>
+            <if test="orderCode != null">
+                #{orderCode,jdbcType=VARCHAR},
+            </if>
+            <if test="orderAmount != null">
+                #{orderAmount,jdbcType=DECIMAL},
+            </if>
+            <if test="orderStatus != null">
+                #{orderStatus,jdbcType=INTEGER},
+            </if>
+            <if test="orderTypes != null">
+                #{orderTypes,jdbcType=INTEGER},
+            </if>
+            <if test="orderAuditor != null">
+                #{orderAuditor,jdbcType=VARCHAR},
+            </if>
+            <if test="orderUpptime != null">
+                #{orderUpptime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="orderLevel != null">
+                #{orderLevel,jdbcType=CHAR},
+            </if>
+            <if test="orderVerifyAmount != null">
+                #{orderVerifyAmount,jdbcType=DECIMAL},
+            </if>
+            <if test="orderChannel != null">
+                #{orderChannel,jdbcType=VARCHAR},
+            </if>
+            <if test="orderDiscount != null">
+                #{orderDiscount,jdbcType=BIGINT},
+            </if>
+            <if test="orderCardid != null">
+                #{orderCardid,jdbcType=BIGINT},
+            </if>
+            <if test="orderAmountRecognized != null">
+                #{orderAmountRecognized,jdbcType=DECIMAL},
+            </if>
+            <if test="oidPaybill != null">
+                #{oidPaybill,jdbcType=VARCHAR},
+            </if>
+            <if test="orderRepayment != null">
+                #{orderRepayment,jdbcType=DECIMAL},
+            </if>
+            <if test="orderPenalty != null">
+                #{orderPenalty,jdbcType=DECIMAL},
+            </if>
+            <if test="orderFullname != null">
+                #{orderFullname,jdbcType=VARCHAR},
+            </if>
+            <if test="orderNextPayTime != null">
+                #{orderNextPayTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="orderOverduePayTime != null">
+                #{orderOverduePayTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="orderBadPayTime != null">
+                #{orderBadPayTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="orderAuditFailMsg != null">
+                #{orderAuditFailMsg,jdbcType=VARCHAR},
+            </if>
+            <if test="orderAnnotate != null">
+                #{orderAnnotate,jdbcType=VARCHAR},
+            </if>
+            <if test="orderIsShow != null">
+                #{orderIsShow,jdbcType=INTEGER},
+            </if>
+<if test="billsFlag != null">
+        #{billsFlag,jdbcType=INTEGER},
+      </if>
+        </trim>
+    </insert>
+    <select id="countByExample" parameterType="com.shoumipay.domain.GoodsOrderExample" resultType="java.lang.Long">
+        select count(*) from cl_goods_order
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
+        update cl_goods_order
+        <set>
+            <if test="record.id != null">
+                id = #{record.id,jdbcType=BIGINT},
+            </if>
+            <if test="record.orderNumber != null">
+                order_number = #{record.orderNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="record.memberId != null">
+                member_Id = #{record.memberId,jdbcType=BIGINT},
+            </if>
+            <if test="record.orderCreateTime != null">
+                order_create_time = #{record.orderCreateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="record.goodsId != null">
+                goods_Id = #{record.goodsId,jdbcType=BIGINT},
+            </if>
+ <if test="record.daifuId != null">
+        daifu_id = #{record.daifuId,jdbcType=BIGINT},
+      </if>
+            <if test="record.orderCode != null">
+                order_code = #{record.orderCode,jdbcType=VARCHAR},
+            </if>
+            <if test="record.orderAmount != null">
+                order_amount = #{record.orderAmount,jdbcType=DECIMAL},
+            </if>
+            <if test="record.orderStatus != null">
+                order_status = #{record.orderStatus,jdbcType=INTEGER},
+            </if>
+            <if test="record.orderTypes != null">
+                order_types = #{record.orderTypes,jdbcType=INTEGER},
+            </if>
+            <if test="record.orderAuditor != null">
+                order_auditor = #{record.orderAuditor,jdbcType=VARCHAR},
+            </if>
+            <if test="record.orderUpptime != null">
+                order_upptime = #{record.orderUpptime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="record.orderLevel != null">
+                order_level = #{record.orderLevel,jdbcType=CHAR},
+            </if>
+            <if test="record.orderVerifyAmount != null">
+                order_verify_amount = #{record.orderVerifyAmount,jdbcType=DECIMAL},
+            </if>
+            <if test="record.orderChannel != null">
+                order_channel = #{record.orderChannel,jdbcType=VARCHAR},
+            </if>
+            <if test="record.orderDiscount != null">
+                order_discount = #{record.orderDiscount,jdbcType=BIGINT},
+            </if>
+            <if test="record.orderCardid != null">
+                order_cardId = #{record.orderCardid,jdbcType=BIGINT},
+            </if>
+            <if test="record.orderAmountRecognized != null">
+                order_amount_recognized = #{record.orderAmountRecognized,jdbcType=DECIMAL},
+            </if>
+            <if test="record.oidPaybill != null">
+                oid_paybill = #{record.oidPaybill,jdbcType=VARCHAR},
+            </if>
+            <if test="record.orderRepayment != null">
+                order_repayment = #{record.orderRepayment,jdbcType=DECIMAL},
+            </if>
+            <if test="record.orderPenalty != null">
+                order_penalty = #{record.orderPenalty,jdbcType=DECIMAL},
+
+            </if>
+            <if test="record.orderFullname != null">
+                order_fullName = #{record.orderFullname,jdbcType=VARCHAR},
+            </if>
+            <if test="record.orderNextPayTime != null">
+                order_next_Pay_Time = #{record.orderNextPayTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="record.orderOverduePayTime != null">
+                order_overdue_Pay_Time = #{record.orderOverduePayTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="record.orderBadPayTime != null">
+                order_bad_Pay_Time = #{record.orderBadPayTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="record.orderAuditFailMsg != null">
+                order_audit_fail_msg = #{record.orderAuditFailMsg,jdbcType=VARCHAR},
+            </if>
+            <if test="record.orderAnnotate != null">
+                order_annotate = #{record.orderAnnotate,jdbcType=VARCHAR},
+            </if>
+            <if test="record.orderIsShow != null">
+                order_is_show = #{record.orderIsShow,jdbcType=INTEGER},
+</if>
+      <if test="record.billsFlag != null">
+        bills_flag = #{record.billsFlag,jdbcType=INTEGER},
+            </if>
+        </set>
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByExample" parameterType="map">
+        update cl_goods_order
+        set id = #{record.id,jdbcType=BIGINT},
+        order_number = #{record.orderNumber,jdbcType=VARCHAR},
+        member_Id = #{record.memberId,jdbcType=BIGINT},
+        order_create_time = #{record.orderCreateTime,jdbcType=TIMESTAMP},
+        goods_Id = #{record.goodsId,jdbcType=BIGINT},
+daifu_id = #{record.daifuId,jdbcType=BIGINT},
+        order_code = #{record.orderCode,jdbcType=VARCHAR},
+        order_amount = #{record.orderAmount,jdbcType=DECIMAL},
+        order_status = #{record.orderStatus,jdbcType=INTEGER},
+        order_types = #{record.orderTypes,jdbcType=INTEGER},
+        order_auditor = #{record.orderAuditor,jdbcType=VARCHAR},
+        order_upptime = #{record.orderUpptime,jdbcType=TIMESTAMP},
+        order_level = #{record.orderLevel,jdbcType=CHAR},
+        order_verify_amount = #{record.orderVerifyAmount,jdbcType=DECIMAL},
+        order_channel = #{record.orderChannel,jdbcType=VARCHAR},
+        order_discount = #{record.orderDiscount,jdbcType=BIGINT},
+        order_cardId = #{record.orderCardid,jdbcType=BIGINT},
+        order_amount_recognized = #{record.orderAmountRecognized,jdbcType=DECIMAL},
+        oid_paybill = #{record.oidPaybill,jdbcType=VARCHAR},
+        order_repayment = #{record.orderRepayment,jdbcType=DECIMAL},
+        order_penalty = #{record.orderPenalty,jdbcType=DECIMAL},
+        order_fullName = #{record.orderFullname,jdbcType=VARCHAR},
+        order_next_Pay_Time = #{record.orderNextPayTime,jdbcType=TIMESTAMP},
+        order_overdue_Pay_Time = #{record.orderOverduePayTime,jdbcType=TIMESTAMP},
+        order_bad_Pay_Time = #{record.orderBadPayTime,jdbcType=TIMESTAMP},
+        order_audit_fail_msg = #{record.orderAuditFailMsg,jdbcType=VARCHAR},
+        order_annotate = #{record.orderAnnotate,jdbcType=VARCHAR},
+        order_is_show = #{record.orderIsShow,jdbcType=INTEGER},
+      bills_flag = #{record.billsFlag,jdbcType=INTEGER}
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="com.shoumipay.domain.GoodsOrder">
+        update cl_goods_order
+        <set>
+            <if test="orderNumber != null">
+                order_number = #{orderNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="memberId != null">
+                member_Id = #{memberId,jdbcType=BIGINT},
+            </if>
+            <if test="orderCreateTime != null">
+                order_create_time = #{orderCreateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="goodsId != null">
+                goods_Id = #{goodsId,jdbcType=BIGINT},
+ </if>
+      <if test="daifuId != null">
+        daifu_id = #{daifuId,jdbcType=BIGINT},
+            </if>
+            <if test="orderCode != null">
+                order_code = #{orderCode,jdbcType=VARCHAR},
+            </if>
+            <if test="orderAmount != null">
+                order_amount = #{orderAmount,jdbcType=DECIMAL},
+            </if>
+            <if test="orderStatus != null">
+                order_status = #{orderStatus,jdbcType=INTEGER},
+            </if>
+            <if test="orderTypes != null">
+                order_types = #{orderTypes,jdbcType=INTEGER},
+            </if>
+            <if test="orderAuditor != null">
+                order_auditor = #{orderAuditor,jdbcType=VARCHAR},
+            </if>
+            <if test="orderUpptime != null">
+                order_upptime = #{orderUpptime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="orderLevel != null">
+                order_level = #{orderLevel,jdbcType=CHAR},
+            </if>
+            <if test="orderVerifyAmount != null">
+                order_verify_amount = #{orderVerifyAmount,jdbcType=DECIMAL},
+            </if>
+            <if test="orderChannel != null">
+                order_channel = #{orderChannel,jdbcType=VARCHAR},
+            </if>
+            <if test="orderDiscount != null">
+                order_discount = #{orderDiscount,jdbcType=BIGINT},
+            </if>
+            <if test="orderCardid != null">
+                order_cardId = #{orderCardid,jdbcType=BIGINT},
+            </if>
+            <if test="orderAmountRecognized != null">
+                order_amount_recognized = #{orderAmountRecognized,jdbcType=DECIMAL},
+            </if>
+            <if test="oidPaybill != null">
+                oid_paybill = #{oidPaybill,jdbcType=VARCHAR},
+            </if>
+            <if test="orderRepayment != null">
+                order_repayment = #{orderRepayment,jdbcType=DECIMAL},
+            </if>
+            <if test="orderPenalty != null">
+                order_penalty = #{orderPenalty,jdbcType=DECIMAL},
+            </if>
+            <if test="orderFullname != null">
+                order_fullName = #{orderFullname,jdbcType=VARCHAR},
+            </if>
+            <if test="orderNextPayTime != null">
+                order_next_Pay_Time = #{orderNextPayTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="orderOverduePayTime != null">
+                order_overdue_Pay_Time = #{orderOverduePayTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="orderBadPayTime != null">
+                order_bad_Pay_Time = #{orderBadPayTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="orderAuditFailMsg != null">
+                order_audit_fail_msg = #{orderAuditFailMsg,jdbcType=VARCHAR},
+            </if>
+            <if test="orderAnnotate != null">
+                order_annotate = #{orderAnnotate,jdbcType=VARCHAR},
+            </if>
+            <if test="orderIsShow != null">
+                order_is_show = #{orderIsShow,jdbcType=INTEGER},
+            </if>
+<if test="billsFlag != null">
+        bills_flag = #{billsFlag,jdbcType=INTEGER},
+      </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.shoumipay.domain.GoodsOrder">
+    update cl_goods_order
+    set order_number = #{orderNumber,jdbcType=VARCHAR},
+      member_Id = #{memberId,jdbcType=BIGINT},
+      order_create_time = #{orderCreateTime,jdbcType=TIMESTAMP},
+      goods_Id = #{goodsId,jdbcType=BIGINT},
+ daifu_id = #{daifuId,jdbcType=BIGINT},
+      order_code = #{orderCode,jdbcType=VARCHAR},
+      order_amount = #{orderAmount,jdbcType=DECIMAL},
+      order_status = #{orderStatus,jdbcType=INTEGER},
+      order_types = #{orderTypes,jdbcType=INTEGER},
+      order_auditor = #{orderAuditor,jdbcType=VARCHAR},
+      order_upptime = #{orderUpptime,jdbcType=TIMESTAMP},
+      order_level = #{orderLevel,jdbcType=CHAR},
+      order_verify_amount = #{orderVerifyAmount,jdbcType=DECIMAL},
+      order_channel = #{orderChannel,jdbcType=VARCHAR},
+      order_discount = #{orderDiscount,jdbcType=BIGINT},
+      order_cardId = #{orderCardid,jdbcType=BIGINT},
+      order_amount_recognized = #{orderAmountRecognized,jdbcType=DECIMAL},
+      oid_paybill = #{oidPaybill,jdbcType=VARCHAR},
+      order_repayment = #{orderRepayment,jdbcType=DECIMAL},
+      order_penalty = #{orderPenalty,jdbcType=DECIMAL},
+      order_fullName = #{orderFullname,jdbcType=VARCHAR},
+      order_next_Pay_Time = #{orderNextPayTime,jdbcType=TIMESTAMP},
+      order_overdue_Pay_Time = #{orderOverduePayTime,jdbcType=TIMESTAMP},
+      order_bad_Pay_Time = #{orderBadPayTime,jdbcType=TIMESTAMP},
+      order_audit_fail_msg = #{orderAuditFailMsg,jdbcType=VARCHAR},
+      order_annotate = #{orderAnnotate,jdbcType=VARCHAR},
+      order_is_show = #{orderIsShow,jdbcType=INTEGER},
+      bills_flag = #{billsFlag,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+    <update id="updateOrderByStatus" parameterType="java.lang.String">
+        update cl_goods_order set order_status =${status},
+        order_audit_fail_msg=CONCAT(order_audit_fail_msg,'${loginUser}')
+        where id in
+        <foreach item="idItem" collection="ids" open="(" separator="," close=")">
+            #{idItem}
+        </foreach>
+    </update>
+    <select id="queryRepayList" resultMap="RepaymentResultMap">
+    SELECT
+        nn.orderId AS orderId,
+	    nn.unRepay as unRepay,
+        nn.loanTime AS loanTime,
+        oo.order_amount_recognized AS amount,
+	    nn.remainderTimes AS remainderTimes,
+	    nn.`status` AS `status`
+	FROM cl_goods_order AS oo INNER JOIN
+        (SELECT
+            m.order_Id AS orderId,
+            n.unRepay as unRepay,
+            m.make_Loans_create_time AS loanTime,
+            n.remainderTimes AS remainderTimes,
+            IF(ISNULL(m.make_Loans_Closing_time), IF(m.make_Loans_status=1, "逾期", "还款中"), "已结清") AS `status`
+        FROM cl_goods_makeloans AS m INNER JOIN
+            (SELECT
+                p.order_Id AS orderId,
+                SUM(p.repayment_plan_capital) AS unRepay,
+                COUNT(*) AS remainderTimes
+                FROM cl_goods_repayment_plan AS p
+            WHERE p.order_id IN
+                ( SELECT o.id AS orderId
+                  FROM cl_goods_order AS o
+                  WHERE o.member_Id = #{memberId} AND o.order_create_time > #{start} AND #{end} > o.order_create_time AND (NOT o.order_types=2)
+                  ORDER BY o.order_create_time DESC )
+              GROUP BY p.order_Id) AS n
+           ON n.orderId=m.order_Id AND m.active) AS nn ON oo.id = nn.orderId
+           ORDER BY nn.orderId DESC
+  </select>
+
+
+</mapper>

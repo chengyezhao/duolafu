@@ -1,0 +1,105 @@
+html,body{
+	height: 100%;  
+    width: 100%;
+}
+.header{
+	background-color: #fff;
+	height: 1.3rem;
+	line-height: 1.3rem;
+	position: relative;
+}
+.back{
+	position: absolute;
+	left: 0;
+	display: block;
+	width: 1rem;
+	top: 0;
+	content: '';
+	text-align: center;
+	height: 1.3rem;
+	color: #fff;
+	background: url('../img/backicon.png') no-repeat center;
+	background-size: .22rem .38rem;
+	font-size: .54rem;
+}
+.header h2{
+	display: block;
+	line-height: 1.3rem;
+	color: #ddd;
+	text-align: center;
+	font-size: .54rem;
+}
+.mianbox{
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	top: 0;
+	background-color: #5290D6;
+}
+.formdata{ 
+	background:#5290D6 url('../img/bgbg_02.jpg?466') no-repeat top left;
+	background-size:100% auto;
+	padding:7rem 0 .6rem;
+}
+.formdata h2{
+	display: block;
+	text-align: center;
+	font-size: .5rem;
+	color: #fff;
+	line-height:1.28rem;
+	margin-bottom: .2rem;
+}
+.formblock{
+	width: 8.6rem;
+	height: 1.2rem;
+	line-height: .9rem;
+	font-size: .5rem;
+	border-radius: .2rem;
+	overflow: hidden;
+	margin: 0 auto;
+	padding: .15rem 0;
+	color: #fff;
+	display: flex;
+}
+.formblock span{
+	display: inline-block;
+	width: 4rem;
+}
+.formdatablock{
+	background: #fff;
+	width: 8.6rem;
+	height: .9rem;
+	border-radius: .2rem;
+	overflow: hidden;
+}
+.formdatablock select,
+.formdatablock input{
+	display: block;
+	width: 100%;
+	height: 100%;
+	border:none;
+	outline: none;
+	text-indent: .2rem;
+	font-size: .4rem;
+}
+.explain{
+	font-size: .36rem;
+	color: #DCDCDC;
+	text-align: center;
+	margin: 0 auto;
+}
+.explain span{
+	color: #FFAC19;
+}
+.apply_btn{
+	display: block;
+	width: 8.6rem;
+	height: 1.15rem;
+	border-radius: .2rem;
+	background-color: #FED000;
+	color: #fff;
+	font-size: .48rem;
+	margin: .6rem auto;
+	text-align: center;
+	line-height: 1.15rem;
+}

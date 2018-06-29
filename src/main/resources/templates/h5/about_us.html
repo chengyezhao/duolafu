@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="x-ua-compatible" content="ie=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <meta name="application-name" content=""/>
+    <meta name="description" content=""/>
+    <meta name="keywords" content=""/>
+    <meta content="yes" name="apple-mobile-web-app-capable"/>
+    <title>哆啦付</title>
+    <link rel="stylesheet" href="../../static/assets/h5/css/reset.css" th:href="@{/assets/h5/css/reset.css}"/>
+    <link rel="stylesheet" href="../../static/assets/h5/css/first.css" th:href="@{/assets/h5/css/first.css}"/>
+    <link rel="stylesheet" href="../../static/assets/h5/css/submit.css" th:href="@{/assets/h5/css/submit.css}"/>
+</head>
+<body>
+<div class="begin_title">
+    <a href="javascript:self.location=document.referrer;"><span class="back">
+				<img src="../../static/assets/h5/images/jiantouhl.png"
+                     th:src="@{/assets/h5/images/jiantouhl.png}"/></span></a>
+    联系我们
+</div>
+<div class="myself_center" style="margin-top: 15px;">
+    <ul>
+        <li class="myself_l dtel">
+					<span class="qqpic">
+						<img src="../../static/assets/h5/images/qq.png"
+                             th:src="@{/assets/h5/images/qq.png}"/></span>
+            <b class="tel_name">联系QQ</b>
+        </li>
+        <li class="myself_r">
+            3431882279
+        </li>
+    </ul>
+    <ul>
+        <li class="myself_l">
+					<span class="weixipic">
+						<img src="../../static/assets/h5/images/weChat.png"
+                             th:src="@{/assets/h5/images/weChat.png}"/></span>
+            <b class="weixin_name">微信号</b>
+        </li>
+        <li class="myself_r">
+            yidai94
+        </li>
+    </ul>
+</div>
+<div class="bfpay">
+    <div class="payzzc"></div>
+    <div class='about_ts'>
+        <div class="tel_ts">拨打电话<br/>--</div>
+        <div class="pay_ts_cc">
+            <ul>
+                <li class="pay_ts_qx">取消</li>
+                <li class="pay_ts_qd"><a href="tel:--">确定</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+<script src="../../static/assets/h5/js/jquery-1.8.3.min.js" th:src="@{/assets/h5/js/jquery-1.8.3.min.js}"></script>
+<script>
+    /*<![CDATA[*/
+    $(".dtel").click(function () {
+        $(".bfpay").css("display", "block")
+    })
+    $(".pay_ts_qx").click(function () {
+        $(".bfpay").css("display", "none")
+    })
+    $(".pay_ts_qd").click(function () {
+        $(".bfpay").css("display", "none")
+    })
+    /*]]>*/
+</script>
+</body>
+
+</html>

@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="x-ua-compatible" content="ie=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <meta name="application-name" content=""/>
+    <meta name="description" content=""/>
+    <meta name="keywords" content=""/>
+    <meta content="yes" name="apple-mobile-web-app-capable"/>
+    <title>哆啦付</title>
+    <link rel="stylesheet" href="css/reset.css" th:href="@{/assets/h5/css/index.css}"/>
+    <link rel="stylesheet" href="css/first.css" th:href="@{/assets/h5/css/first.css}"/>
+    <link rel="stylesheet" href="css/submit.css" th:href="@{/assets/h5/css/submit.css}"/>
+    <link rel="stylesheet" href="css/bootstrap.css" th:href="@{/assets/h5/css/bootstrap.css}"/>
+    <style>
+        #frontPic{
+            width: 150px;
+            height:200px;
+            margin: 0 auto;
+        }
+        #backPic{
+            width: 150px;
+            height:200px;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+<div class="begin_title">
+    <a href="#"><span class="back">
+			<img src="images/jiantouhl.png" th:src="@{/assets/h5/images/jiantouhl.png}"/></span></a>
+    身份认证
+    <a href="question"><div class="head_querstion">常见问题</div></a>
+</div>
+<form action="/wx/idcard" method="post" id="idcardForm">
+    <input type="hidden" id="appId" th:value="${appId}"/>
+    <input type="hidden" id="timestamp" th:value="${timestamp}"/>
+    <input type="hidden" id="nonceStr" th:value="${noncestr}"/>
+    <input type="hidden" id="signature" th:value="${signature}"/>
+    <div class="po_z">
+        <dl>
+            <dt id="upload-container">
+                <a id="front1" onclick="takePicture1()"><img src="images/add.png" th:src="@{/assets/h5/images/add.png}" class="po_z_pic"/></a>
+                <img src =""  id="frontPic" style="display: none;"/>
+            </dt>
+            <dd>点击拍摄身份证正面(人像面)</dd>
+        </dl>
+        <input type="hidden" name="pictureFront" id="pic1"/>
+    </div>
+    <div class="po_f">
+        <dl id="upload-container01">
+            <dt>
+                <a  id="back1"  onclick="takePicture2()"><img src="images/add.png" th:src="@{/assets/h5/images/add.png}" class="po_z_pic"/></a>
+                <img src =""  id="backPic" style="display: none;"/>
+            </dt>
+            <dd>点击拍摄身份证反面(国徽面)</dd>
+        </dl>
+        <input type="hidden" name="pictureBack" id="pic2"/>
+    </div>
+    <div class="id_next"><a id="next" >下一步</a></div>
+</form>
+    <script type="text/javascript" src="js/jquery-1.8.3.min.js" th:src="@{/assets/h5/js/jquery-1.8.3.min.js}"></script>
+    <script src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js" th:src="@{http://res.wx.qq.com/open/js/jweixin-1.2.0.js}"></script>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    // 通过config接口注入权限验证配置
+    $(function(){
+        debugger;
+        get_wx_config();
+    })
+    function get_wx_config(){
+       /* debugger;
+        //url（当前网页的URL，不包含#及其后面部分）
+        var url = window.location.href.split('#')[0];
+        var indata = {"url":url};
+        $.post("/wx/getConfigInfo", indata, function(data) {
+            debugger;
+            var result = data;
+            $("#appId").val(result.appId);
+            $("#timestamp").val(result.timestamp);
+            $("#nonceStr").val(result.noncestr);
+            $("#signature").val(result.signature);
+        })*/
+            wx.config({
+                debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+                appId: $('#appId').val(), // 必填，公众号的唯一标识
+                timestamp: $('#timestamp').val(), // 必填，生成签名的时间戳
+                nonceStr: $('#nonceStr').val(), // 必填，生成签名的随机串
+                signature: $('#signature').val(),// 必填，签名，见附录1
+                jsApiList: ['chooseImage', 'uploadImage'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+            });
+
+            wx.ready(function () {
+                //alert("wx.config success.");
+            });
+
+            wx.error(function (res) {
+             //   alert("wx.config failed.");
+                //alert(res);
+                // config信息验证失败会执行error函数，如签名过期导致验证失败，具体错误信息可以打开config的debug模式查看，
+                // 也可以在返回的res参数中查看，对于SPA可以在这里更新签名。
+            });
+        };
+    function takePicture1(){
+        wx.chooseImage({
+            count: 1, // 默认9
+            sizeType: ['compressed'], // 可以指定是原图还是压缩图，默认二者都有
+            sourceType: ['camera'], // 可以指定来源是相册还是相机，默认二者都有
+            success: function (res) {
+                var localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
+                $("#frontPic").attr("src",localIds.toString());
+                $("#front1").next().css("display","block");
+                wx.uploadImage({
+                    localId: localIds.toString(), // 需要上传的图片的本地ID，由chooseImage接口获得
+                    isShowProgressTips: 1, // 默认为1，显示进度提示
+                    success: function (res) {
+                        var serverId = res.serverId; // 返回图片的服务器端ID
+                        $("#front1 img").css("display","none");
+                        $("#front1").parent().parent().find("dd").css("display","none");
+                        $("#pic1").val(serverId);
+                        var src = $('#backPic').attr('src');
+                        if(src!=""){
+                            $(".id_next").css("background","#CC3333");
+                            $(".id_next a").css("color","#fff");
+                        }
+                    }
+                });
+            }
+
+        });
+    }
+    function takePicture2(){
+        wx.chooseImage({
+            count: 1, // 默认9
+            sizeType: ['compressed'], // 可以指定是原图还是压缩图，默认二者都有
+            sourceType: ['camera'], // 可以指定来源是相册还是相机，默认二者都有
+            success: function (res) {
+                var localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
+                $("#backPic").attr("src",localIds.toString());
+                $("#pic2").val(localIds.toString());
+                $("#back1").next().css("display","block");
+                wx.uploadImage({
+                    localId: localIds.toString(), // 需要上传的图片的本地ID，由chooseImage接口获得
+                    isShowProgressTips: 1, // 默认为1，显示进度提示
+                    success: function (res) {
+                        var serverId = res.serverId; // 返回图片的服务器端ID
+                            $("#pic2").val(serverId);
+                        $("#back1 img").css("display","none");
+                        $("#back1").parent().parent().find("dd").css("display","none");
+                        var dds=$("#frontPic").attr("src")
+                        if(dds!=""){
+                            $(".id_next").css("background","#CC3333");
+                            $(".id_next a").css("color","#fff");
+                        }
+                    }
+                });
+            }
+        });
+    }
+
+    $("#front1").click(function () {
+        if(src!=""){
+            $(".id_next").css("background","#CC3333");
+            $(".id_next a").css("color","#fff");
+        }
+    })
+    $("#back1").click(function () {
+        if(dds!=""){
+            $(".id_next").css("background","#CC3333");
+            $(".id_next a").css("color","#fff");
+        }
+    })
+
+    $(function () {
+        var message = [[${msg}]];
+        if(message!=null&&message.trim().length>0){
+            alert(message.toString());
+        }
+        //简单登录操作
+        $("#next").click(function (e) {
+            $("#pic1").val();
+            $("#pic2").val();
+            if ((($("#pic1").val().length) > 0) && (($("#pic2").val().length) > 0)) {
+                $("#idcardForm").submit();
+            } else {
+                alert("请检查身份证是否正反两面都不为空!");
+            }
+        });
+    });
+
+
+    /*]]>*/
+</script>
+</body>
+</html>
+ 

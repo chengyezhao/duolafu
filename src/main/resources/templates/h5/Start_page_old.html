@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="x-ua-compatible" content="ie=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <meta name="application-name" content=""/>
+    <meta name="description" content=""/>
+    <meta name="keywords" content=""/>
+    <meta content="yes" name="apple-mobile-web-app-capable"/>
+    <title>哆啦付</title>
+    <link rel="stylesheet" href="../../static/assets/h5/css/reset.css" th:href="@{/assets/h5/css/reset.css}"/>
+    <link rel="stylesheet" href="../../static/assets/h5/css/first.css" th:href="@{/assets/h5/css/first.css}"/>
+</head>
+<body>
+<div class="begin_title">
+    <a href="#"><span class="back">
+				<img src="../../static/assets/h5/images/jiantouhl.png"
+                     th:src="@{/assets/h5/images/jiantouhl.png}"/></span></a>
+    绑定手机
+</div>
+<div class="begin_yz">
+    <ul>
+        <li class="f_w">
+					<span class="phone_begin">
+						<img src="../../static/assets/h5/images/phone.png"
+                             th:src="@{/assets/h5/images/phone.png}"/></span>
+            <b class="phone_name">手机号码</b>
+        </li>
+        <li class="f_rw">
+            <input type="number"
+                   placeholder="请输入您的手机号码"
+                   class="phone_input"
+                   onblur="phone()"
+                   id="phone"
+                   oninput="if(value.length>11)value=value.slice(0,11)"
+            />
+        </li>
+    </ul>
+    <ul>
+        <li class="f_w">
+					<span class="yzm_begin">
+						<img src="../../static/assets/h5/images/yzm.png" th:src="@{/assets/h5/images/yzm.png}"/></span>
+            <b class="yzm_name" style="margin-left:12%;">验证码</b>
+        </li>
+        <li class="f_rw">
+            <input type="number"
+                   placeholder="请输入验证码"
+                   maxlength="6"
+                   class="yzm_input"
+                   id="yzm"/>
+            <input type="button" class="houqu_yzm" id="getCode" onclick="settime(this);code();" value="获取"/>
+        </li>
+    </ul>
+    <div class="material_xz"><label  onclick="checkXieyi()"><input type="checkbox" id="xieyi" value="1"/></label>我已阅读并同意<a href="/wx/protocol"><b class="material_zy">使用条款</b></a></div>
+
+</div>
+<a href="javascript:;">
+    <button class="begin_button" id="submit">
+        确定
+    </button>
+</a>
+<div class="error_phone">
+    <p class="tsxx">手机号码有误，请重填</p>
+    <p class="qr_phone">
+        <button>确认</button>
+    </p>
+</div>
+<div class="bg_zzc"></div>
+<script src="../../static/assets/h5/js/jquery-1.8.3.min.js" th:src="@{/assets/h5/js/jquery-1.8.3.min.js}"></script>
+<script>
+    /*<![CDATA[*/
+
+    window.alert = function(name){
+        var iframe = document.createElement("IFRAME");
+        iframe.style.display="none";
+        iframe.setAttribute("src", 'data:text/plain,');
+        document.documentElement.appendChild(iframe);
+        window.frames[0].window.alert(name);
+        iframe.parentNode.removeChild(iframe);
+    }
+
+    function checkXieyi() {
+        if ($('#xieyi').is(':checked')) {
+            $('#xieyi').val('0');
+        } else {
+            $('#xieyi').val('1');
+        }
+    }
+
+
+    $("#submit").click(function () {
+        var yzm = $("#yzm").val();
+        if (yzm.length == 0) {
+            alert("请输入验证码!");
+            $("#yzm").focus();
+            return;
+        }
+        if($('#xieyi').val()!='1'){
+            alert("请勾选协议");
+            return;
+        }
+        $.post("/wx/register", {phoneNumber: $("#phone").val(), code: $("#yzm").val()}, function (data) {
+            if (data.flag == 1) {
+                alert("注册成功!");
+                $("#submit").attr({disabled: "disabled"});
+                window.location.href = "/wx/index";
+            } else {
+                alert(data.msg);
+            }
+        });
+    })
+    $("#phone,#yzm").on("input", function () {
+        var firnum = $("#phone").val(),
+            secnum = $("#yzm").val();
+        if (firnum !== "" && secnum !== "") {
+            $(".begin_button").css({"background": "#CC3333", "color": "#fff"})
+        }
+    })
+
+    function phone() {
+        var phone = document.getElementById('phone').value;
+        if (!(/^1[34578]\d{9}$/.test(phone))) {
+            $(".error_phone").css("display", "block");
+            $(".bg_zzc").css("display", "block");
+            $("#phone").val("");
+            return false;
+        }
+    };
+    $(".qr_phone").click(function () {
+        $(".error_phone").css("display", "none");
+        $(".bg_zzc").css("display", "none");
+    })
+
+
+    function code() {
+        $.post("/services/code", {phoneNumber: $("#phone").val(), flag: "1"}, function (data) {
+            alert(data.msg);
+            if (!data.flag) {
+                alert("系统异常!");
+            }
+        });
+    }
+    var countdown = 300;
+    function settime(val) {
+        if (countdown == 0) {
+            val.removeAttribute("disabled");
+            val.value = "获取";
+            countdown = 300;
+            return;
+        } else {
+            val.setAttribute("disabled", true);
+            val.value = countdown + "秒";
+            countdown--;
+        }
+        setTimeout(function () {
+            settime(val)
+        }, 1000);
+    }
+
+    /*]]>*/
+</script>
+</body>
+
+</html>

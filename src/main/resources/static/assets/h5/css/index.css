@@ -1,0 +1,140 @@
+/*--------index--------*/
+body{background: #f5f5f5;}
+html{font-size:100px;}
+.index_title{width:100%;height: 44px;background: #fff;line-height: 44px;position:fixed;top:0;z-index: 999;}
+.text1{font-family: STHeitiSC-Light;font-size: 12px;color: #333333;letter-spacing: 0.12px;}
+.text2{font-family: STHeitiSC-Light;font-size: 18px;color: #333333;letter-spacing: 0.18px;width:78%;text-align: center;}
+.f_l{float: left;margin-left: 4%;}
+.f_c{float: left;}
+.f_r{float: right;margin-right: 4%;}
+.index_ed{width:100%;height:220px;background: #fff;}
+.index_ed_yuan{width:92%;margin-left: 4%;height:58px;line-height:58px;font-family: STHeitiSC-Medium;font-size: 18px;color: #333;letter-spacing: 0.18px;}
+.index_ed_money{width:100%;text-align: center;font-family:PingFangSC-Semibold;line-height:40px;
+font-size: 40px;color:#333;letter-spacing: 0.4px;}
+.index_ed_deadline{width:92%;margin-left: 4%;margin-top:20px;margin-bottom: 20px;font-family: STHeitiSC-Medium;font-size: 18px;color: #333;letter-spacing: 0.18px;}
+.index_ed_time{width:100%;text-align: center;font-family:PingFangSC-Medium;font-size:25px;color: #333;letter-spacing: 0.3px;}
+.index_jk{width:86%;margin-left:7%;margin-top:14px;background: #FEB400;height: 40px;font-family: STHeitiSC-Light;font-size: 15px;color: #FFFFFF;letter-spacing: 0.15px;text-align: center;line-height: 40px;}
+.index_height{width:100%;margin-bottom: 49px;}
+.index_sp{width:86%;margin-left:7%;margin-top:14px;background: #CDA857;height: 38px;font-family: STHeitiSC-Light;font-size: 15px;color: #fff;letter-spacing: 0.15px;text-align: center;line-height:38px;border:1px solid #CCCCCC;}
+.index_nearby{width:86%;margin-left:7%;margin-top:20px;background: #F5F5F5;height:40px;line-height: 40px;}
+.index_ing{width:86%;margin-left:7%;margin-top:10px;background: #FCFCFC;height:40px;line-height: 40px;margin-bottom: 20px;}
+.index_nearby span:nth-child(1),.index_ing span:nth-child(1){font-family: STHeitiSC-Light;font-size: 12px;color: #999999;letter-spacing: 0.12px;float: left;margin-left: 22px;}
+.index_nearby span:nth-child(2),.index_ing span:nth-child(2){font-family: STHeitiSC-Light;font-size: 12px;color: #999999;letter-spacing: 0.12px;float: right;margin-right:13px;}
+.index_nearby span:nth-child(2) b,.index_ing span:nth-child(2) b{float: right;margin-left:8px;}
+.footcolor3 a{font-family: STHeitiSC-Light;font-size: 11px;color: #333333;letter-spacing: 0.11px;}
+.footcolor6 a{font-family: STHeitiSC-Light;font-size: 11px;color: #666;letter-spacing: 0.11px;}
+.footbal{width:100%;height: 49px;position: fixed;bottom:0;border-top:1px solid #eee;background: #fff;z-index: 99;}
+/*----------------------------------------hk-------------------------------*/
+.head_title{width:100%;height: 44px;background:#fff;line-height: 44px;position:fixed;top:0;}
+.head_name{font-family: STHeitiSC-Light;font-size: 18px;color: #333;letter-spacing: 0.18px;text-align: center;}
+.head_querstion{position:absolute;right:0;margin-right: 4%;top:0;font-family: STHeitiSC-Light;
+font-size: 12px;color: #333;letter-spacing: 0.12px;}
+.hk_tish{width: 84px;margin:98px auto;display: none;}
+.hk_tish dd{text-align: center;font-family: STHeitiSC-Light;font-size: 14px;color: #666666;margin-top: 33px;}
+.hk_money{width:100%;height:50px;background: #fff;margin-top: 54px;}
+.money_left{float: left;margin-left: 4%;}
+.money_right{float: right;margin-right: 8px;}
+.money_y{font-family: STHeitiSC-Light;font-size: 12px;color: #999999;letter-spacing: 0.12px;height: 12px;margin-top: 8px;margin-bottom: 8px;line-height: 12px;}
+.money_m{font-family: STHeitiSC-Light;font-size: 15px;color: #333333;letter-spacing: 0.15px;line-height: 15px;}
+.money_jt{float: right;margin-right: 4%;}
+.money_jt img{margin-top: 18px;}
+.bank_news{width:100%;background: #fff;height: 50px;margin-top:20px;}
+.bank_img img{display: inline-block;margin-left: 9.1%;width:30px;height:30px;margin-right: 5px;}
+.bank_img{font-family: STHeitiSC-Light;font-size: 15px;color: #333333;letter-spacing: 0.15px;line-height: 50px;float:left;width: 165px;}
+.bank_msg{font-family: STHeitiSC-Light;font-size: 12px;color: #999999;letter-spacing: 0.12px;line-height: 50px;float: right;margin-right: 4%;}
+.money_list{width:100%;background: #fff;height: 50px;margin-top:20px; }
+.money_zd{float: left;margin-left: 4%;font-family: STHeitiSC-Light;font-size: 12px;color: #333333;letter-spacing: 0.12px;line-height: 50px;}
+.money_jq{float:right;margin-right: 4%;margin-top: 16px;}
+.money_jq button{border: 1px solid #CCCCCC;border-radius: 4px;width:70px;height:20px;background: #fff;margin-right: 8px;}
+.money_jq button a{color:#999;font-size:12px;line-height: 20px;width: 100%;display: block;}
+.fenqi_day{width:100%;height: 90px;background: #fff;margin-top: 1px;}
+.fenqi_data{float:left;margin-left: 4%;}
+.fenqi_data p:nth-child(1){font-family: STHeitiSC-Light;font-size:15px;color: #333333;letter-spacing: 0.15px;margin-top: 23px;margin-bottom:14px;line-height: 15px;}
+.fenqi_style{float: right;margin-right: 4%;}
+.color_blue{color:#FEB400;}
+.color_red{color:#999999;}
+.fenqi_data p:nth-child(2){font-family: STHeitiSC-Light;font-size:15px;letter-spacing: 0.22px;line-height:15px;}
+.Immediate_repayment{font-family: STHeitiSC-Light;font-size: 15px;color: #999;letter-spacing: 0.15px;line-height: 90px;display: inline-block;}
+.delite{font-family: STHeitiSC-Light;font-size:12px;color: #999;letter-spacing: 0.12px;margin-left: 10px;}
+.bank_bd{width:100%;background: #fff;height:50px;margin-top: 20px;}
+.bank_center{width:150px;margin:0 auto;}
+.bank_center dt{float: left;margin-top: 15px;}
+.bank_center dd{float: right;}
+.bank_center dd p:nth-child(1){font-family: STHeitiSC-Light;font-size: 15px;color: #FEB400;letter-spacing: 0.15px;line-height: 15px;margin-top: 10px;margin-bottom: 3px;}
+.bank_center dd p:nth-child(2){font-family: STHeitiSC-Light;font-size: 12px;color: #999999;letter-spacing: 0.12px;line-height: 12px;}
+.fenqi_style p:nth-child(1){margin-top:24px;}
+.fenqi_style p:nth-child(2){font-family: STHeitiSC-Light;font-size: 12px;color: #999;letter-spacing: 0.12px;}
+.already{width: 100%;font-family: STHeitiSC-Light;font-size: 15px;color: #999999;letter-spacing: 0.15px;line-height: 15px;text-align:right;display: inline-block;margin-bottom: 10px;}
+.already_ts{font-family: STHeitiSC-Light;font-size: 12px;color: #999;letter-spacing: 0.12px;line-height: 12px;}
+.head_jt{position: absolute;left: 0;margin-left: 4%;top: 4px;}
+.jiekuan{width: 100%;height:100px;background: #fff;margin-top: 10px;}
+.jiekuan_money_y{float:left;margin-left: 4%;}
+.jiekuan_money_t{float:right;margin-right: 4%;}
+.jiekuan_money_y p:nth-child(1){margin-top:19px;margin-bottom:28px;line-height:15px;font-family: STHeitiSC-Light;font-size: 15px;color: #999999;letter-spacing: 0.12px;}
+.jiekuan_money_y p:nth-child(2){font-family: STHeitiSC-Light;font-size:15px;color: #333;letter-spacing: 0.2px;line-height: 15px;}
+.jiekuan_money_t p:nth-child(1){font-family: STHeitiSC-Light;font-size:15px;color: #999999;letter-spacing: 0.12px;line-height:15px;margin-top:19px;margin-bottom:28px;}
+.jiekuan_money_t p:nth-child(2){font-family: STHeitiSC-Light;font-size:15px;color: #999999;letter-spacing: 0.12px;line-height: 15px;}
+.hy_pay{width:100%;height:50px;margin-top: 10px;background: #fff;}
+.h_j{float:left;margin-left: 4%;font-family: STHeitiSC-Light;font-size: 12px;color: #333333;letter-spacing: 0.12px;line-height: 50px;}
+.h_t{float:right;margin-right: 4%;font-family: STHeitiSC-Light;font-size: 12px;color: #999999;letter-spacing: 0.12px;line-height: 50px;}
+.hy_t{width:100%;height: 90px;margin-top: 1px;background: #fff;}
+.hy_q{float: left;margin-left: 4%;}
+.color3{color:#333333;}
+.color9{color:#999999;}
+.hy_t p:nth-child(1){font-family: STHeitiSC-Light;font-size: 15px;letter-spacing: 0.15px;margin-top:23px;margin-bottom:17px;line-height:15px;}
+.hy_t p:nth-child(2){font-family: STHeitiSC-Light;font-size: 12px;letter-spacing: 0.12px;line-height: 12px;}
+.hy_m{float: right;margin-right: 4%;text-align: right;}
+.hy_m p:nth-child(1){font-family: STHeitiSC-Light;font-size: 15px;letter-spacing: 0.15px;margin-top:24px;margin-bottom:17px;line-height:15px;}
+.hy_m p:nth-child(2)font-family: STHeitiSC-Light;font-size: 12px;letter-spacing: 0.12px;line-height: 12px;}
+/*----------------------jiekuan-----------------*/
+.jiekuan_qx{width: 100%;height: 270px;background:#fff;}
+.id_card li{width: 100%;min-height: 50px;background: #fff;border-bottom:1px solid #F0F0F0;}
+.id_card_style01{font-family: STHeitiSC-Light;font-size: 15px;color: #333333;letter-spacing: 0.15px;line-height: 50px;}
+.id_card_style02{font-family: STHeitiSC-Light;font-size: 15px;color: #666666;letter-spacing: 0.15px;line-height: 50px;}
+.id_card_width{width: 204px;}
+.id_card_width02{width: 200px;font-family: STHeitiSC-Light;font-size: 15px;color: #666666;letter-spacing: 0.15px;line-height: 28px;text-align: right;}
+.id_card_js{font-family: STHeitiSC-Light;font-size: 12px;color: #999999;letter-spacing: 0.9px;
+line-height: 14px;margin-left: 4%;margin-top: 10px;}
+.id_card_xyb{margin-top:25px;width:92%;margin-left: 4%;border:none;background:#FEB400;height:40px;}
+.id_card_xyb a{font-family: STHeitiSC-Light;font-size: 16px;color: #FFFFFF;letter-spacing: 0.16px;text-align: center;line-height: 40px;width:100%;display: block;}
+/*--------------------*/
+.ee{width:100%;height: 100px;background: #fff;margin-top: 10px;}
+.ee dl{width:230px;margin: 0 auto;text-align: center;}
+.ee dt{font-family: STHeitiSC-Light;font-size: 15px;color: #999999;letter-spacing: 0.15px;padding-top:19px;margin-bottom:16px;line-height: 15px;}
+.ee dd{font-family: STHeitiSC-Light;font-size: 30px;color: #333;letter-spacing: 0.3px;line-height: 30px;}
+.ee01{width: 100%;height:50px;background: #fff;margin-top: 10px;}
+.add_tj{float: left;}
+.sub_js img {float: right;margin-top: 13px;}
+.hk_zh_pic img{display: inline-block;width: 30px;height: 30px;float: left;margin-top: 10px;margin-right: 5px;}
+.hk_zh_pic{font-family: STHeitiSC-Light;font-size: 15px;color: #333333;letter-spacing: 0.15px;line-height:50px;}
+.hk_zh_zd{font-family: STHeitiSC-Light;font-size: 15px;color: #333333;letter-spacing: 0.15px;line-height:50px;}
+.qd{width:92%;height: 40px;margin-left: 4%;text-align: center;line-height: 40px;border:none;background:#FEB400;margin-top: 54px;}
+.qd a{font-family: STHeitiSC-Light;font-size: 16px;color: #FFFFFF;letter-spacing: 0.16px;display:block;width:100%;}
+/*------------------------------------*/
+.bd_bank{width:100%;margin-top: 20px;background: #FFF;height:100px;line-height: 100px;}
+.bd_img img{display: block;width: 30px;height: 30px;float: left;margin-top: 35px;margin-right: 11px;}
+.bd_img{font-family: STHeitiSC-Light;font-size: 15px;color: #333333;letter-spacing: 0.15px;}
+.bd_xz{font-family: STHeitiSC-Light;font-size: 12px;color: #999999;letter-spacing: 0.12px;}
+.bd_xz img{float: right;margin-top: 43px;margin-left: 6px;}
+.bd_tj{width:100%;height: 50px;margin-top: 30px;background: #fff;}
+.bd_tj_card{width:120px;height: 20px;margin:0 auto;padding: 15px 0;font-family: STHeitiSC-Light;
+font-size: 15px;color: #333333;letter-spacing: 0.15px;line-height: 20px;}
+.bd_tj_card img{float: left;margin-right: 23px;}
+/*------------------------------------------*/
+.swiper-container {width: 100%;height: 100%;margin-top: 44px;}
+.swiper-slide {text-align: center;font-size: 18px;background: #fff;display: -webkit-box;display: -ms-flexbox;display: -webkit-flex;display: flex;-webkit-box-pack: center;-ms-flex-pack: center;
+-webkit-justify-content: center;justify-content: center;-webkit-box-align: center;-ms-flex-align: center;-webkit-align-items: center;align-items: center;}
+.swiper-slide img{width:100%;}
+/*------------------------------------------*/
+.ht_jh{width: 100%;margin-top:54px;}
+.ht_jh li{height: 100px;width:100%;background:#fff;margin-top:10px;}
+.ht_jh_one,.ht_jh_two{width:96%;overflow: hidden;margin-left: 4%;}
+.f_f{float: left;}
+.ht_jh_one{border-bottom:1px solid #F5F5F5;height: 59px;}
+.font_9 dt{font-family: STHeitiSC-Light;font-size: 15px;color: #999999;letter-spacing: 0.15px;line-height:15px;}
+.font_9 dd{font-family: STHeitiSC-Light;font-size: 15px;color: #333333;letter-spacing: 0.15px;line-height:34px;}
+.ht_jh_two{font-family: STHeitiSC-Light;font-size: 12px;color: #999999;letter-spacing: 0.12px;line-height: 40px;}
+.font_99{font-family: STHeitiSC-Light;font-size: 15px;color: #999999;letter-spacing: 0.15px;line-height: 59px;}
+.font_99 span{margin-right: 11px;}
+.font_c{font-family: STHeitiSC-Light;font-size: 12px;color: #CCCCCC;letter-spacing: 0.12px;}
+.sqxx{font-family: STHeitiSC-Light;width:100%;font-size: 14px;color: #999999;text-align:center;margin-top: 30px;margin-bottom: 90px;}

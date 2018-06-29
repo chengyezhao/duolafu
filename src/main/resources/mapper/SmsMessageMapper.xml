@@ -1,0 +1,363 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shoumipay.dao.SmsMessageMapper">
+    <resultMap id="BaseResultMap" type="com.shoumipay.domain.SmsMessage">
+        <id column="sid" jdbcType="BIGINT" property="sid"/>
+        <result column="memberId" jdbcType="BIGINT" property="memberid"/>
+        <result column="phones" jdbcType="VARCHAR" property="phones"/>
+        <result column="content" jdbcType="VARCHAR" property="content"/>
+        <result column="sendTime" jdbcType="TIMESTAMP" property="sendtime"/>
+        <result column="createTime" jdbcType="TIMESTAMP" property="createtime"/>
+        <result column="flag" jdbcType="INTEGER" property="flag"/>
+        <result column="failureTimes" jdbcType="INTEGER" property="failuretimes"/>
+        <result column="maxfail" jdbcType="INTEGER" property="maxfail"/>
+        <result column="number" jdbcType="INTEGER" property="number"/>
+        <result column="messageType" jdbcType="INTEGER" property="messagetype"/>
+        <result column="sendTransmission" jdbcType="VARCHAR" property="sendtransmission"/>
+        <result column="sendPlatform" jdbcType="VARCHAR" property="sendplatform"/>
+        <result column="code" jdbcType="VARCHAR" property="code"/>
+    </resultMap>
+    <sql id="Example_Where_Clause">
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause">
+        <where>
+            <foreach collection="example.oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Base_Column_List">
+    sid, memberId, phones, content, sendTime, createTime, flag, failureTimes, maxfail, 
+    number, messageType, sendTransmission, sendPlatform, code
+  </sql>
+    <select id="selectByExample" parameterType="com.shoumipay.domain.SmsMessageExample" resultMap="BaseResultMap">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        'false' as QUERYID,
+        <include refid="Base_Column_List"/>
+        from cl_sms_task
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+        order by sid desc
+    </select>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from cl_sms_task
+        where sid = #{sid,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from cl_sms_task
+    where sid = #{sid,jdbcType=BIGINT}
+  </delete>
+    <delete id="deleteByExample" parameterType="com.shoumipay.domain.SmsMessageExample">
+        delete from cl_sms_task
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </delete>
+    <delete id="deleteByIds" parameterType="java.lang.String">
+        DELETE FROM cl_sms_task WHERE sid in
+        <foreach item="idItem" collection="array" open="(" separator="," close=")">
+            #{idItem}
+        </foreach>
+    </delete>
+    <insert id="insert" parameterType="com.shoumipay.domain.SmsMessage">
+    insert into cl_sms_task (sid, memberId, phones, 
+      content, sendTime, createTime, 
+      flag, failureTimes, maxfail, 
+      number, messageType, sendTransmission, 
+      sendPlatform, code)
+    values (#{sid,jdbcType=BIGINT}, #{memberid,jdbcType=BIGINT}, #{phones,jdbcType=VARCHAR}, 
+      #{content,jdbcType=VARCHAR}, #{sendtime,jdbcType=TIMESTAMP}, #{createtime,jdbcType=TIMESTAMP}, 
+      #{flag,jdbcType=INTEGER}, #{failuretimes,jdbcType=INTEGER}, #{maxfail,jdbcType=INTEGER}, 
+      #{number,jdbcType=INTEGER}, #{messagetype,jdbcType=INTEGER}, #{sendtransmission,jdbcType=VARCHAR}, 
+      #{sendplatform,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR})
+  </insert>
+    <insert id="insertSelective" parameterType="com.shoumipay.domain.SmsMessage">
+        insert into cl_sms_task
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="sid != null">
+                sid,
+            </if>
+            <if test="memberid != null">
+                memberId,
+            </if>
+            <if test="phones != null">
+                phones,
+            </if>
+            <if test="content != null">
+                content,
+            </if>
+            <if test="sendtime != null">
+                sendTime,
+            </if>
+            <if test="createtime != null">
+                createTime,
+            </if>
+            <if test="flag != null">
+                flag,
+            </if>
+            <if test="failuretimes != null">
+                failureTimes,
+            </if>
+            <if test="maxfail != null">
+                maxfail,
+            </if>
+            <if test="number != null">
+                number,
+            </if>
+            <if test="messagetype != null">
+                messageType,
+            </if>
+            <if test="sendtransmission != null">
+                sendTransmission,
+            </if>
+            <if test="sendplatform != null">
+                sendPlatform,
+            </if>
+            <if test="code != null">
+                code,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="sid != null">
+                #{sid,jdbcType=BIGINT},
+            </if>
+            <if test="memberid != null">
+                #{memberid,jdbcType=BIGINT},
+            </if>
+            <if test="phones != null">
+                #{phones,jdbcType=VARCHAR},
+            </if>
+            <if test="content != null">
+                #{content,jdbcType=VARCHAR},
+            </if>
+            <if test="sendtime != null">
+                #{sendtime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createtime != null">
+                #{createtime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="flag != null">
+                #{flag,jdbcType=INTEGER},
+            </if>
+            <if test="failuretimes != null">
+                #{failuretimes,jdbcType=INTEGER},
+            </if>
+            <if test="maxfail != null">
+                #{maxfail,jdbcType=INTEGER},
+            </if>
+            <if test="number != null">
+                #{number,jdbcType=INTEGER},
+            </if>
+            <if test="messagetype != null">
+                #{messagetype,jdbcType=INTEGER},
+            </if>
+            <if test="sendtransmission != null">
+                #{sendtransmission,jdbcType=VARCHAR},
+            </if>
+            <if test="sendplatform != null">
+                #{sendplatform,jdbcType=VARCHAR},
+            </if>
+            <if test="code != null">
+                #{code,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <select id="countByExample" parameterType="com.shoumipay.domain.SmsMessageExample" resultType="java.lang.Long">
+        select count(*) from cl_sms_task
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
+        update cl_sms_task
+        <set>
+            <if test="record.sid != null">
+                sid = #{record.sid,jdbcType=BIGINT},
+            </if>
+            <if test="record.memberid != null">
+                memberId = #{record.memberid,jdbcType=BIGINT},
+            </if>
+            <if test="record.phones != null">
+                phones = #{record.phones,jdbcType=VARCHAR},
+            </if>
+            <if test="record.content != null">
+                content = #{record.content,jdbcType=VARCHAR},
+            </if>
+            <if test="record.sendtime != null">
+                sendTime = #{record.sendtime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="record.createtime != null">
+                createTime = #{record.createtime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="record.flag != null">
+                flag = #{record.flag,jdbcType=INTEGER},
+            </if>
+            <if test="record.failuretimes != null">
+                failureTimes = #{record.failuretimes,jdbcType=INTEGER},
+            </if>
+            <if test="record.maxfail != null">
+                maxfail = #{record.maxfail,jdbcType=INTEGER},
+            </if>
+            <if test="record.number != null">
+                number = #{record.number,jdbcType=INTEGER},
+            </if>
+            <if test="record.messagetype != null">
+                messageType = #{record.messagetype,jdbcType=INTEGER},
+            </if>
+            <if test="record.sendtransmission != null">
+                sendTransmission = #{record.sendtransmission,jdbcType=VARCHAR},
+            </if>
+            <if test="record.sendplatform != null">
+                sendPlatform = #{record.sendplatform,jdbcType=VARCHAR},
+            </if>
+            <if test="record.code != null">
+                code = #{record.code,jdbcType=VARCHAR},
+            </if>
+        </set>
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByExample" parameterType="map">
+        update cl_sms_task
+        set sid = #{record.sid,jdbcType=BIGINT},
+        memberId = #{record.memberid,jdbcType=BIGINT},
+        phones = #{record.phones,jdbcType=VARCHAR},
+        content = #{record.content,jdbcType=VARCHAR},
+        sendTime = #{record.sendtime,jdbcType=TIMESTAMP},
+        createTime = #{record.createtime,jdbcType=TIMESTAMP},
+        flag = #{record.flag,jdbcType=INTEGER},
+        failureTimes = #{record.failuretimes,jdbcType=INTEGER},
+        maxfail = #{record.maxfail,jdbcType=INTEGER},
+        number = #{record.number,jdbcType=INTEGER},
+        messageType = #{record.messagetype,jdbcType=INTEGER},
+        sendTransmission = #{record.sendtransmission,jdbcType=VARCHAR},
+        sendPlatform = #{record.sendplatform,jdbcType=VARCHAR},
+        code = #{record.code,jdbcType=VARCHAR}
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="com.shoumipay.domain.SmsMessage">
+        update cl_sms_task
+        <set>
+            <if test="memberid != null">
+                memberId = #{memberid,jdbcType=BIGINT},
+            </if>
+            <if test="phones != null">
+                phones = #{phones,jdbcType=VARCHAR},
+            </if>
+            <if test="content != null">
+                content = #{content,jdbcType=VARCHAR},
+            </if>
+            <if test="sendtime != null">
+                sendTime = #{sendtime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createtime != null">
+                createTime = #{createtime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="flag != null">
+                flag = #{flag,jdbcType=INTEGER},
+            </if>
+            <if test="failuretimes != null">
+                failureTimes = #{failuretimes,jdbcType=INTEGER},
+            </if>
+            <if test="maxfail != null">
+                maxfail = #{maxfail,jdbcType=INTEGER},
+            </if>
+            <if test="number != null">
+                number = #{number,jdbcType=INTEGER},
+            </if>
+            <if test="messagetype != null">
+                messageType = #{messagetype,jdbcType=INTEGER},
+            </if>
+            <if test="sendtransmission != null">
+                sendTransmission = #{sendtransmission,jdbcType=VARCHAR},
+            </if>
+            <if test="sendplatform != null">
+                sendPlatform = #{sendplatform,jdbcType=VARCHAR},
+            </if>
+            <if test="code != null">
+                code = #{code,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where sid = #{sid,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.shoumipay.domain.SmsMessage">
+    update cl_sms_task
+    set memberId = #{memberid,jdbcType=BIGINT},
+      phones = #{phones,jdbcType=VARCHAR},
+      content = #{content,jdbcType=VARCHAR},
+      sendTime = #{sendtime,jdbcType=TIMESTAMP},
+      createTime = #{createtime,jdbcType=TIMESTAMP},
+      flag = #{flag,jdbcType=INTEGER},
+      failureTimes = #{failuretimes,jdbcType=INTEGER},
+      maxfail = #{maxfail,jdbcType=INTEGER},
+      number = #{number,jdbcType=INTEGER},
+      messageType = #{messagetype,jdbcType=INTEGER},
+      sendTransmission = #{sendtransmission,jdbcType=VARCHAR},
+      sendPlatform = #{sendplatform,jdbcType=VARCHAR},
+      code = #{code,jdbcType=VARCHAR}
+    where sid = #{sid,jdbcType=BIGINT}
+  </update>
+</mapper>

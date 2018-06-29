@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shoumipay.dao.MemberInfoChangeRecordMapper">
+  <resultMap id="BaseResultMap" type="com.shoumipay.domain.MemberInfoChangeRecord">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="uid" jdbcType="BIGINT" property="uid" />
+    <result column="table_name" jdbcType="VARCHAR" property="tableName" />
+    <result column="column_name" jdbcType="VARCHAR" property="columnName" />
+    <result column="pre_change" jdbcType="VARCHAR" property="preChange" />
+    <result column="post_change" jdbcType="VARCHAR" property="postChange" />
+    <result column="change_time" jdbcType="TIMESTAMP" property="changeTime" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, uid, table_name, column_name, pre_change, post_change, change_time
+  </sql>
+  <select id="selectByExample" parameterType="com.shoumipay.domain.MemberInfoChangeRecordExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'false' as QUERYID,
+    <include refid="Base_Column_List" />
+    from cl_member_info_change_record
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from cl_member_info_change_record
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="selectByLatestPhoneChange" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from cl_member_info_change_record
+    where uid = #{1} and column_name='phone_name'
+    order by id DESC
+    limit 1
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from cl_member_info_change_record
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.shoumipay.domain.MemberInfoChangeRecordExample">
+    delete from cl_member_info_change_record
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.shoumipay.domain.MemberInfoChangeRecord">
+    insert into cl_member_info_change_record (id, uid, table_name, 
+      column_name, pre_change, post_change, 
+      change_time)
+    values (#{id,jdbcType=BIGINT}, #{uid,jdbcType=BIGINT}, #{tableName,jdbcType=VARCHAR}, 
+      #{columnName,jdbcType=VARCHAR}, #{preChange,jdbcType=VARCHAR}, #{postChange,jdbcType=VARCHAR}, 
+      #{changeTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.shoumipay.domain.MemberInfoChangeRecord">
+    insert into cl_member_info_change_record
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="uid != null">
+        uid,
+      </if>
+      <if test="tableName != null">
+        table_name,
+      </if>
+      <if test="columnName != null">
+        column_name,
+      </if>
+      <if test="preChange != null">
+        pre_change,
+      </if>
+      <if test="postChange != null">
+        post_change,
+      </if>
+      <if test="changeTime != null">
+        change_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="uid != null">
+        #{uid,jdbcType=BIGINT},
+      </if>
+      <if test="tableName != null">
+        #{tableName,jdbcType=VARCHAR},
+      </if>
+      <if test="columnName != null">
+        #{columnName,jdbcType=VARCHAR},
+      </if>
+      <if test="preChange != null">
+        #{preChange,jdbcType=VARCHAR},
+      </if>
+      <if test="postChange != null">
+        #{postChange,jdbcType=VARCHAR},
+      </if>
+      <if test="changeTime != null">
+        #{changeTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.shoumipay.domain.MemberInfoChangeRecordExample" resultType="java.lang.Long">
+    select count(*) from cl_member_info_change_record
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update cl_member_info_change_record
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.uid != null">
+        uid = #{record.uid,jdbcType=BIGINT},
+      </if>
+      <if test="record.tableName != null">
+        table_name = #{record.tableName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.columnName != null">
+        column_name = #{record.columnName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.preChange != null">
+        pre_change = #{record.preChange,jdbcType=VARCHAR},
+      </if>
+      <if test="record.postChange != null">
+        post_change = #{record.postChange,jdbcType=VARCHAR},
+      </if>
+      <if test="record.changeTime != null">
+        change_time = #{record.changeTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update cl_member_info_change_record
+    set id = #{record.id,jdbcType=BIGINT},
+      uid = #{record.uid,jdbcType=BIGINT},
+      table_name = #{record.tableName,jdbcType=VARCHAR},
+      column_name = #{record.columnName,jdbcType=VARCHAR},
+      pre_change = #{record.preChange,jdbcType=VARCHAR},
+      post_change = #{record.postChange,jdbcType=VARCHAR},
+      change_time = #{record.changeTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.shoumipay.domain.MemberInfoChangeRecord">
+    update cl_member_info_change_record
+    <set>
+      <if test="uid != null">
+        uid = #{uid,jdbcType=BIGINT},
+      </if>
+      <if test="tableName != null">
+        table_name = #{tableName,jdbcType=VARCHAR},
+      </if>
+      <if test="columnName != null">
+        column_name = #{columnName,jdbcType=VARCHAR},
+      </if>
+      <if test="preChange != null">
+        pre_change = #{preChange,jdbcType=VARCHAR},
+      </if>
+      <if test="postChange != null">
+        post_change = #{postChange,jdbcType=VARCHAR},
+      </if>
+      <if test="changeTime != null">
+        change_time = #{changeTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.shoumipay.domain.MemberInfoChangeRecord">
+    update cl_member_info_change_record
+    set uid = #{uid,jdbcType=BIGINT},
+      table_name = #{tableName,jdbcType=VARCHAR},
+      column_name = #{columnName,jdbcType=VARCHAR},
+      pre_change = #{preChange,jdbcType=VARCHAR},
+      post_change = #{postChange,jdbcType=VARCHAR},
+      change_time = #{changeTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

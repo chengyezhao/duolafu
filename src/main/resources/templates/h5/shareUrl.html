@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>target-input</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+    <!-- 2. Include library -->
+    <script type="text/javascript" src="/assets/js/clipboard.min.js"></script>
+
+    <style type="text/css">
+        .btn{
+            display: inline-block;
+            width: 80px;
+            height: 30px;
+        }
+    </style>
+
+</head>
+
+<body>
+    <!-- 1. Define some markup -->
+    <input id="foo" type="text" th:value="*{shareUrl}"/>
+    <button class="btn" data-clipboard-action="copy" data-clipboard-target="#foo">复制</button>
+    <button class="shuaxin btn" onclick="location.reload();">刷新</button>
+
+    <!-- 3. Instantiate clipboard -->
+    <script>
+    var clipboard = new ClipboardJS('.btn');
+
+    clipboard.on('success', function(e) {
+        console.log(e);
+    });
+
+    clipboard.on('error', function(e) {
+        console.log(e);
+    });
+    </script>
+</body>
+</html>

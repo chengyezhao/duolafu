@@ -1,0 +1,366 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shoumipay.dao.MemberAgentMapper">
+  <resultMap id="BaseResultMap" type="com.shoumipay.domain.MemberAgent">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="member_id" jdbcType="BIGINT" property="memberId" />
+    <result column="createTime" jdbcType="TIMESTAMP" property="createtime" />
+    <result column="agent_id" jdbcType="BIGINT" property="agentId" />
+    <result column="agent_type" jdbcType="INTEGER" property="agentType" />
+    <result column="balance" jdbcType="DECIMAL" property="balance" />
+    <result column="agent_score" jdbcType="DECIMAL" property="agentScore" />
+    <result column="commision_type" jdbcType="VARCHAR" property="commisionType" />
+    <result column="commision_rate" jdbcType="DECIMAL" property="commisionRate" />
+  </resultMap>
+  <resultMap id="BaseVOResultMap" type="com.shoumipay.vo.AgentVO">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="memberId" jdbcType="BIGINT" property="memberId" />
+    <result column="memberName" jdbcType="VARCHAR" property="memberName" />
+    <result column="agentName" jdbcType="VARCHAR" property="agentName" />
+    <result column="createTime" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="agentId" jdbcType="BIGINT" property="agentId" />
+    <result column="agentType" jdbcType="INTEGER" property="agentType" />
+    <result column="balance" jdbcType="DECIMAL" property="balance" />
+    <result column="commisionRate" jdbcType="DECIMAL" property="commisionRate" />
+    <result column="amount" jdbcType="DECIMAL" property="amount" />
+    <result column="commision" jdbcType="DECIMAL" property="commision" />
+    <result column="instruction" jdbcType="VARCHAR" property="instruction" />
+    <result column="consumptionTime" jdbcType="TIMESTAMP" property="consumptionTime" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, member_id, createTime, agent_id, agent_type, balance, agent_score, commision_type, 
+    commision_rate
+  </sql>
+  <select id="selectByExample" parameterType="com.shoumipay.domain.MemberAgentExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'false' as QUERYID,
+    <include refid="Base_Column_List" />
+    from cl_member_agent
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectVO"  resultMap="BaseVOResultMap">
+      SELECT
+        a.id AS id,
+        a.member_id AS memberId,
+        m.name As memberName,
+        mem.name As agentName,
+        a.createTime As createTime,
+        a.agent_id As agentId,
+        a.balance As balance,
+        a.commision_rate AS commisionRate,
+        r.amount AS amount
+      from ((cl_member_agent AS a LEFT JOIN cl_agent_record AS r ON a.member_id=r.member_id) LEFT JOIN cl_member as m ON a.member_id=m.uid)
+      LEFT JOIN cl_member as mem ON a.agent_id=mem.uid
+      WHERE 1=1
+    <if test="null != agentId">
+      AND a.agent_id = #{agentId}
+    </if>
+    <if test="null != memberId">
+      AND a.member_id = #{memberId}
+    </if>
+    <if test="null != start">
+    AND a.createTime >= #{start}
+  </if>
+    <if test="null != end">
+      AND #{end} >= a.createTime
+    </if>
+    ORDER BY a.createTime DESC
+  </select>
+  <select id="selectAgentRecordVO" resultMap="BaseVOResultMap">
+    SELECT
+    r.id AS id,
+    r.createTime AS consumptionTime,
+    r.member_id AS memberId,
+    r.commision AS commision,
+    r.amount AS amount,
+    r.desc AS instruction,
+    a.agent_id AS agentId,
+    m.name As memberName,
+    mem.name as agentName
+    FROM ((cl_agent_record AS r LEFT JOIN cl_member_agent AS a ON r.member_id=a.member_id) LEFT JOIN cl_member AS m ON r.member_id=m.uid)
+    LEFT JOIN cl_member as mem ON a.agent_id=mem.uid
+    WHERE 1=1
+    <if test="null != id">
+      AND r.member_id = #{id}
+    </if>
+    <if test="null != agentId">
+      AND a.agent_id = #{agentId}
+    </if>
+    <if test="null != start">
+      AND r.createTime >= #{start}
+    </if>
+    <if test="null != end">
+      AND #{end} >= r.createTime
+    </if>
+    ORDER BY r.createTime DESC
+  </select>
+  <select id="queryByTimeIdVO" resultMap="BaseVOResultMap">
+    SELECT a.id AS id,a.member_id AS memberId,m.name AS memberName,mem.name AS agentName,a.agent_id AS agentId,a.agent_type AS agentType,a.balance as balance,a.createTime AS createTime
+    From(cl_member_agent as a LEFT JOIN cl_member AS m ON a.member_id=m.uid) LEFT JOIN cl_member as mem ON a.agent_id=mem.uid
+    WHERE 1=1
+    <if test="null != memberId">
+      AND a.member_id = #{memberId}
+    </if>
+    <if test="null != agentType">
+      AND a.agent_type = #{agentType}
+    </if>
+    <if test="null != startTime">
+      AND a.createTime >= #{startTime}
+    </if>
+    <if test="null != endTime">
+      AND #{endTime} >= a.createTime
+    </if>
+    ORDER BY a.createTime DESC
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from cl_member_agent
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from cl_member_agent
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.shoumipay.domain.MemberAgentExample">
+    delete from cl_member_agent
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.shoumipay.domain.MemberAgent">
+    insert into cl_member_agent (id, member_id, createTime, 
+      agent_id, agent_type, balance, 
+      agent_score, commision_type, commision_rate
+      )
+    values (#{id,jdbcType=BIGINT}, #{memberId,jdbcType=BIGINT}, #{createtime,jdbcType=TIMESTAMP}, 
+      #{agentId,jdbcType=BIGINT}, #{agentType,jdbcType=INTEGER}, #{balance,jdbcType=DECIMAL}, 
+      #{agentScore,jdbcType=DECIMAL}, #{commisionType,jdbcType=VARCHAR}, #{commisionRate,jdbcType=DECIMAL}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.shoumipay.domain.MemberAgent">
+    insert into cl_member_agent
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="memberId != null">
+        member_id,
+      </if>
+      <if test="createtime != null">
+        createTime,
+      </if>
+      <if test="agentId != null">
+        agent_id,
+      </if>
+      <if test="agentType != null">
+        agent_type,
+      </if>
+      <if test="balance != null">
+        balance,
+      </if>
+      <if test="agentScore != null">
+        agent_score,
+      </if>
+      <if test="commisionType != null">
+        commision_type,
+      </if>
+      <if test="commisionRate != null">
+        commision_rate,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="memberId != null">
+        #{memberId,jdbcType=BIGINT},
+      </if>
+      <if test="createtime != null">
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="agentId != null">
+        #{agentId,jdbcType=BIGINT},
+      </if>
+      <if test="agentType != null">
+        #{agentType,jdbcType=INTEGER},
+      </if>
+      <if test="balance != null">
+        #{balance,jdbcType=DECIMAL},
+      </if>
+      <if test="agentScore != null">
+        #{agentScore,jdbcType=DECIMAL},
+      </if>
+      <if test="commisionType != null">
+        #{commisionType,jdbcType=VARCHAR},
+      </if>
+      <if test="commisionRate != null">
+        #{commisionRate,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.shoumipay.domain.MemberAgentExample" resultType="java.lang.Long">
+    select count(*) from cl_member_agent
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update cl_member_agent
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.memberId != null">
+        member_id = #{record.memberId,jdbcType=BIGINT},
+      </if>
+      <if test="record.createtime != null">
+        createTime = #{record.createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.agentId != null">
+        agent_id = #{record.agentId,jdbcType=BIGINT},
+      </if>
+      <if test="record.agentType != null">
+        agent_type = #{record.agentType,jdbcType=INTEGER},
+      </if>
+      <if test="record.balance != null">
+        balance = #{record.balance,jdbcType=DECIMAL},
+      </if>
+      <if test="record.agentScore != null">
+        agent_score = #{record.agentScore,jdbcType=DECIMAL},
+      </if>
+      <if test="record.commisionType != null">
+        commision_type = #{record.commisionType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.commisionRate != null">
+        commision_rate = #{record.commisionRate,jdbcType=DECIMAL},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update cl_member_agent
+    set id = #{record.id,jdbcType=BIGINT},
+      member_id = #{record.memberId,jdbcType=BIGINT},
+      createTime = #{record.createtime,jdbcType=TIMESTAMP},
+      agent_id = #{record.agentId,jdbcType=BIGINT},
+      agent_type = #{record.agentType,jdbcType=INTEGER},
+      balance = #{record.balance,jdbcType=DECIMAL},
+      agent_score = #{record.agentScore,jdbcType=DECIMAL},
+      commision_type = #{record.commisionType,jdbcType=VARCHAR},
+      commision_rate = #{record.commisionRate,jdbcType=DECIMAL}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.shoumipay.domain.MemberAgent">
+    update cl_member_agent
+    <set>
+      <if test="memberId != null">
+        member_id = #{memberId,jdbcType=BIGINT},
+      </if>
+      <if test="createtime != null">
+        createTime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="agentId != null">
+        agent_id = #{agentId,jdbcType=BIGINT},
+      </if>
+      <if test="agentType != null">
+        agent_type = #{agentType,jdbcType=INTEGER},
+      </if>
+      <if test="balance != null">
+        balance = #{balance,jdbcType=DECIMAL},
+      </if>
+      <if test="agentScore != null">
+        agent_score = #{agentScore,jdbcType=DECIMAL},
+      </if>
+      <if test="commisionType != null">
+        commision_type = #{commisionType,jdbcType=VARCHAR},
+      </if>
+      <if test="commisionRate != null">
+        commision_rate = #{commisionRate,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.shoumipay.domain.MemberAgent">
+    update cl_member_agent
+    set member_id = #{memberId,jdbcType=BIGINT},
+      createTime = #{createtime,jdbcType=TIMESTAMP},
+      agent_id = #{agentId,jdbcType=BIGINT},
+      agent_type = #{agentType,jdbcType=INTEGER},
+      balance = #{balance,jdbcType=DECIMAL},
+      agent_score = #{agentScore,jdbcType=DECIMAL},
+      commision_type = #{commisionType,jdbcType=VARCHAR},
+      commision_rate = #{commisionRate,jdbcType=DECIMAL}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

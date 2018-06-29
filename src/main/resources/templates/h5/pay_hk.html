@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="x-ua-compatible" content="ie=edge"/>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0,minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <meta name="application-name" content=""/>
+    <meta name="description" content=""/>
+    <meta name="keywords" content=""/>
+    <meta content="yes" name="apple-mobile-web-app-capable"/>
+    <title>哆啦付</title>
+    <link rel="stylesheet" href="../../static/assets/h5/css/reset.css" th:href="@{/assets/h5/css/reset.css}"/>
+    <link rel="stylesheet" href="../../static/assets/h5/css/first.css" th:href="@{/assets/h5/css/first.css}"/>
+    <link rel="stylesheet" href="../../static/assets/h5/css/first.css" th:href="@{/assets/h5/css/submit.css}"/>
+    <script>
+        window.alert = function (name) {
+            var iframe = document.createElement("IFRAME");
+            iframe.style.display = "none";
+            iframe.setAttribute("src", 'data:text/plain,');
+            document.documentElement.appendChild(iframe);
+            window.frames[0].window.alert(name);
+            iframe.parentNode.removeChild(iframe);
+        }
+    </script>
+</head>
+<body style="background: #fff;">
+<div th:if="${msg==null}">
+    <div class="begin_title">
+        <a href="javascript:self.location=document.referrer;"><span class="back">
+			<img src="../../static/assets/h5/images/jiantouhl.png" th:src="@{/assets/h5/images/jiantouhl.png}"/></span></a>
+        付款
+        <a href="question">
+            <div class="head_querstion">常见问题</div>
+        </a>
+    </div>
+    <span th:if="${isNull}">
+	<p class="pay_je">应付费用账单</p>
+	<p class="pay_money" th:text="${#numbers.formatDecimal(member.billsTrueAmount,1,2)}">100.00</p>
+	<div class="pay_xz"><label><input id="repay" type="checkbox" value="1"/></label><span
+            th:text="${'未出账账单'+#numbers.formatDecimal(member.billsFalseAmount,1,2)}">未出账账单88.25</span></div>
+	<div class="pay_qd"><button onclick="check()">全部付款</button></div>
+	<div class="pay_bf"><button onclick="$('#repayMoney').val('');">部分付款</button></div>
+	<div class="pay_list">
+		<ul>
+			<li>记账周期<b th:text="${'每月'+birthDay+'日-次月'+nextBirthDayRepay+'日'}">每月27日-次月27日</b></li>
+			<li>出账日<b th:text="${'每月'+birthDay+'日 00:00'}">每月27日 02:00</b></li>
+			<li>最后还款日<b th:text="${'每月'+nextBirthDay+'日 23:59'}">每月27日 23:59</b></li>
+		</ul>
+	</div>
+	<div class="bfpay">
+		<div class="payzzc"></div>
+		<div class='pay_ts'>
+			<div class="pay_ts_top"><input type="text" placeholder="请输入金额" id="repayMoney" value=""/></div>
+			<div class="pay_ts_cc">
+				<ul>
+					<li class="pay_ts_qx">取消</li>
+					<li class="pay_ts_qd"
+                        onclick="if(isNaN($('#repayMoney').val())||$('#repayMoney').val()==0){alert('请输入正确的金额');return;};check()">确定</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</span>
+    <div class="no_pay" th:if="${!isNull}">
+        <dl>
+            <dt><img src="../../static/assets/h5/images/payment_plan.png"
+                     th:src="@{/assets/h5/images/payment_plan.png}"/>
+            </dt>
+            <dd>暂无付款计划</dd>
+        </dl>
+    </div>
+</div>
+<script type="text/javascript" src="../../static/assets/h5/js/jquery-1.8.3.min.js"
+        th:src="@{/assets/h5/js/jquery-1.8.3.min.js}"></script>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+
+    $(function () {
+            var message = [[${msg}]];
+            if (message != null && message.trim().length > 0) {
+                window.location.href = "/wx/material";
+            }
+        }
+    )
+
+    function check() {
+        var amount_true = [[${member.billsTrueAmount}]];
+        var amount_false = [[${member.billsFalseAmount}]] + amount_true;
+        var amount;
+        if ($('#repay').is(':checked')) {
+            $('#repay').val('0');
+            amount = amount_true;
+        } else {
+            $('#repay').val('1');
+            amount = amount_false;
+        }
+        if ($('#repayMoney').val() != '') {
+            var repayAmount = $('#repayMoney').val();
+            if (isNaN(repayAmount) || repayAmount == 0) {
+                alert("请输入正确的金额!");
+                return;
+            } else {
+                if (repayAmount > amount) {
+                    alert("不能超出未还款的钱!");
+                    return;
+                } else {
+                    amount = repayAmount;
+                }
+            }
+        }
+        if (amount <= 0) {
+            alert("当月已经全部还完啦~");
+        } else {
+            window.location.href = "/wx/repay?money=" + amount;
+        }
+    }
+
+    /*]]>*/
+    $(".pay_bf").click(function () {
+        $(".bfpay").css("display", "block")
+    })
+    $(".pay_ts_qd").click(function () {
+        $(".bfpay").css("display", "none")
+    })
+    $(".pay_ts_qx").click(function () {
+        $(".bfpay").css("display", "none")
+    })
+</script>
+</body>
+</html>

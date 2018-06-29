@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="utf-8"/>
+		<meta http-equiv="x-ua-compatible" content="ie=edge"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+		<meta name="application-name" content=""/>
+		<meta name="description" content=""/>
+		<meta name="keywords" content="" />
+        <meta content="yes" name="apple-mobile-web-app-capable"/>
+		<title>哆啦付</title>
+		<link rel="stylesheet" href="../../static/assets/h5/css/reset.css" th:href="@{/assets/h5/css/reset.css}"/>
+		<link rel="stylesheet" href="../../static/assets/h5/css/first.css" th:href="@{/assets/h5/css/first.css}"/>
+	</head>
+
+	<body>
+    <div th:if="${msg==null}">
+		<div class="begin_title">
+			<a href="javascript:self.location=document.referrer;" ><span class="back">
+				<img src="../../static/assets/h5/images/jiantouhl.png" th:src="@{/assets/h5/images/jiantouhl.png}"/></span></a>
+			账单明细
+		</div>
+		<div class="bills_bg">
+			<div class="bills_tittle_l">
+				<p class="remaining_limit">剩余额度</p>
+				<p  class="bills_money" th:text="${#numbers.formatDecimal(balance,1,2)}">7000.00</p>
+			</div>
+			<div class="bills_tittle_r">
+				<a href="repayment"><p class="bills_payment">付款<span><img src="../../static/assets/h5/images/jiantor.png" th:src="@{/assets/h5/images/jiantor.png}"/></span></p></a>
+			</div>
+		</div>
+		<div class="bills_zd">
+			<div class="bills_zd_f">
+				<p class="bills_zd_money" th:text="${#numbers.formatDecimal(member.billsFalseAmount,1,2)}">0.00</p>
+				<p class="bills_zd_text">未出账单(元)</p>
+			</div>
+			<div class="bills_zd_r">
+				<p class="bills_zd_money" th:text="${#numbers.formatDecimal(member.billsTrueAmount,1,2)}">0.00</p>
+				<p class="bills_zd_text">已出账单(元)</p>
+			</div>
+		</div>
+		<div class="history_bill">
+			<div class="history_bill_f">明细</div>
+			<div class="history_bill_r">历史账单</div>
+		</div>
+		<div class="bills_list">
+			<ul>
+				<li class="bills_bgw" th:each="order:${goodsOrders}" th:class="${order.billsFlag==1?'bills_bgw':'bills_bgr'}" >
+					<div class="bills_list_f">
+						<p class="margin2">京东</p>
+						<p th:text="${'¥'+#numbers.formatDecimal(order.orderAmountRecognized,1,2)}">¥199.00元</p>
+					</div>
+					<div class="bills_list_r">
+						<img src="../../static/assets/h5/images/jiantouhr.png" th:src="@{/assets/h5/images/jiantor.png}" />
+					</div>
+					<div class="bills_list_c">
+						<p class="margin2" th:text="${'代付时间：'+order.orderCreateTime}">代付时间：09-19 15:44</p>
+						<p th:text="${'最后付款时间：'+order.orderUpptime}">付款时间：10-22 15:44</p>
+					</div>
+				</li>
+			</ul>
+		</div>
+		<p class="bills_jg">以上为最近的申请信息</p>
+    </div>
+        <script type="text/javascript" src="../../static/assets/h5/js/jquery-1.8.3.min.js"
+                th:src="@{/assets/h5/js/jquery-1.8.3.min.js}"></script>
+        <script th:inline="javascript">
+            /*<![CDATA[*/
+            $(function () {
+                    var message = [[${msg}]];
+                    if (message != null && message.trim().length > 0) {
+                        window.location.href ='/wx/material';
+                    }
+                }
+            )
+            /*]]>*/
+        </script>
+	</body>
+
+</html>

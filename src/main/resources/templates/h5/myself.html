@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="x-ua-compatible" content="ie=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <meta name="application-name" content=""/>
+    <meta name="description" content=""/>
+    <meta name="keywords" content=""/>
+    <meta content="yes" name="apple-mobile-web-app-capable"/>
+    <title>哆啦付</title>
+    <link rel="stylesheet" href="../../static/assets/h5/css/reset.css" th:href="@{/assets/h5/css/reset.css}"/>
+    <link rel="stylesheet" href="../../static/assets/h5/css/first.css" th:href="@{/assets/h5/css/first.css}"/>
+</head>
+<body>
+<div class="begin_title">
+    <a href="javascript:self.location=document.referrer;"><span class="back">
+				<img src="../../static/assets/h5/images/jiantouhl.png"
+                     th:src="@{/assets/h5/images/jiantouhl.png}"/></span></a>
+    我的
+</div>
+<div class="myself_bg">
+    <div class="myself_photo">
+        <img src="../../static/assets/h5/images/photo.png" th:src="${img}"/>
+    </div>
+    <div class="myself_name" th:text="${nickname}">ALXIE</div>
+    <div class="myself_member">普通会员</div>
+</div>
+<div class="myself_center">
+    <ul>
+        <li class="myself_l">
+					<span class="phonepic">
+						<img src="../../static/assets/h5/images/phone.png"
+                             th:src="@{/assets/h5/images/phone.png}"/></span>
+            <b class="tel_name">手机号</b>
+        </li>
+        <li class="myself_r" th:text="${phone}">
+            187****1663
+        </li>
+    </ul>
+    <ul>
+        <li class="myself_l">
+					<span class="Idcardpic">
+						<img src="../../static/assets/h5/images/IDcard.png"
+                             th:src="@{/assets/h5/images/IDcard.png}"/></span>
+            <b class="Idcard_name">身份证号</b>
+        </li>
+        <a href="material" th:if="${idcard==false}">
+            <li class="myself_r">
+                未认证
+            </li>
+        </a>
+        <li class="myself_r" th:if="${idcard!=false}" th:text="${idcard}">
+            411111111*****11111
+        </li>
+    </ul>
+    <ul>
+        <li class="myself_l">
+					<span class="weixipic">
+						<img src="../../static/assets/h5/images/weChat.png"
+                             th:src="@{/assets/h5/images/weChat.png}"/></span>
+            <b class="weixin_name">姓名</b>
+        </li>
+        <a href="material" th:if="${name==false}">
+            <li class="myself_r">
+                未认证
+            </li>
+        </a>
+        <li class="myself_r" th:if="${name!=false}" th:text="${name}">
+            张三
+        </li>
+    </ul>
+    <ul>
+        <li class="myself_l">
+					<span class="addresspic">
+						<img src="../../static/assets/h5/images/address.png" th:src="@{/assets/h5/images/address.png}"/></span>
+            <b class="adress_name">地址</b>
+        </li>
+        <a href="material" th:if="${address==false}">
+            <li class="myself_r" th:if="${address==false}">
+                未认证
+            </li>
+        </a>
+        <li class="myself_r" th:if="${address!=false}" th:text="${address}">
+            河南省义马市常新街道
+        </li>
+    </ul>
+</div>
+</body>
+
+</html>

@@ -1,0 +1,179 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <link rel="stylesheet" href="../static/assets/css/bootstrap.min.css" th:href="@{/assets/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" href="../static/assets/css/font-awesome.min.css"
+          th:href="@{/assets/css/font-awesome.min.css}"/>
+    <link rel="stylesheet" href="../static/assets/css/jquery-ui-1.10.3.full.min.css"
+          th:href="@{/assets/css/jquery-ui-1.10.3.full.min.css}"/>
+    <link rel="stylesheet" href="../static/assets/css/googleFamily.css" th:href="@{/assets/css/googleFamily.css}"/>
+    <link rel="stylesheet" href="../static/assets/css/ui.jqgrid.css" th:href="@{/assets/css/ui.jqgrid.css}"/>
+    <link rel="stylesheet" href="../static/assets/css/chosen.css" th:href="@{/assets/css/chosen.css}"/>
+    <link rel="stylesheet" href="../static/assets/css/custom.css" th:href="@{/assets/css/custom.css}"/>
+    <link rel="stylesheet" href="../static/assets/css/ace.min.css" th:href="@{/assets/css/ace.min.css}"/>
+    <link rel="stylesheet" href="../static/assets/css/ace-rtl.min.css" th:href="@{/assets/css/ace-rtl.min.css}"/>
+    <link rel="stylesheet" href="../static/assets/css/ace-skins.min.css" th:href="@{/assets/css/ace-skins.min.css}"/>
+
+    <script src="../static/assets/js/jquery-2.0.3.min.js" th:src="@{/assets/js/jquery-2.0.3.min.js}"></script>
+    <script src="../static/assets/js/wangEditor.min.js" th:src="@{/assets/js/wangEditor.min.js}"></script>
+    <title>风控管理后台</title>
+</head>
+<body>
+<div class="row">
+    <div class="col-xs-12">
+        <div class="widget-box">
+            <div class="widget-header widget-header-small">
+                <h4>协议模板</h4>
+            </div>
+            <div class="widget-body">
+                <div class="widget-body-inner" style="display: block;">
+                    <div class="widget-main">
+                        <div>
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <div class="panel panel-default" style="margin-bottom:10px;">
+                                      <!-- &lt;!&ndash; <div th:if="${status!=null}">&ndash;&gt;
+                                            <input th:value="${content}" type="hidden" id="content"/>
+                                       &lt;!&ndash; </div>&ndash;&gt;
+                                        <div id="div2"></div>
+                                        <script>
+                                            var content=$("#content").val();
+                                            //var tt=document.getElementsByClassName("SDD");
+                                            //tt.innerHTML=fffff
+                                            //console.log(tt);
+                                            $("#div2").html(content);
+                                            var E = window.wangEditor
+                                            var editor = new E('#div2')
+                                            editor.create()
+                                        </script>-->
+                                        <div id="div1" >
+                                            <h1 align="center">丞易小贷借款及服务协议</h1>
+                                            <div align="right">协议编号：<u>{PROTOCOL_CODE}</u></div>
+                                            <h2 align="center">第一部分：借款、服务信息及相关明细</h2>
+                                            <p>[特别提醒]：在借款人确认同意本合同之前，借款人应事先了解本合同借款的全部内容，同意向 XXXX 申请借款。一旦借款人在<font
+                                                    color="#ff0000">出借人及相关联网站及客户端</font>（以下简称“贷款平台”）点击接受本合同，即意味着借款人已阅读本合同所有条款，对并本合同条款的含义及相应的法律后果已全部通晓并充分理解，同意接受本合同约束。
+                                            </p>
+                                            <p>【贷款基本信息】为保护借款人的信息，本合同在贷款平台展示时隐藏部分借款人的敏感信息（本合同对借款人敏感部分信息的隐藏不影响本合同的效力）。</p>
+                                            <p>借款人:</p>
+                                            <p>证件号码：</p>
+                                            <p>证件类型：</p>
+                                            <p>借款金额： {amount}元（大写：）</p>
+                                            <p>借款期限：</p>
+                                            <p>借款利率：</p>
+                                            <p>借款平台服务费：</p>
+                                            <p>借款贷后服务费：</p>
+                                            <p>收款账户：</p>
+                                            <p>还款方式：</p>
+                                            <p>合同签署日：</p>
+                                            <p>合同签订地：</p>
+                                            <p><font color="#ff0000">注：上述借款明细部分内容可能根据借款利率的调整而调整，如有变化，以本协议签订时的玖易贷网上发布或更新的具体内容为准。</font>
+                                            </p>
+                                            <h2 align="center">第二部分：本协议相关具体条款</h2><i><b>第1条名词定义</b></i>
+                                            <p>除非上下文另有解释，下列用语具有以下含义：</p>
+                                            <p>1.1&nbsp;&nbsp;本协议：指本《丞易小贷借款协议》第一部分、第二部分及所有附件中的任何条款、 明细和信息；</p>
+                                            <p><font color="#ff0000">1.2&nbsp;&nbsp;出借人：指本协议附件一中列明的出借人，为符合中华人民共和国法律（即中国法律，不包括香港特别行政区、澳门特别行政区和台湾地区的法律法规）规定的具有完全民事权利能力和民事行为能力，能独立行使和承担协议项下权利义务的自然
+                                                人。出借人需为"玖易贷"的注册用户；</font></p>
+                                            <p>1.3&nbsp;&nbsp;借款人：指本协议第一部分中列明的借款人，为符合中国法律规定的具有完全民事权利能力和民事行为能力，能独立承担本协议项下权利义务的自然人。借款人需为
+                                                "玖易贷"的注册用户；</p>
+                                            <p>1.4&nbsp;&nbsp;众惠金服：指经营玖易贷平台的<font color="#ff0000">杭州</font>众惠金服科技有限公司；
+                                            </p>
+                                            <p>1.5&nbsp;&nbsp;玖易贷：是指众惠金服经营的提供专业信用借款服务的互联网平台；</p>
+                                            <p>1.6&nbsp;&nbsp;支付机构：指在本协议各方之间作为中介机构提供资金转移服务的银行或第三方支付结算机构； </p>
+                                            <p><font color="#ff0000">1.7&nbsp;&nbsp;借款出借日期：出借人向借款人出借的资金通过支付机构划离出借人的出借资金存管账户之日。</font>
+                                            </p><i><b>第2条
+                                            借款人承诺及出借人的权利及义务</b></i>
+                                            <p>2.1&nbsp;&nbsp;借款人各自在此确认为具有完全民事权利能力和完全民事行为能力的自然人，有权签订并履行本协议。</p>
+                                            <p>2.2&nbsp;&nbsp;借款人已认真阅读和理解本协议所有内容并自愿按本协议相关约定履行相应的权利义务。</p>
+                                            <p>2.3&nbsp;&nbsp;借款人按本协议约定的借款明细及还款明细履行还款义务。</p>
+                                            <p>2.4&nbsp;&nbsp;借款人应妥善保管自己玖易贷网站的注册用户名和密码，自行承担因注册用户名和密
+                                                码丟失、泄露或允许他人使用所产生的后果。任何一方使用借款人本人名义开户并设置了密码的借款人用以签约的账户在贷款平台所从事的所有行为均视为借款人本人行为，包括但不限于订立本合同、申请支用借款和归还借款等，该等行为的法律后果均由借款人本人承担。</p>
+                                            <p>2.5&nbsp;&nbsp;借款人承诺并保证其向众惠金服（玖易贷）提供的所有信息均为真实、准确、完整、合法和有效的，包括提供个人情况（包括但不限于姓名、身份证号、学历、联系方式、联系地址、职业
+                                                信息、联系人信息等）、在所有网络借贷信息中介机构未偿还借款信息以及借款用途等相关信息。</p>
+                                            <p>2.6&nbsp;&nbsp;借款人保证自身具有与借款金额相匹配的还款能力并依照本协议约定履行还款义务。</p>
+                                            <p>2.7&nbsp;&nbsp;借款人承诺，不得利用玖易贷平台进行信用卡套现、房地产、洗钱或其他违法、违纪行为，否则应依法承担由此产生的法律责任与后果。</p>
+                                            <b><i>第3条 合同说明 </i></b>
+                                            <p>3.1&nbsp;&nbsp;借款人与贷款人一致同意以数据电文形式订立并认同其效力。</p>
+                                            <p>3.2&nbsp;&nbsp;借款人在贷款平台确认本合同后并不导致本合同立即生效，仅在经过贷款人或贷款平台审核通过并将贷款资金划入本合同第一条约定收款账户时，本合同开始生效。</p>
+                                            <p>3.3&nbsp;&nbsp;本协议项下的附件属于本协议不可分割的组成部分。本协议任何条款的标题仅系为方便援引和阅读而设置，不得被用于解释本协议任何条款的依据。</p>
+                                            <p>3.4&nbsp;&nbsp;本协议项下借款人还款日详见贷款平台显示。如还款当月无上述日期，则该月的最后一天为当月的还款日。如还款日为法定假日或公休日，还款日不顺延。</p>
+                                            <p>3.5&nbsp;&nbsp;本协议项下借款人在到期还款日前需一次性归还本金。</p>
+                                            <p>备注：</p>
+                                            <p>&nbsp;&nbsp;（1）借款本金指上述第一部分列明的借款本金；</p>
+                                            <p>&nbsp;&nbsp;（2）管理费及贷后服务费一次性扣除，实际放款金额为借款本金扣除第一部分列示相关费用；</p>
+                                            <p>3.6&nbsp;&nbsp;借款人成功获得借款后，到期还款日前需履行还款义务。借款人<font color="#ff0000">除</font>主动发起还款外，同意授权贷款人和贷款平台，用自动扣款的方式，于到期还款日当天从绑定的银行卡中扣除应还款项。借款人应确保用户还款的绑定银行账户余额充足。借款人知晓并同意，根据系统或服务安排贷款人和贷款服务顾问有权在还款日当天（北京时间，下同）的任一时间点向借款人发起到期自动扣款，并不定期调整；且因存在分批次扣款，故每个借款人的被扣款时点可能不同。
+                                                借款人知晓并同意，到期自动还款仅系贷款人和贷款平台为方便借款人还款而提供的一项服务，其可能受网络、系统、合作银行机构等各类因素的限制而导致还款失败。故借款人应密切注意还款提示和结果，若出现自动还款失败，应及时履行主动还款的义务。因延误或拒绝还款而导致的贷款逾期损失由借款人自行承担。
+                                            </p><b><i>第4条 关于违约责任</i></b>
+                                            <p>4.1&nbsp;&nbsp;若借款人在玖易贷上显示的还款期限内未足额还款的，须按下面方式计算向玖易贷支付逾期违约金：逾期违约金=(月应还本息-实际已还本息）x逾期天数x0.002/天（逾期违约金系数）</p>
+                                            <p>4.2&nbsp;&nbsp;若借款人没有足额偿还借款本息的，所偿还之金额应按照<font
+                                                    color="#ff0000">平台管理费</font>、违约金、利息、本金之顺序偿还。</p>
+                                            <p><font color="#ff0000">4.3&nbsp;&nbsp;若借款人提供虚假资料或者故意隐瞒重要事实，
+                                                则出借人有权通过易玖贷提前终止本协议并要求借款人提前偿还本金，同时借款人须向出借人支付借款本金总额的违约金。</font></p>
+                                            <p><font color="#ff0000">4.4&nbsp;&nbsp;借款人违反本协议之相关约定，或未经出借人同意，擅自转让本协议借款债务的，借款人应向出借人支付借款本金总额10%的违约金。</font>
+                                            </p>
+                                            <p><font color="#ff0000">4.5&nbsp;&nbsp;借款人因违约而给出借人造成损失的，应承担赔偿责任。</font></p>
+                                            <p>4.6&nbsp;&nbsp;发生以下一项或几项情形时，均视为借款人违约：</p>
+                                            <p>&nbsp;&nbsp;（1）借款人违反其在本协议中所做的任何承诺或保证内容的；</p>
+                                            <p>&nbsp;&nbsp;（2）借款人的任何财产遭受没收、征用、查封、扣押、冻结等可能影响其履行能力的不利事件，且未及时对其他各方进行书面通知或不能及时提供有效补救措施的；</p>
+                                            <p>
+                                                &nbsp;&nbsp;（3）借款人的财务状况出现实质性影响其履约能力的不利变化，且未及时对其他各方进行书面通知或不能及时采取有效补救措施的。</p>
+                                            <b><i><font color="#ff0000">第5条
+                                                关于债权转让</font></i></b>
+                                            <p><font color="#ff0000">5.1&nbsp;&nbsp;出借人依据玖易贷的规则和本协议约定将本协议项下的债权转让与第三人的，由出借人委托玖易贷通过公司邮箱向借款人注册时填写的注册邮箱发送债权转让通知书，该通知书到达借款人即视为通知已经送达。</font>
+                                            </p>
+                                            <p><font color="#ff0000">5.2&nbsp;&nbsp;在出借人的债权转让后，借款人需对新债权人继续履行本协议下其对出借人的所有义务，不得以未接到债权转让通知为由拒绝履行还款义务。</font>
+                                            </p><b><i>第6条
+                                            关于法律适用及管辖</i></b>
+                                            <p>6.1&nbsp;&nbsp;适用法律。本协议的全部事项，包括但不限于本协议的效力、解释、履行以及争议
+                                                的解决均受中国法律管辖；本协议项下任一条款如与中国法律中的强制性规范相抵
+                                                触，应在该等强制性规范所不禁止的最大限度内进行解释和执行，且任何该等与强 制性规范相抵触的约定不应影响本协议其他条款的效力。</p>
+                                            <p>6.2&nbsp;&nbsp;争议管辖。双方一致同意，如发生争议，不论争议金额大小，均提交杭州仲裁委员会适用杭州仲裁委员会仲裁规则项下的简易程序进行仲裁。</p>
+                                            <p>6.3&nbsp;&nbsp;在仲裁期间，本协议中不涉及争议的条款仍须履行，各方均不得以解决争议为由拒 不履行其在本协议项下的任何义务。</p>
+                                            <b><i>第7条 还款明细</i></b>
+                                            <p>（系统生成）</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../static/assets/js/ace-extra.min.js" th:src="@{/assets/js/ace-extra.min.js}"></script>
+<!--[if lt IE 9]>
+
+<script src="../static/assets/js/html5shiv.js" th:src="@{/assets/js/html5shiv.js}"></script>
+<script src="../static/assets/js/respond.min.js" th:src="@{/assets/js/respond.min.js}"></script>
+<![endif]-->
+<script src="../static/assets/js/jqGrid/jquery.jqGrid.min.js"
+        th:src="@{/assets/js/jqGrid/jquery.jqGrid.min.js}"></script>
+<script src="../static/assets/js/jqGrid/i18n/grid.locale-en.js"
+        th:src="@{/assets/js/jqGrid/i18n/grid.locale-en.js}"></script>
+<script src="../static/assets/js/bootstrap.min.js" th:src="@{/assets/js/bootstrap.min.js}"></script>
+<script src="../static/assets/js/typeahead-bs2.min.js" th:src="@{/assets/js/typeahead-bs2.min.js}"></script>
+<!-- page specific plugin scripts -->
+<script src="../static/assets/js/fuelux/data/fuelux.tree-sampledata.js"
+        th:src="@{/assets/js/fuelux/data/fuelux.tree-sampledata.js}"></script>
+<script src="../static/assets/js/fuelux/fuelux.tree.min.js" th:src="@{/assets/js/fuelux/fuelux.tree.min.js}"></script>
+<script src="../static/assets/js/jquery-ui-1.10.3.custom.min.js"
+        th:src="@{/assets/js/jquery-ui-1.10.3.custom.min.js}"></script>
+<script src="../static/assets/js/jquery.slimscroll.min.js" th:src="@{/assets/js/jquery.slimscroll.min.js}"></script>
+<script src="../static/assets/js/chosen.jquery.min.js" th:src="@{/assets/js/chosen.jquery.min.js}"></script>
+<script src="../static/assets/js/ace-elements.min.js" th:src="@{/assets/js/ace-elements.min.js}"></script>
+<script src="../static/assets/js/ace.min.js" th:src="@{/assets/js/ace.min.js}"></script>
+<script src="../static/assets/js/md5.js" th:src="@{/assets/js/md5.js}"></script>
+<script src="../static/assets/js/custom.js" th:src="@{/assets/js/custom.js}"></script>
+<script src="../static/assets/js/jquery.messager.js" th:src="@{/assets/js/jquery.messager.js}"></script>
+<script src="../static/assets/js/layer/layer.js" th:src="@{/assets/js/layer/layer.js}"></script>
+<script src="../static/assets/js/bootbox.min.js" th:src="@{/assets/js/bootbox.min.js}"></script>
+
+<script type="text/javascript">
+    var E = window.wangEditor
+    var editor = new E('#div1')
+    editor.create()
+</script>
+</body>
+</html>

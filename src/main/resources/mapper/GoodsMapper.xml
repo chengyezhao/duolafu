@@ -1,0 +1,386 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shoumipay.dao.GoodsMapper">
+  <resultMap id="BaseResultMap" type="com.shoumipay.domain.Goods">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="alias" jdbcType="VARCHAR" property="alias" />
+    <result column="time_Limit" jdbcType="INTEGER" property="timeLimit" />
+    <result column="repayment_Type" jdbcType="INTEGER" property="repaymentType" />
+    <result column="addtime" jdbcType="TIMESTAMP" property="addtime" />
+    <result column="upptime" jdbcType="TIMESTAMP" property="upptime" />
+    <result column="uppName" jdbcType="VARCHAR" property="uppname" />
+    <result column="version" jdbcType="VARCHAR" property="version" />
+    <result column="costName" jdbcType="VARCHAR" property="costname" />
+    <result column="billing_Methods" jdbcType="INTEGER" property="billingMethods" />
+    <result column="cost" jdbcType="DECIMAL" property="cost" />
+    <result column="product_Rate" jdbcType="DECIMAL" property="productRate" />
+    <result column="total_Rate" jdbcType="DECIMAL" property="totalRate" />
+    <result column="overdue_Interest" jdbcType="DECIMAL" property="overdueInterest" />
+<result column="maxAmount" jdbcType="DECIMAL" property="maxamount" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, name, alias, time_Limit, repayment_Type, addtime, upptime, uppName, version, 
+    costName, billing_Methods, cost, product_Rate, total_Rate, overdue_Interest, maxAmount
+  </sql>
+  <select id="selectByExample" parameterType="com.shoumipay.domain.GoodsExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from cl_goods
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from cl_goods
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from cl_goods
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.shoumipay.domain.GoodsExample">
+    delete from cl_goods
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.shoumipay.domain.Goods">
+    insert into cl_goods (id, name, alias, 
+      time_Limit, repayment_Type, addtime, 
+      upptime, uppName, version, 
+      costName, billing_Methods, cost, 
+      product_Rate, total_Rate, overdue_Interest, 
+      maxAmount)
+    values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{alias,jdbcType=VARCHAR}, 
+      #{timeLimit,jdbcType=INTEGER}, #{repaymentType,jdbcType=INTEGER}, #{addtime,jdbcType=TIMESTAMP}, 
+      #{upptime,jdbcType=TIMESTAMP}, #{uppname,jdbcType=VARCHAR}, #{version,jdbcType=VARCHAR}, 
+      #{costname,jdbcType=VARCHAR}, #{billingMethods,jdbcType=INTEGER}, #{cost,jdbcType=DECIMAL}, 
+      #{productRate,jdbcType=DECIMAL}, #{totalRate,jdbcType=DECIMAL}, #{overdueInterest,jdbcType=DECIMAL}, 
+      #{maxamount,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.shoumipay.domain.Goods">
+    insert into cl_goods
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="alias != null">
+        alias,
+      </if>
+      <if test="timeLimit != null">
+        time_Limit,
+      </if>
+      <if test="repaymentType != null">
+        repayment_Type,
+      </if>
+      <if test="addtime != null">
+        addtime,
+      </if>
+      <if test="upptime != null">
+        upptime,
+      </if>
+      <if test="uppname != null">
+        uppName,
+      </if>
+      <if test="version != null">
+        version,
+      </if>
+      <if test="costname != null">
+        costName,
+      </if>
+      <if test="billingMethods != null">
+        billing_Methods,
+      </if>
+      <if test="cost != null">
+        cost,
+      </if>
+      <if test="productRate != null">
+        product_Rate,
+      </if>
+      <if test="totalRate != null">
+        total_Rate,
+      </if>
+      <if test="overdueInterest != null">
+        overdue_Interest,
+      </if>
+<if test="maxamount != null">
+        maxAmount,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="alias != null">
+        #{alias,jdbcType=VARCHAR},
+      </if>
+      <if test="timeLimit != null">
+        #{timeLimit,jdbcType=INTEGER},
+      </if>
+      <if test="repaymentType != null">
+        #{repaymentType,jdbcType=INTEGER},
+      </if>
+      <if test="addtime != null">
+        #{addtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="upptime != null">
+        #{upptime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="uppname != null">
+        #{uppname,jdbcType=VARCHAR},
+      </if>
+      <if test="version != null">
+        #{version,jdbcType=VARCHAR},
+      </if>
+      <if test="costname != null">
+        #{costname,jdbcType=VARCHAR},
+      </if>
+      <if test="billingMethods != null">
+        #{billingMethods,jdbcType=INTEGER},
+      </if>
+      <if test="cost != null">
+        #{cost,jdbcType=DECIMAL},
+      </if>
+      <if test="productRate != null">
+        #{productRate,jdbcType=DECIMAL},
+      </if>
+      <if test="totalRate != null">
+        #{totalRate,jdbcType=DECIMAL},
+      </if>
+      <if test="overdueInterest != null">
+        #{overdueInterest,jdbcType=DECIMAL},
+</if>
+      <if test="maxamount != null">
+        #{maxamount,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.shoumipay.domain.GoodsExample" resultType="java.lang.Long">
+    select count(*) from cl_goods
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update cl_goods
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.name != null">
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.alias != null">
+        alias = #{record.alias,jdbcType=VARCHAR},
+      </if>
+      <if test="record.timeLimit != null">
+        time_Limit = #{record.timeLimit,jdbcType=INTEGER},
+      </if>
+      <if test="record.repaymentType != null">
+        repayment_Type = #{record.repaymentType,jdbcType=INTEGER},
+      </if>
+      <if test="record.addtime != null">
+        addtime = #{record.addtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.upptime != null">
+        upptime = #{record.upptime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.uppname != null">
+        uppName = #{record.uppname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.version != null">
+        version = #{record.version,jdbcType=VARCHAR},
+      </if>
+      <if test="record.costname != null">
+        costName = #{record.costname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.billingMethods != null">
+        billing_Methods = #{record.billingMethods,jdbcType=INTEGER},
+      </if>
+      <if test="record.cost != null">
+        cost = #{record.cost,jdbcType=DECIMAL},
+      </if>
+      <if test="record.productRate != null">
+        product_Rate = #{record.productRate,jdbcType=DECIMAL},
+      </if>
+      <if test="record.totalRate != null">
+        total_Rate = #{record.totalRate,jdbcType=DECIMAL},
+      </if>
+      <if test="record.overdueInterest != null">
+        overdue_Interest = #{record.overdueInterest,jdbcType=DECIMAL},
+      </if>
+<if test="record.maxamount != null">
+        maxAmount = #{record.maxamount,jdbcType=DECIMAL},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update cl_goods
+    set id = #{record.id,jdbcType=BIGINT},
+      name = #{record.name,jdbcType=VARCHAR},
+      alias = #{record.alias,jdbcType=VARCHAR},
+      time_Limit = #{record.timeLimit,jdbcType=INTEGER},
+      repayment_Type = #{record.repaymentType,jdbcType=INTEGER},
+      addtime = #{record.addtime,jdbcType=TIMESTAMP},
+      upptime = #{record.upptime,jdbcType=TIMESTAMP},
+      uppName = #{record.uppname,jdbcType=VARCHAR},
+      version = #{record.version,jdbcType=VARCHAR},
+      costName = #{record.costname,jdbcType=VARCHAR},
+      billing_Methods = #{record.billingMethods,jdbcType=INTEGER},
+      cost = #{record.cost,jdbcType=DECIMAL},
+      product_Rate = #{record.productRate,jdbcType=DECIMAL},
+      total_Rate = #{record.totalRate,jdbcType=DECIMAL},
+      overdue_Interest = #{record.overdueInterest,jdbcType=DECIMAL},
+      maxAmount = #{record.maxamount,jdbcType=DECIMAL}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.shoumipay.domain.Goods">
+    update cl_goods
+    <set>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="alias != null">
+        alias = #{alias,jdbcType=VARCHAR},
+      </if>
+      <if test="timeLimit != null">
+        time_Limit = #{timeLimit,jdbcType=INTEGER},
+      </if>
+      <if test="repaymentType != null">
+        repayment_Type = #{repaymentType,jdbcType=INTEGER},
+      </if>
+      <if test="addtime != null">
+        addtime = #{addtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="upptime != null">
+        upptime = #{upptime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="uppname != null">
+        uppName = #{uppname,jdbcType=VARCHAR},
+      </if>
+      <if test="version != null">
+        version = #{version,jdbcType=VARCHAR},
+      </if>
+      <if test="costname != null">
+        costName = #{costname,jdbcType=VARCHAR},
+      </if>
+      <if test="billingMethods != null">
+        billing_Methods = #{billingMethods,jdbcType=INTEGER},
+      </if>
+      <if test="cost != null">
+        cost = #{cost,jdbcType=DECIMAL},
+      </if>
+      <if test="productRate != null">
+        product_Rate = #{productRate,jdbcType=DECIMAL},
+      </if>
+      <if test="totalRate != null">
+        total_Rate = #{totalRate,jdbcType=DECIMAL},
+      </if>
+      <if test="overdueInterest != null">
+        overdue_Interest = #{overdueInterest,jdbcType=DECIMAL},
+      </if>
+<if test="maxamount != null">
+        maxAmount = #{maxamount,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.shoumipay.domain.Goods">
+    update cl_goods
+    set name = #{name,jdbcType=VARCHAR},
+      alias = #{alias,jdbcType=VARCHAR},
+      time_Limit = #{timeLimit,jdbcType=INTEGER},
+      repayment_Type = #{repaymentType,jdbcType=INTEGER},
+      addtime = #{addtime,jdbcType=TIMESTAMP},
+      upptime = #{upptime,jdbcType=TIMESTAMP},
+      uppName = #{uppname,jdbcType=VARCHAR},
+      version = #{version,jdbcType=VARCHAR},
+      costName = #{costname,jdbcType=VARCHAR},
+      billing_Methods = #{billingMethods,jdbcType=INTEGER},
+      cost = #{cost,jdbcType=DECIMAL},
+      product_Rate = #{productRate,jdbcType=DECIMAL},
+      total_Rate = #{totalRate,jdbcType=DECIMAL},
+ overdue_Interest = #{overdueInterest,jdbcType=DECIMAL},
+      maxAmount = #{maxamount,jdbcType=DECIMAL}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <meta content="yes" name="apple-mobile-web-app-capable"/>
+    <title>哆啦付</title>
+    <link rel="stylesheet" href="../../static/assets/h5/css/reset.css" th:href="@{/assets/h5/css/reset.css}"/>
+    <script type="text/javascript" src="../../static/assets/h5/js/jquery-1.8.3.min.js"
+            th:src="@{/assets/h5/js/jquery-1.8.3.min.js}"></script>
+    <style>
+        .question {
+            width: 87%;
+            margin: 20px auto;
+        }
+
+        .question div {
+            border: 1px solid #eeeeee;
+            display: none;
+            font-size: 14px;
+            line-height: 30px;
+            background: #fff;
+            margin-top: -13px;
+            margin-bottom: 12px;
+            padding: 2% 2%;
+        }
+
+        .question div p {
+        }
+
+        .question li {
+            padding: 0 2%;
+            font-size: 16px;
+            color: #232323;
+            line-height: 50px;
+            height: 50px;
+            border: 1px solid #eeeeee;
+            background: #f2f2f2;
+            margin-bottom: 12px;
+        }
+
+        .question li.bottom_list {
+            border-bottom: 1px solid #ccc;
+        }
+
+        .question div.bottom_list {
+            border-bottom: 1px solid #ccc;
+        }
+    </style>
+</head>
+
+<body style="background: #fff;">
+<div class="question">
+    <ul>
+        <li>1.哆啦付支持哪些平台的代购？</li>
+        <div>目前我们已开通京东平台的代购通道，淘宝平台亦将于近期开放，并将陆续开放其他更多平台。也期待您将您心仪的推荐于我们进行开通。您的支持是我们最大的动力。</div>
+        <li>2.如何进行代购申请？</li>
+        <div>您成为哆啦付会员后，可在提交订单时（可有多个子订单），选择“找人代付”，并将订单信息发送到哆啦付公众号。总申请金额需大于300元。详请见：帮助中心-如何代购。</div>
+
+        <li>3.注册手机是否必须实名制？</li>
+        <div>注册账户时账户绑定的手机必须是通过实名制的，且需和您购买订单的收货人联系方式一致。</div>
+
+        <li>4.为什么提示身份证照片不合格？</li>
+        <div>
+            <p>1、请检查身份证正反面照片拍摄是否清晰，身份证是否过期或为临时身份证；</p>
+            <p>2、请检查身份证拍摄是否存在反光点遮住了信息或人脸；</p>
+            <p>3、请检查照片是否对电脑存储图片的翻拍。</p>
+        </div>
+
+        <li>5.我可以同时多次申请代购吗？</li>
+        <div>
+            您注册会员时，我们将为您提供一个总的代购额度，您账户状态正常情况下，在您的总代购额度内，即可反复使用。
+        </div>
+
+        <li>6.申请代购成功的订单应该什么时候付款？</li>
+        <div>
+            您在注册哆啦付会员时，系统将根据您的生日设定每月出账日期。请您在出账后10天内偿还您的应付账款。违约将产生违约金。如您生日为0506，则每月6号为您的账单日，到期应还时间为每月16号。若当月无对应还款日，则每月的最后一天为到期应还时间。
+        </div>
+
+        <li>7.出账后如何还应付账款？</li>
+        <div>请您点击首页-付款，选择已出账账单，根据账单金额付款即可。</div>
+
+        <li>8.是否可以提前还款？</li>
+        <div>
+            <p>1、哆啦付每个月会根据您的账单日进行结算。若您想在未出账单前还款，可在付款-未出账，进行还款。</p>
+            <p>2、当月账单产生后，在到期应还日期前，请登录您的账户，选择付款-已出账，进行付款即可。</p>
+        </div>
+
+        <li>9.账单是否可以部分还款？</li>
+        <div>
+            1、在到期应还日期前，若您未足额偿还您的账单总额，将产生违约，未还部分将按违约的计算方式收取违约金。
+        </div>
+
+        <li>10.违约后违约金怎么计算？</li>
+        <div>
+            在到期应还日期前，若您未足额偿还您的账单总额，未还部分将从应还日期后第一天开始计算，按日计收0.2%。
+        </div>
+
+        <li>11.违约后怎么还款？按什么顺序还款？</li>
+        <div>
+            若您已超期未还，建议您尽快将应付账款及违约金。还款金额，将优先归还违约的违约金、违约的账单金额，再冲抵正常账单，最后冲抵未出账单金额。
+        </div>
+
+        <li>12.总代购额度可调整吗？</li>
+        <div>我司将不定期进行额度调整。请您保持良好的使用记录，即有机会获得代购额度提升。</div>
+
+        <li>13.还款后代购额度没有恢复怎么办？</li>
+        <div>哆啦付还款后，额度都是实时恢复的，如果您发现额度未全部恢复，请您检查下您之前是否有操作过分期，分期偿还的手续费不含在哆啦付额度中，并检查是否有其他的应还费用等。
+        </div>
+        <li>14.若代购商品退货，如何处理?</li>
+        <div>若需退货，请您至相关平台进行申请。已代购成功的商品，退货后，请将商品信息告诉客服，商品金额当月您还款，服务费需按整笔订单付款比例支付一半，退还部分可冲抵下月账单。
+        </div>
+        <li>15.哆啦付服务费怎么收取？</li>
+        <div style="border-top:none;">目前，哆啦付采用阶梯式方式收费方式，用的越多，优惠越多，最低2%。详请见下。更多优惠敬请关注。
+        </div>
+    </ul>
+</div>
+<script type="text/javascript">
+    $(".question li").click(function () {
+        var tt = $(this).attr('class')
+        if (tt == "dj") {
+            $(this).css("color", "#232323");
+            $(this).next().css("display", "none")
+            $(this).removeClass("dj")
+        } else {
+            $(this).addClass("dj")
+            $(this).css("color", "#0081cd");
+            $(this).siblings("li").css("color", "#232323");
+            $(this).next().css("display", "block").siblings("div").css("display", "none");
+        }
+
+    })
+
+</script>
+</body>
+
+</html>

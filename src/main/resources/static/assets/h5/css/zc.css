@@ -1,0 +1,49 @@
+.zc_banner img {
+	width: 100%;
+}
+
+.zc_success {
+	width: 200px;
+	margin: 17px auto 35px;
+	height: 51px;
+	line-height: 51px;
+}
+
+.zc_success span {
+	float: left;
+}
+
+.zc_success span img {
+	display: block;
+	width: 51px;
+}
+
+.zc_success span.zc_text {
+	color: #3366cc;
+	font-size: 28px;
+	float: right;
+	font-family: "黑体";
+}
+
+.gz {
+	width: 100%;
+	text-align: center;
+	font-size: 15px;
+	line-height: 15px;
+	font-family: "黑体—简";
+}
+
+.qr {
+	width: 90%;
+	margin-left: 5%;
+	height: 53px;
+	line-height: 53px;
+	font-size: 18px;
+	text-align: center;
+	color: #fff;
+	background: #3e50b4;
+	border-radius: 7px;
+	border: none;
+	margin-top: 45px;
+	font-family: "黑体";
+}

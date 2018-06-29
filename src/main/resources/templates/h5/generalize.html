@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="utf-8"/>
+		<meta http-equiv="x-ua-compatible" content="ie=edge"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+		<meta name="application-name" content=""/>
+		<meta name="description" content=""/>
+		<meta name="keywords" content="" />
+		<title>哆啦付</title>
+		<link rel="stylesheet" href="../../static/assets/h5/css/reset.css" th:href="@{/assets/h5/css/reset.css}"/>
+		<link rel="stylesheet" href="../../static/assets/h5/css/zc.css" th:href="@{/assets/h5/css/zc.css}"/>
+	</head>
+	<body>
+	<div class="zc_banner">
+		<img src="../../static/assets/h5/images/banner.png" th:src="@{/assets/h5/images/banner.png}"/>
+	</div>
+	<div class="zc_success">
+		<span><img src="../../static/assets/h5/images/cleck.png" th:src="@{/assets/h5/images/cleck.png}"/></span>
+		<span class="zc_text">注册成功！</span>
+	</div>
+	<p class="gz">关注微信公众号“哆啦付”领取额度</p>
+	<button class="qr" onclick="copy('哆啦付')">复制“哆啦付”前往微信</button>
+	</body>
+<script>
+    function copy() {
+        window.clipboardData.setData('text','哆啦付');
+    }
+</script>
+</html>

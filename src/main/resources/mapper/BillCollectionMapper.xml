@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shoumipay.v2.mapper.BillCollectionMapper" >
+  <resultMap id="BaseResultMap" type="com.shoumipay.v2.domain.BillCollection" >
+    <id column="billId" property="billId" jdbcType="BIGINT" />
+    <result column="memberId" property="memberId" jdbcType="BIGINT" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="billNumber" property="billNumber" jdbcType="VARCHAR" />
+    <result column="billDate" property="billDate" jdbcType="TIMESTAMP" />
+    <result column="dueDate" property="dueDate" jdbcType="TIMESTAMP" />
+    <result column="overdueStatus" property="overdueStatus" jdbcType="VARCHAR" />
+    <result column="createdDate" property="createdDate" jdbcType="TIMESTAMP" />
+    <result column="lastUpdatedDate" property="lastUpdatedDate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    billId, memberId, status, billNumber, billDate, dueDate, overdueStatus, createdDate, 
+    lastUpdatedDate
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from bill_collection
+    where billId = #{billId,jdbcType=BIGINT}
+  </select>
+  <select id="selectByMemberId" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select
+    <include refid="Base_Column_List" />
+    from bill_collection
+    where memberId = #{memberId,jdbcType=BIGINT}
+  </select>
+  <select id="selectByBillNumber" resultMap="BaseResultMap"  >
+    select
+    <include refid="Base_Column_List" />
+    from bill_collection
+    where memberId = #{memberId,jdbcType=BIGINT} and billNumber = #{billNumber, jdbcType=VARCHAR}
+  </select>
+
+
+
+  <select id="queryList" resultMap="BaseResultMap">
+    select * from bill_collection where 1 = 1
+    <if test="memberId != null">
+        and memberId = #{memberId}
+    </if>
+  </select>
+
+
+
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from bill_collection
+    where billId = #{billId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.shoumipay.v2.domain.BillCollection" >
+    insert into bill_collection (billId, memberId, status, 
+      billNumber, billDate, dueDate, 
+      overdueStatus, createdDate, lastUpdatedDate
+      )
+    values (#{billId,jdbcType=BIGINT}, #{memberId,jdbcType=BIGINT}, #{status,jdbcType=VARCHAR},
+      #{billNumber,jdbcType=VARCHAR}, #{billDate,jdbcType=TIMESTAMP}, #{dueDate,jdbcType=TIMESTAMP}, 
+      #{overdueStatus,jdbcType=VARCHAR}, NOW(), NOW()
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.shoumipay.v2.domain.BillCollection" >
+    insert into bill_collection
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="billId != null" >
+        billId,
+      </if>
+      <if test="memberId != null" >
+        memberId,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="billNumber != null" >
+        billNumber,
+      </if>
+      <if test="billDate != null" >
+        billDate,
+      </if>
+      <if test="dueDate != null" >
+        dueDate,
+      </if>
+      <if test="overdueStatus != null" >
+        overdueStatus,
+      </if>
+      <if test="createdDate != null" >
+        createdDate,
+      </if>
+      <if test="lastUpdatedDate != null" >
+        lastUpdatedDate,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="billId != null" >
+        #{billid,jdbcType=BIGINT},
+      </if>
+      <if test="memberId != null" >
+        #{memberid,jdbcType=BIGINT},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="billNumber != null" >
+        #{billNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="billDate != null" >
+        #{billDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dueDate != null" >
+        #{dueDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="overdueStatus != null" >
+        #{overdueStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="createdDate != null" >
+        #{createdDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastUpdatedDate != null" >
+        #{lastUpdatedDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.shoumipay.v2.domain.BillCollection" >
+    update bill_collection
+    <set >
+      <if test="memberId != null" >
+        memberId = #{memberId,jdbcType=BIGINT},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="billNumber != null" >
+        billNumber = #{billNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="billDate != null" >
+        billDate = #{billDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dueDate != null" >
+        dueDate = #{dueDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="overdueStatus != null" >
+        overdueStatus = #{overdueStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="createdDate != null" >
+        createdDate = #{createdDate,jdbcType=TIMESTAMP},
+      </if>
+      lastUpdatedDate = NOW(),
+    </set>
+    where billId = #{billId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.shoumipay.v2.domain.BillCollection" >
+    update bill_collection
+    set memberId = #{memberId,jdbcType=BIGINT},
+      status = #{status,jdbcType=VARCHAR},
+      billNumber = #{billNumber,jdbcType=VARCHAR},
+      billDate = #{billDate,jdbcType=TIMESTAMP},
+      dueDate = #{dueDate,jdbcType=TIMESTAMP},
+      overdueStatus = #{overdueStatus,jdbcType=VARCHAR},
+      createdDate = #{createdDate,jdbcType=TIMESTAMP},
+      lastUpdatedDate = NOW()
+    where billId = #{billId,jdbcType=BIGINT}
+  </update>
+</mapper>

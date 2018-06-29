@@ -1,0 +1,435 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shoumipay.dao.BankAccountMapper">
+  <resultMap id="BaseResultMap" type="com.shoumipay.domain.BankAccount">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="createTime" jdbcType="TIMESTAMP" property="createtime" />
+    <result column="Merchant_Order_Number" jdbcType="VARCHAR" property="merchantOrderNumber" />
+    <result column="Merchant_ID" jdbcType="VARCHAR" property="merchantId" />
+    <result column="Time_of_Order_Created" jdbcType="TIMESTAMP" property="timeOfOrderCreated" />
+    <result column="Merchant_Business_Type" jdbcType="VARCHAR" property="merchantBusinessType" />
+    <result column="Lianlian_Payment_Number" jdbcType="VARCHAR" property="lianlianPaymentNumber" />
+    <result column="Lianlian_Settlement_Date" jdbcType="TIMESTAMP" property="lianlianSettlementDate" />
+    <result column="Transaction_Amount" jdbcType="DECIMAL" property="transactionAmount" />
+    <result column="Type_Flag" jdbcType="INTEGER" property="typeFlag" />
+    <result column="Transaction_Status" jdbcType="INTEGER" property="transactionStatus" />
+    <result column="Update_Date" jdbcType="TIMESTAMP" property="updateDate" />
+    <result column="Service_Fee" jdbcType="DECIMAL" property="serviceFee" />
+    <result column="Payment_Product" jdbcType="VARCHAR" property="paymentProduct" />
+    <result column="Payment_Method" jdbcType="VARCHAR" property="paymentMethod" />
+    <result column="Order_Info" jdbcType="VARCHAR" property="orderInfo" />
+    <result column="Beneficiary_Bank" jdbcType="VARCHAR" property="beneficiaryBank" />
+    <result column="Bank_Account_Number" jdbcType="VARCHAR" property="bankAccountNumber" />
+    <result column="Beneficiary" jdbcType="VARCHAR" property="beneficiary" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, createTime, Merchant_Order_Number, Merchant_ID, Time_of_Order_Created, Merchant_Business_Type, 
+    Lianlian_Payment_Number, Lianlian_Settlement_Date, Transaction_Amount, Type_Flag, 
+    Transaction_Status, Update_Date, Service_Fee, Payment_Product, Payment_Method, Order_Info, 
+    Beneficiary_Bank, Bank_Account_Number, Beneficiary
+  </sql>
+  <select id="selectByExample" parameterType="com.shoumipay.domain.BankAccountExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'false' as QUERYID,
+    <include refid="Base_Column_List" />
+    from cl_bankaccount
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from cl_bankaccount
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from cl_bankaccount
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.shoumipay.domain.BankAccountExample">
+    delete from cl_bankaccount
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.shoumipay.domain.BankAccount">
+    insert into cl_bankaccount (id, createTime, Merchant_Order_Number, 
+      Merchant_ID, Time_of_Order_Created, Merchant_Business_Type, 
+      Lianlian_Payment_Number, Lianlian_Settlement_Date, 
+      Transaction_Amount, Type_Flag, Transaction_Status, 
+      Update_Date, Service_Fee, Payment_Product, 
+      Payment_Method, Order_Info, Beneficiary_Bank, 
+      Bank_Account_Number, Beneficiary)
+    values (#{id,jdbcType=BIGINT}, #{createtime,jdbcType=TIMESTAMP}, #{merchantOrderNumber,jdbcType=VARCHAR}, 
+      #{merchantId,jdbcType=VARCHAR}, #{timeOfOrderCreated,jdbcType=TIMESTAMP}, #{merchantBusinessType,jdbcType=VARCHAR}, 
+      #{lianlianPaymentNumber,jdbcType=VARCHAR}, #{lianlianSettlementDate,jdbcType=TIMESTAMP}, 
+      #{transactionAmount,jdbcType=DECIMAL}, #{typeFlag,jdbcType=INTEGER}, #{transactionStatus,jdbcType=INTEGER}, 
+      #{updateDate,jdbcType=TIMESTAMP}, #{serviceFee,jdbcType=DECIMAL}, #{paymentProduct,jdbcType=VARCHAR}, 
+      #{paymentMethod,jdbcType=VARCHAR}, #{orderInfo,jdbcType=VARCHAR}, #{beneficiaryBank,jdbcType=VARCHAR}, 
+      #{bankAccountNumber,jdbcType=VARCHAR}, #{beneficiary,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.shoumipay.domain.BankAccount">
+    insert into cl_bankaccount
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="createtime != null">
+        createTime,
+      </if>
+      <if test="merchantOrderNumber != null">
+        Merchant_Order_Number,
+      </if>
+      <if test="merchantId != null">
+        Merchant_ID,
+      </if>
+      <if test="timeOfOrderCreated != null">
+        Time_of_Order_Created,
+      </if>
+      <if test="merchantBusinessType != null">
+        Merchant_Business_Type,
+      </if>
+      <if test="lianlianPaymentNumber != null">
+        Lianlian_Payment_Number,
+      </if>
+      <if test="lianlianSettlementDate != null">
+        Lianlian_Settlement_Date,
+      </if>
+      <if test="transactionAmount != null">
+        Transaction_Amount,
+      </if>
+      <if test="typeFlag != null">
+        Type_Flag,
+      </if>
+      <if test="transactionStatus != null">
+        Transaction_Status,
+      </if>
+      <if test="updateDate != null">
+        Update_Date,
+      </if>
+      <if test="serviceFee != null">
+        Service_Fee,
+      </if>
+      <if test="paymentProduct != null">
+        Payment_Product,
+      </if>
+      <if test="paymentMethod != null">
+        Payment_Method,
+      </if>
+      <if test="orderInfo != null">
+        Order_Info,
+      </if>
+      <if test="beneficiaryBank != null">
+        Beneficiary_Bank,
+      </if>
+      <if test="bankAccountNumber != null">
+        Bank_Account_Number,
+      </if>
+      <if test="beneficiary != null">
+        Beneficiary,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="createtime != null">
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="merchantOrderNumber != null">
+        #{merchantOrderNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="merchantId != null">
+        #{merchantId,jdbcType=VARCHAR},
+      </if>
+      <if test="timeOfOrderCreated != null">
+        #{timeOfOrderCreated,jdbcType=TIMESTAMP},
+      </if>
+      <if test="merchantBusinessType != null">
+        #{merchantBusinessType,jdbcType=VARCHAR},
+      </if>
+      <if test="lianlianPaymentNumber != null">
+        #{lianlianPaymentNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="lianlianSettlementDate != null">
+        #{lianlianSettlementDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="transactionAmount != null">
+        #{transactionAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="typeFlag != null">
+        #{typeFlag,jdbcType=INTEGER},
+      </if>
+      <if test="transactionStatus != null">
+        #{transactionStatus,jdbcType=INTEGER},
+      </if>
+      <if test="updateDate != null">
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="serviceFee != null">
+        #{serviceFee,jdbcType=DECIMAL},
+      </if>
+      <if test="paymentProduct != null">
+        #{paymentProduct,jdbcType=VARCHAR},
+      </if>
+      <if test="paymentMethod != null">
+        #{paymentMethod,jdbcType=VARCHAR},
+      </if>
+      <if test="orderInfo != null">
+        #{orderInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="beneficiaryBank != null">
+        #{beneficiaryBank,jdbcType=VARCHAR},
+      </if>
+      <if test="bankAccountNumber != null">
+        #{bankAccountNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="beneficiary != null">
+        #{beneficiary,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.shoumipay.domain.BankAccountExample" resultType="java.lang.Long">
+    select count(*) from cl_bankaccount
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update cl_bankaccount
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.createtime != null">
+        createTime = #{record.createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.merchantOrderNumber != null">
+        Merchant_Order_Number = #{record.merchantOrderNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.merchantId != null">
+        Merchant_ID = #{record.merchantId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.timeOfOrderCreated != null">
+        Time_of_Order_Created = #{record.timeOfOrderCreated,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.merchantBusinessType != null">
+        Merchant_Business_Type = #{record.merchantBusinessType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.lianlianPaymentNumber != null">
+        Lianlian_Payment_Number = #{record.lianlianPaymentNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.lianlianSettlementDate != null">
+        Lianlian_Settlement_Date = #{record.lianlianSettlementDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.transactionAmount != null">
+        Transaction_Amount = #{record.transactionAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="record.typeFlag != null">
+        Type_Flag = #{record.typeFlag,jdbcType=INTEGER},
+      </if>
+      <if test="record.transactionStatus != null">
+        Transaction_Status = #{record.transactionStatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.updateDate != null">
+        Update_Date = #{record.updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.serviceFee != null">
+        Service_Fee = #{record.serviceFee,jdbcType=DECIMAL},
+      </if>
+      <if test="record.paymentProduct != null">
+        Payment_Product = #{record.paymentProduct,jdbcType=VARCHAR},
+      </if>
+      <if test="record.paymentMethod != null">
+        Payment_Method = #{record.paymentMethod,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderInfo != null">
+        Order_Info = #{record.orderInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.beneficiaryBank != null">
+        Beneficiary_Bank = #{record.beneficiaryBank,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bankAccountNumber != null">
+        Bank_Account_Number = #{record.bankAccountNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.beneficiary != null">
+        Beneficiary = #{record.beneficiary,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update cl_bankaccount
+    set id = #{record.id,jdbcType=BIGINT},
+      createTime = #{record.createtime,jdbcType=TIMESTAMP},
+      Merchant_Order_Number = #{record.merchantOrderNumber,jdbcType=VARCHAR},
+      Merchant_ID = #{record.merchantId,jdbcType=VARCHAR},
+      Time_of_Order_Created = #{record.timeOfOrderCreated,jdbcType=TIMESTAMP},
+      Merchant_Business_Type = #{record.merchantBusinessType,jdbcType=VARCHAR},
+      Lianlian_Payment_Number = #{record.lianlianPaymentNumber,jdbcType=VARCHAR},
+      Lianlian_Settlement_Date = #{record.lianlianSettlementDate,jdbcType=TIMESTAMP},
+      Transaction_Amount = #{record.transactionAmount,jdbcType=DECIMAL},
+      Type_Flag = #{record.typeFlag,jdbcType=INTEGER},
+      Transaction_Status = #{record.transactionStatus,jdbcType=INTEGER},
+      Update_Date = #{record.updateDate,jdbcType=TIMESTAMP},
+      Service_Fee = #{record.serviceFee,jdbcType=DECIMAL},
+      Payment_Product = #{record.paymentProduct,jdbcType=VARCHAR},
+      Payment_Method = #{record.paymentMethod,jdbcType=VARCHAR},
+      Order_Info = #{record.orderInfo,jdbcType=VARCHAR},
+      Beneficiary_Bank = #{record.beneficiaryBank,jdbcType=VARCHAR},
+      Bank_Account_Number = #{record.bankAccountNumber,jdbcType=VARCHAR},
+      Beneficiary = #{record.beneficiary,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.shoumipay.domain.BankAccount">
+    update cl_bankaccount
+    <set>
+      <if test="createtime != null">
+        createTime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="merchantOrderNumber != null">
+        Merchant_Order_Number = #{merchantOrderNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="merchantId != null">
+        Merchant_ID = #{merchantId,jdbcType=VARCHAR},
+      </if>
+      <if test="timeOfOrderCreated != null">
+        Time_of_Order_Created = #{timeOfOrderCreated,jdbcType=TIMESTAMP},
+      </if>
+      <if test="merchantBusinessType != null">
+        Merchant_Business_Type = #{merchantBusinessType,jdbcType=VARCHAR},
+      </if>
+      <if test="lianlianPaymentNumber != null">
+        Lianlian_Payment_Number = #{lianlianPaymentNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="lianlianSettlementDate != null">
+        Lianlian_Settlement_Date = #{lianlianSettlementDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="transactionAmount != null">
+        Transaction_Amount = #{transactionAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="typeFlag != null">
+        Type_Flag = #{typeFlag,jdbcType=INTEGER},
+      </if>
+      <if test="transactionStatus != null">
+        Transaction_Status = #{transactionStatus,jdbcType=INTEGER},
+      </if>
+      <if test="updateDate != null">
+        Update_Date = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="serviceFee != null">
+        Service_Fee = #{serviceFee,jdbcType=DECIMAL},
+      </if>
+      <if test="paymentProduct != null">
+        Payment_Product = #{paymentProduct,jdbcType=VARCHAR},
+      </if>
+      <if test="paymentMethod != null">
+        Payment_Method = #{paymentMethod,jdbcType=VARCHAR},
+      </if>
+      <if test="orderInfo != null">
+        Order_Info = #{orderInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="beneficiaryBank != null">
+        Beneficiary_Bank = #{beneficiaryBank,jdbcType=VARCHAR},
+      </if>
+      <if test="bankAccountNumber != null">
+        Bank_Account_Number = #{bankAccountNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="beneficiary != null">
+        Beneficiary = #{beneficiary,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.shoumipay.domain.BankAccount">
+    update cl_bankaccount
+    set createTime = #{createtime,jdbcType=TIMESTAMP},
+      Merchant_Order_Number = #{merchantOrderNumber,jdbcType=VARCHAR},
+      Merchant_ID = #{merchantId,jdbcType=VARCHAR},
+      Time_of_Order_Created = #{timeOfOrderCreated,jdbcType=TIMESTAMP},
+      Merchant_Business_Type = #{merchantBusinessType,jdbcType=VARCHAR},
+      Lianlian_Payment_Number = #{lianlianPaymentNumber,jdbcType=VARCHAR},
+      Lianlian_Settlement_Date = #{lianlianSettlementDate,jdbcType=TIMESTAMP},
+      Transaction_Amount = #{transactionAmount,jdbcType=DECIMAL},
+      Type_Flag = #{typeFlag,jdbcType=INTEGER},
+      Transaction_Status = #{transactionStatus,jdbcType=INTEGER},
+      Update_Date = #{updateDate,jdbcType=TIMESTAMP},
+      Service_Fee = #{serviceFee,jdbcType=DECIMAL},
+      Payment_Product = #{paymentProduct,jdbcType=VARCHAR},
+      Payment_Method = #{paymentMethod,jdbcType=VARCHAR},
+      Order_Info = #{orderInfo,jdbcType=VARCHAR},
+      Beneficiary_Bank = #{beneficiaryBank,jdbcType=VARCHAR},
+      Bank_Account_Number = #{bankAccountNumber,jdbcType=VARCHAR},
+      Beneficiary = #{beneficiary,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

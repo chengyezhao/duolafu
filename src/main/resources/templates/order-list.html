@@ -1,0 +1,700 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <link rel="stylesheet" href="../static/assets/css/bootstrap.min.css" th:href="@{/assets/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" href="../static/assets/css/font-awesome.min.css"
+          th:href="@{/assets/css/font-awesome.min.css}"/>
+    <link rel="stylesheet" href="../static/assets/css/jquery-ui-1.10.3.full.min.css"
+          th:href="@{/assets/css/jquery-ui-1.10.3.full.min.css}"/>
+    <link rel="stylesheet" href="../static/assets/css/datepicker.css" th:href="@{/assets/css/datepicker.css}"/>
+    <link rel="stylesheet" href="../static/assets/css/googleFamily.css" th:href="@{/assets/css/googleFamily.css}"/>
+    <link rel="stylesheet" href="../static/assets/css/ui.jqgrid.css" th:href="@{/assets/css/ui.jqgrid.css}"/>
+    <link rel="stylesheet" href="../static/assets/css/chosen.css" th:href="@{/assets/css/chosen.css}"/>
+    <link rel="stylesheet" href="../static/assets/css/custom.css" th:href="@{/assets/css/custom.css}"/>
+    <link rel="stylesheet" href="../static/assets/css/ace.min.css" th:href="@{/assets/css/ace.min.css}"/>
+    <link rel="stylesheet" href="../static/assets/css/ace-rtl.min.css" th:href="@{/assets/css/ace-rtl.min.css}"/>
+    <link rel="stylesheet" href="../static/assets/css/ace-skins.min.css" th:href="@{/assets/css/ace-skins.min.css}"/>
+    <script src="../static/assets/js/jquery-2.0.3.min.js" th:src="@{/assets/js/jquery-2.0.3.min.js}"></script>
+    <title>风控管理后台</title>
+    <script type="text/javascript">
+        /*<![CDATA[*/
+
+
+        function repaymentPlan(id) {
+            var grid_data = "";
+            $.post("getRepaymentPlanByOrderId", {"orderId": id},
+                function (data) {
+                    $("#repayDiv").html("<table id=\"grid-table1\"></table>\n" +
+                        "<div id=\"grid-pager1\"></div>\n" +
+                        "<script type=\"text/javascript\">\n" +
+                        "var $path_base = \"/\";" +
+                        " <\/script> ");
+                    grid_data = data;
+                    jQuery(function ($) {
+                        var grid_selector = "#grid-table1";
+                        var pager_selector = "#grid-pager1";
+                        jQuery(grid_selector).jqGrid({
+                            //direction: "rtl",
+                            data: grid_data,
+                            datatype: "local",
+                            height: 400,
+                            colNames: ['期次', '应还金额', '应还本金',
+                                '应还利息', '结清时间'],
+                            colModel: [
+                                {
+                                    name: 'repaymentPlanTimeLimit',
+                                    index: 'repaymentPlanTimeLimit',
+                                    width: 80
+                                },
+                                {
+                                    name: 'repaymentPlanTimeLimit',
+                                    index: 'repaymentPlanTimeLimit',
+                                    width: 80
+                                },
+                                {name: 'repaymentPlanCapital', index: 'repaymentPlanCapital', width: 80},
+                                {name: 'repaymentPlanInterest', index: 'repaymentPlanInterest', width: 80},
+                                {name: 'repaymentPlanEndTime', index: 'repaymentPlanEndTime', width: 80}
+                            ],
+                            viewrecords: true,
+                            rowNum: 10,
+                            rowList: [10, 20, 30, 100],
+                            multiselect: false,
+                            multiboxonly: false,
+                            autowidth: true
+
+                        });
+                        //navButtons
+                        jQuery(grid_selector).jqGrid('navGrid', pager_selector,
+                            { 	//navbar options
+                                edit: true,
+                                editicon: 'icon-pencil blue',
+                                add: true,
+                                addicon: 'icon-plus-sign purple',
+                                del: true,
+                                delicon: 'icon-trash red',
+                                search: true,
+                                searchicon: 'icon-search orange',
+                                refresh: true,
+                                refreshicon: 'icon-refresh green',
+                                view: true,
+                                viewicon: 'icon-zoom-in grey',
+                            },
+                            {
+                                //edit record form
+                                //closeAfterEdit: true,
+                                recreateForm: true,
+                                beforeShowForm: function (e) {
+                                    var form = $(e[0]);
+                                    form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar').wrapInner('<div class="widget-header" />')
+                                    style_edit_form(form);
+                                }
+                            },
+                            {
+                                //new record form
+                                closeAfterAdd: true,
+                                recreateForm: true,
+                                viewPagerButtons: false,
+                                beforeShowForm: function (e) {
+                                    var form = $(e[0]);
+                                    form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar').wrapInner('<div class="widget-header" />')
+                                    style_edit_form(form);
+                                }
+                            },
+                            {
+                                //delete record form
+                                recreateForm: true,
+                                beforeShowForm: function (e) {
+                                    var form = $(e[0]);
+                                    if (form.data('styled')) return false;
+
+                                    form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar').wrapInner('<div class="widget-header" />')
+                                    style_delete_form(form);
+
+                                    form.data('styled', true);
+                                },
+                                onClick: function (e) {
+                                    alert(1);
+                                }
+                            },
+                            {
+                                //search form
+                                recreateForm: true,
+                                afterShowSearch: function (e) {
+                                    var form = $(e[0]);
+                                    form.closest('.ui-jqdialog').find('.ui-jqdialog-title').wrap('<div class="widget-header" />')
+                                    style_search_form(form);
+                                },
+                                afterRedraw: function () {
+                                    style_search_filters($(this));
+                                }
+                                ,
+                                multipleSearch: true,
+                                /**
+                                 multipleGroup:true,
+                                 showQuery: true
+                                 */
+                            },
+                            {
+                                //view record form
+                                recreateForm: true,
+                                beforeShowForm: function (e) {
+                                    var form = $(e[0]);
+                                    form.closest('.ui-jqdialog').find('.ui-jqdialog-title').wrap('<div class="widget-header" />')
+                                }
+                            }
+                        )
+                        function style_edit_form(form) {
+                            //enable datepicker on "sdate" field and switches for "stock" field
+                            form.find('input[name=sdate]').datepicker({format: 'yyyy-mm-dd', autoclose: true})
+                                .end().find('input[name=stock]')
+                                .addClass('ace ace-switch ace-switch-5').wrap('<label class="inline" />').after('<span class="lbl"></span>');
+                            //update buttons classes
+                            var buttons = form.next().find('.EditButton .fm-button');
+                            buttons.addClass('btn btn-sm').find('[class*="-icon"]').remove();//ui-icon, s-icon
+                            buttons.eq(0).addClass('btn-primary').prepend('<i class="icon-ok"></i>');
+                            buttons.eq(1).prepend('<i class="icon-remove"></i>')
+
+                            buttons = form.next().find('.navButton a');
+                            buttons.find('.ui-icon').remove();
+                            buttons.eq(0).append('<i class="icon-chevron-left"></i>');
+                            buttons.eq(1).append('<i class="icon-chevron-right"></i>');
+                        }
+
+                        function style_delete_form(form) {
+                            var buttons = form.next().find('.EditButton .fm-button');
+                            buttons.addClass('btn btn-sm').find('[class*="-icon"]').remove();//ui-icon, s-icon
+                            buttons.eq(0).addClass('btn-danger').prepend('<i class="icon-trash"></i>');
+                            buttons.eq(1).prepend('<i class="icon-remove"></i>')
+                        }
+
+                        function style_search_filters(form) {
+                            form.find('.delete-rule').val('X');
+                            form.find('.add-rule').addClass('btn btn-xs btn-primary');
+                            form.find('.add-group').addClass('btn btn-xs btn-success');
+                            form.find('.delete-group').addClass('btn btn-xs btn-danger');
+                        }
+
+                        function style_search_form(form) {
+                            var dialog = form.closest('.ui-jqdialog');
+                            var buttons = dialog.find('.EditTable')
+                            buttons.find('.EditButton a[id*="_reset"]').addClass('btn btn-sm btn-info').find('.ui-icon').attr('class', 'icon-retweet');
+                            buttons.find('.EditButton a[id*="_query"]').addClass('btn btn-sm btn-inverse').find('.ui-icon').attr('class', 'icon-comment-alt');
+                            buttons.find('.EditButton a[id*="_search"]').addClass('btn btn-sm btn-purple').find('.ui-icon').attr('class', 'icon-search');
+                        }
+                    });
+                }, "json");
+            $('#myModalRepayLabel').text('还款信息');
+            $("#repayModal").modal({
+                keyboard: false,
+                show: true,
+                backdrop: "static"
+            });
+        }
+
+        function makeLoans(id) {
+            var grid_data = "";
+            $.post("getMakeLoansByOrderId", {"orderId": id},
+                function (data) {
+                    $("#makeLoansDiv").html("<table id=\"grid-table2\"></table>\n" +
+                        "<div id=\"grid-pager2\"></div>\n" +
+                        "<script type=\"text/javascript\">\n" +
+                        "var $path_base = \"/\";" +
+                        " <\/script> ");
+                    grid_data = data;
+                    jQuery(function ($) {
+                        var grid_selector = "#grid-table2";
+                        var pager_selector = "#grid-pager2";
+                        jQuery(grid_selector).jqGrid({
+                            //direction: "rtl",
+                            data: grid_data,
+                            datatype: "local",
+                            height: 400,
+                            colNames: ['借款时间', '金额', '到期时间',
+                                '结清时间', '期限', '还款方式', '订单状态',
+                                '放款流水号', '放款机构代码', '放款银行卡',
+                                '产品id', '产品码', '日利率', '平台服务费',
+                                '贷后管理费', '期间费', '逾期利率'],
+                            colModel: [
+                                {name: 'makeLoansCreateTime', index: 'makeLoansCreateTime', width: 80},
+                                {name: 'makeLoansAmount', index: 'makeLoansAmount', width: 80},
+                                {name: 'makeLoansExpirationTime', index: 'makeLoansExpirationTime', width: 80},
+                                {name: 'makeLoansClosingTime', index: 'makeLoansClosingTime', width: 80},
+                                {name: 'makeLoansTimeLimit', index: 'makeLoansTimeLimit', width: 80},
+                                {name: 'makeLoansPaymentMethod', index: 'makeLoansPaymentMethod', width: 80},
+                                {name: 'makeLoansStatus', index: 'makeLoansStatus', width: 80},
+                                {name: 'makeLoansSerialNumber', index: 'makeLoansSerialNumber', width: 80},
+                                {name: 'makeLoansInstitutionCode', index: 'makeLoansInstitutionCode', width: 80},
+                                {name: 'makeLoansCardid', index: 'makeLoansCardid', width: 80},
+                                {name: 'makeLoansId', index: 'makeLoansId', width: 80},
+                                {name: 'makeLoansCode', index: 'makeLoansCode', width: 80},
+                                {name: 'makeLoansDayRate', index: 'makeLoansDayRate', width: 80},
+                                {name: 'makeLoansServiceCost', index: 'makeLoansServiceCost', width: 80},
+                                {name: 'makeLoansManageCost', index: 'makeLoansManageCost', width: 80},
+                                {name: 'makeLoansTimeCost', index: 'makeLoansTimeCost', width: 80},
+                                {name: 'makeLoansOverdueRate', index: 'makeLoansOverdueRate', width: 80}
+                            ],
+                            viewrecords: true,
+                            rowNum: 10,
+                            rowList: [10, 20, 30, 100],
+                            multiselect: false,
+                            multiboxonly: false,
+                            autowidth: true
+
+                        });
+                        //navButtons
+                        jQuery(grid_selector).jqGrid('navGrid', pager_selector,
+                            { 	//navbar options
+                                edit: true,
+                                editicon: 'icon-pencil blue',
+                                add: true,
+                                addicon: 'icon-plus-sign purple',
+                                del: true,
+                                delicon: 'icon-trash red',
+                                search: true,
+                                searchicon: 'icon-search orange',
+                                refresh: true,
+                                refreshicon: 'icon-refresh green',
+                                view: true,
+                                viewicon: 'icon-zoom-in grey',
+                            },
+                            {
+                                //edit record form
+                                //closeAfterEdit: true,
+                                recreateForm: true,
+                                beforeShowForm: function (e) {
+                                    var form = $(e[0]);
+                                    form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar').wrapInner('<div class="widget-header" />')
+                                    style_edit_form(form);
+                                }
+                            },
+                            {
+                                //new record form
+                                closeAfterAdd: true,
+                                recreateForm: true,
+                                viewPagerButtons: false,
+                                beforeShowForm: function (e) {
+                                    var form = $(e[0]);
+                                    form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar').wrapInner('<div class="widget-header" />')
+                                    style_edit_form(form);
+                                }
+                            },
+                            {
+                                //delete record form
+                                recreateForm: true,
+                                beforeShowForm: function (e) {
+                                    var form = $(e[0]);
+                                    if (form.data('styled')) return false;
+
+                                    form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar').wrapInner('<div class="widget-header" />')
+                                    style_delete_form(form);
+
+                                    form.data('styled', true);
+                                },
+                                onClick: function (e) {
+                                    alert(1);
+                                }
+                            },
+                            {
+                                //search form
+                                recreateForm: true,
+                                afterShowSearch: function (e) {
+                                    var form = $(e[0]);
+                                    form.closest('.ui-jqdialog').find('.ui-jqdialog-title').wrap('<div class="widget-header" />')
+                                    style_search_form(form);
+                                },
+                                afterRedraw: function () {
+                                    style_search_filters($(this));
+                                }
+                                ,
+                                multipleSearch: true,
+                                /**
+                                 multipleGroup:true,
+                                 showQuery: true
+                                 */
+                            },
+                            {
+                                //view record form
+                                recreateForm: true,
+                                beforeShowForm: function (e) {
+                                    var form = $(e[0]);
+                                    form.closest('.ui-jqdialog').find('.ui-jqdialog-title').wrap('<div class="widget-header" />')
+                                }
+                            }
+                        )
+
+
+                        function style_edit_form(form) {
+                            //enable datepicker on "sdate" field and switches for "stock" field
+                            form.find('input[name=sdate]').datepicker({format: 'yyyy-mm-dd', autoclose: true})
+                                .end().find('input[name=stock]')
+                                .addClass('ace ace-switch ace-switch-5').wrap('<label class="inline" />').after('<span class="lbl"></span>');
+
+                            //update buttons classes
+                            var buttons = form.next().find('.EditButton .fm-button');
+                            buttons.addClass('btn btn-sm').find('[class*="-icon"]').remove();//ui-icon, s-icon
+                            buttons.eq(0).addClass('btn-primary').prepend('<i class="icon-ok"></i>');
+                            buttons.eq(1).prepend('<i class="icon-remove"></i>')
+
+                            buttons = form.next().find('.navButton a');
+                            buttons.find('.ui-icon').remove();
+                            buttons.eq(0).append('<i class="icon-chevron-left"></i>');
+                            buttons.eq(1).append('<i class="icon-chevron-right"></i>');
+                        }
+
+                        function style_delete_form(form) {
+                            var buttons = form.next().find('.EditButton .fm-button');
+                            buttons.addClass('btn btn-sm').find('[class*="-icon"]').remove();//ui-icon, s-icon
+                            buttons.eq(0).addClass('btn-danger').prepend('<i class="icon-trash"></i>');
+                            buttons.eq(1).prepend('<i class="icon-remove"></i>')
+                        }
+
+                        function style_search_filters(form) {
+                            form.find('.delete-rule').val('X');
+                            form.find('.add-rule').addClass('btn btn-xs btn-primary');
+                            form.find('.add-group').addClass('btn btn-xs btn-success');
+                            form.find('.delete-group').addClass('btn btn-xs btn-danger');
+                        }
+
+                        function style_search_form(form) {
+                            var dialog = form.closest('.ui-jqdialog');
+                            var buttons = dialog.find('.EditTable')
+                            buttons.find('.EditButton a[id*="_reset"]').addClass('btn btn-sm btn-info').find('.ui-icon').attr('class', 'icon-retweet');
+                            buttons.find('.EditButton a[id*="_query"]').addClass('btn btn-sm btn-inverse').find('.ui-icon').attr('class', 'icon-comment-alt');
+                            buttons.find('.EditButton a[id*="_search"]').addClass('btn btn-sm btn-purple').find('.ui-icon').attr('class', 'icon-search');
+                        }
+                    });
+                }, "json");
+            $('#myModalMakeLoansLabel').text('放款信息');
+            $("#makeLoansModal").modal({
+                keyboard: false,
+                show: true,
+                backdrop: "static"
+            });
+        }
+
+        function collection(id) {
+            var grid_data = "";
+            $("#repayDiv").html();
+            $("#makeLoansDiv").html();
+            $("#collectionDiv").html();
+            $.post("getCollectionByOrderId", {"orderId": id},
+                function (data) {
+                    $("#collectionDiv").html("<table id=\"grid-table3\"></table>\n" +
+                        "<div id=\"grid-pager3\"></div>\n" +
+                        "<script type=\"text/javascript\">\n" +
+                        "var $path_base = \"/\";" +
+                        " <\/script> ");
+                    grid_data = data;
+                    jQuery(function ($) {
+                        var grid_selector = "#grid-table3";
+                        var pager_selector = "#grid-pager3";
+                        jQuery(grid_selector).jqGrid({
+                            //direction: "rtl",
+                            data: grid_data,
+                            datatype: "local",
+                            height: 400,
+                            colNames: ['期次', '应还金额', '应还本金',
+                                '应还利息', '入催时间', '入催金额', '催收人',
+                                '催收机构代码'],
+                            colModel: [
+                                {
+                                    name: 'repaymentCollectionTimeLimit',
+                                    index: 'repaymentCollectionTimeLimit',
+                                    width: 80
+                                },
+                                {
+                                    name: 'repaymentCollectionAmount',
+                                    index: 'repaymentCollectionAmount',
+                                    width: 80
+                                },
+                                {name: 'repaymentCollectionCapital', index: 'repaymentCollectionCapital', width: 80},
+                                {name: 'repaymentCollectionInterest', index: 'repaymentCollectionInterest', width: 80},
+                                {name: 'repaymentCollectionAddTime', index: 'repaymentCollectionAddTime', width: 80},
+                                {name: 'repaymentCollectionIncome', index: 'repaymentCollectionIncome', width: 80},
+                                {name: 'repaymentCollectionAuditor', index: 'repaymentCollectionAuditor', width: 80},
+                                {
+                                    name: 'repaymentCollectionInstitutionCode',
+                                    index: 'repaymentCollectionInstitutionCode',
+                                    width: 80
+                                }
+                            ],
+                            viewrecords: true,
+                            rowNum: 10,
+                            rowList: [10, 20, 30, 100],
+                            multiselect: false,
+                            multiboxonly: false,
+                            autowidth: true
+                        });
+                        //navButtons
+                        jQuery(grid_selector).jqGrid('navGrid', pager_selector,
+                            { 	//navbar options
+                                edit: true,
+                                editicon: 'icon-pencil blue',
+                                add: true,
+                                addicon: 'icon-plus-sign purple',
+                                del: true,
+                                delicon: 'icon-trash red',
+                                search: true,
+                                searchicon: 'icon-search orange',
+                                refresh: true,
+                                refreshicon: 'icon-refresh green',
+                                view: true,
+                                viewicon: 'icon-zoom-in grey',
+                            },
+                            {
+                                //edit record form
+                                //closeAfterEdit: true,
+                                recreateForm: true,
+                                beforeShowForm: function (e) {
+                                    var form = $(e[0]);
+                                    form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar').wrapInner('<div class="widget-header" />')
+                                    style_edit_form(form);
+                                }
+                            },
+                            {
+                                //new record form
+                                closeAfterAdd: true,
+                                recreateForm: true,
+                                viewPagerButtons: false,
+                                beforeShowForm: function (e) {
+                                    var form = $(e[0]);
+                                    form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar').wrapInner('<div class="widget-header" />')
+                                    style_edit_form(form);
+                                }
+                            },
+                            {
+                                //delete record form
+                                recreateForm: true,
+                                beforeShowForm: function (e) {
+                                    var form = $(e[0]);
+                                    if (form.data('styled')) return false;
+
+                                    form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar').wrapInner('<div class="widget-header" />')
+                                    style_delete_form(form);
+
+                                    form.data('styled', true);
+                                },
+                                onClick: function (e) {
+                                    alert(1);
+                                }
+                            },
+                            {
+                                //search form
+                                recreateForm: true,
+                                afterShowSearch: function (e) {
+                                    var form = $(e[0]);
+                                    form.closest('.ui-jqdialog').find('.ui-jqdialog-title').wrap('<div class="widget-header" />')
+                                    style_search_form(form);
+                                },
+                                afterRedraw: function () {
+                                    style_search_filters($(this));
+                                }
+                                ,
+                                multipleSearch: true,
+                                /**
+                                 multipleGroup:true,
+                                 showQuery: true
+                                 */
+                            },
+                            {
+                                //view record form
+                                recreateForm: true,
+                                beforeShowForm: function (e) {
+                                    var form = $(e[0]);
+                                    form.closest('.ui-jqdialog').find('.ui-jqdialog-title').wrap('<div class="widget-header" />')
+                                }
+                            }
+                        )
+
+
+                        function style_edit_form(form) {
+                            //enable datepicker on "sdate" field and switches for "stock" field
+                            form.find('input[name=sdate]').datepicker({format: 'yyyy-mm-dd', autoclose: true})
+                                .end().find('input[name=stock]')
+                                .addClass('ace ace-switch ace-switch-5').wrap('<label class="inline" />').after('<span class="lbl"></span>');
+
+                            //update buttons classes
+                            var buttons = form.next().find('.EditButton .fm-button');
+                            buttons.addClass('btn btn-sm').find('[class*="-icon"]').remove();//ui-icon, s-icon
+                            buttons.eq(0).addClass('btn-primary').prepend('<i class="icon-ok"></i>');
+                            buttons.eq(1).prepend('<i class="icon-remove"></i>')
+
+                            buttons = form.next().find('.navButton a');
+                            buttons.find('.ui-icon').remove();
+                            buttons.eq(0).append('<i class="icon-chevron-left"></i>');
+                            buttons.eq(1).append('<i class="icon-chevron-right"></i>');
+                        }
+
+                        function style_delete_form(form) {
+                            var buttons = form.next().find('.EditButton .fm-button');
+                            buttons.addClass('btn btn-sm').find('[class*="-icon"]').remove();//ui-icon, s-icon
+                            buttons.eq(0).addClass('btn-danger').prepend('<i class="icon-trash"></i>');
+                            buttons.eq(1).prepend('<i class="icon-remove"></i>')
+                        }
+
+                        function style_search_filters(form) {
+                            form.find('.delete-rule').val('X');
+                            form.find('.add-rule').addClass('btn btn-xs btn-primary');
+                            form.find('.add-group').addClass('btn btn-xs btn-success');
+                            form.find('.delete-group').addClass('btn btn-xs btn-danger');
+                        }
+
+                        function style_search_form(form) {
+                            var dialog = form.closest('.ui-jqdialog');
+                            var buttons = dialog.find('.EditTable')
+                            buttons.find('.EditButton a[id*="_reset"]').addClass('btn btn-sm btn-info').find('.ui-icon').attr('class', 'icon-retweet');
+                            buttons.find('.EditButton a[id*="_query"]').addClass('btn btn-sm btn-inverse').find('.ui-icon').attr('class', 'icon-comment-alt');
+                            buttons.find('.EditButton a[id*="_search"]').addClass('btn btn-sm btn-purple').find('.ui-icon').attr('class', 'icon-search');
+                        }
+
+                    });
+                }, "json");
+            $('#myModalCollectionLabel').text('催收信息');
+            $("#collectionModal").modal({
+                keyboard: false,
+                show: true,
+                backdrop: "static"
+            });
+        }
+
+        /*]]>*/
+    </script>
+</head>
+<body>
+<div class="row">
+    <div class="col-xs-12">
+        <div class="widget-box">
+            <div class="widget-header widget-header-small">
+                <h4>订单管理</h4>
+            </div>
+            <div class="widget-body">
+                <div class="widget-body-inner" style="display: block;">
+                    <div class="widget-main">
+                        <div>
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <div class="panel panel-default" style="margin-bottom:10px;">
+                                        <div class="panel-body">
+                                            <form class="form-horizontal" role="form" onsubmit="return false;">
+                                                <div class="form-group" style="margin-bottom: 0;">
+                                                    <label class="col-sm-1 control-label">订单号：</label>
+                                                    <div class="col-sm-3" style="width: 200px;">
+                                                        <input id="qryOrderNumber"
+                                                               data-original-title="Tooltip for name"
+                                                               class="form-control radius" placeholder="关键字"
+                                                               type="text"/>
+                                                    </div>
+                                                    <!--<label class="col-sm-1 control-label">用户账号：</label>
+                                                    <div class="col-sm-3" style="width: 200px;">
+                                                        <input id="qryUserName" data-original-title="Tooltip for name"
+                                                               class="form-control radius" placeholder="关键字"
+                                                               type="text"/>
+                                                    </div>-->
+                                                    <div class="col-sm-1">
+                                                        <button id="queryBtn"
+                                                                class="btn btn-info btn-sm btn-label-left radius">
+                                                            <i class="fa fa-search"></i>查询
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xs-12">
+                                    <table id="jqGrid"></table>
+                                    <div id="jqGridPager"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="repayModal" class="bootbox modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog " style="width:900px">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="myModalRepayLabel">还款信息</h4>
+            </div>
+            <div class="modal-body" id="repayDiv">
+
+            </div>
+        </div>
+    </div>
+</div>
+<div id="makeLoansModal" class="bootbox modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog " style="width:1500px">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="myModalMakeLoansLabel">放款信息</h4>
+            </div>
+            <div class="modal-body" id="makeLoansDiv">
+
+            </div>
+        </div>
+    </div>
+</div>
+<div id="collectionModal" class="bootbox modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog " style="width:900px">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="myModalCollectionLabel">放款信息</h4>
+            </div>
+            <div class="modal-body" id="collectionDiv">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="../static/assets/js/ace-extra.min.js" th:src="@{/assets/js/ace-extra.min.js}"></script>
+<!--[if lt IE 9]>
+<script src="../static/assets/js/html5shiv.js" th:src="@{/assets/js/html5shiv.js}"></script>
+<script src="../static/assets/js/respond.min.js" th:src="@{/assets/js/respond.min.js}"></script>
+<![endif]-->
+<script src="../static/assets/js/jqGrid/jquery.jqGrid.min.js"
+        th:src="@{/assets/js/jqGrid/jquery.jqGrid.min.js}"></script>
+<script src="../static/assets/js/jqGrid/i18n/grid.locale-en.js"
+        th:src="@{/assets/js/jqGrid/i18n/grid.locale-en.js}"></script>
+<script src="../static/assets/js/bootstrap.min.js" th:src="@{/assets/js/bootstrap.min.js}"></script>
+<script src="../static/assets/js/typeahead-bs2.min.js" th:src="@{/assets/js/typeahead-bs2.min.js}"></script>
+<!-- page specific plugin scripts -->
+<script src="../static/assets/js/jquery-ui-1.10.3.custom.min.js"
+        th:src="@{/assets/js/jquery-ui-1.10.3.custom.min.js}"></script>
+<script src="../static/assets/js/date-time/moment.min.js" th:src="@{/assets/js/date-time/moment.min.js}"></script>
+<script src="../static/assets/js/date-time/bootstrap-datepicker.min.js"
+        th:src="@{/assets/js/date-time/bootstrap-datepicker.min.js}"></script>
+<script src="../static/assets/js/jquery.slimscroll.min.js" th:src="@{/assets/js/jquery.slimscroll.min.js}"></script>
+<script src="../static/assets/js/chosen.jquery.min.js" th:src="@{/assets/js/chosen.jquery.min.js}"></script>
+<script src="../static/assets/js/ace-elements.min.js" th:src="@{/assets/js/ace-elements.min.js}"></script>
+<script src="../static/assets/js/ace.min.js" th:src="@{/assets/js/ace.min.js}"></script>
+<script src="../static/assets/js/md5.js" th:src="@{/assets/js/md5.js}"></script>
+<script src="../static/assets/js/custom.js" th:src="@{/assets/js/custom.js}"></script>
+<script src="../static/assets/js/jquery.messager.js" th:src="@{/assets/js/jquery.messager.js}"></script>
+<script src="../static/assets/js/layer/layer.js" th:src="@{/assets/js/layer/layer.js}"></script>
+<script src="../static/assets/js/bootbox.min.js" th:src="@{/assets/js/bootbox.min.js}"></script>
+<script th:src="@{/js/order-list.js}"></script>
+<script type="text/javascript">
+    $(function () {
+        $('.date-picker').datepicker({
+            autoclose: true,
+            language: "cn",
+            format: "yyyy-mm-dd"
+        }).next().on(ace.click_event, function () {
+            $(this).prev().focus();
+        });
+    });
+</script>
+
+</body>
+</html>

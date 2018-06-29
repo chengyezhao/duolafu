@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shoumipay.dao.JdGoodsMapper">
+  <resultMap id="BaseResultMap" type="com.shoumipay.domain.JdGoods">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="price" jdbcType="DECIMAL" property="price" />
+    <result column="count" jdbcType="INTEGER" property="count" />
+    <result column="ware_Name" jdbcType="VARCHAR" property="wareName" />
+    <result column="image_Url" jdbcType="VARCHAR" property="imageUrl" />
+    <result column="sku_Id" jdbcType="VARCHAR" property="skuId" />
+    <result column="daifu_id" jdbcType="BIGINT" property="daifuId" />
+    <result column="member_id" jdbcType="BIGINT" property="memberId" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, price, count, ware_Name, image_Url, sku_Id, daifu_id, member_id
+  </sql>
+  <select id="selectByExample" parameterType="com.shoumipay.domain.JdGoodsExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from cl_jd_goods
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByMemberId" parameterType="java.lang.Long" resultType="com.shoumipay.vo.WeChat.JdOrdeVO">
+    SELECT
+    t.id goodsId,
+    t.member_id memberId,
+    t.daifu_id daifuId,
+    (SELECT order_create_time FROM cl_goods_order WHERE daifu_id=t.daifu_id) orderCreateTime,
+    (SELECT order_number FROM cl_goods_order WHERE daifu_id=t.daifu_id) orderNumber,
+    (SELECT share_Url FROM cl_jd_daifu WHERE id=t.daifu_id) shareUrl,
+    t.price price,
+    t.count count,
+    t.ware_name wareName,
+    t.image_url imageUrl,
+    (SELECT order_status FROM cl_goods_order WHERE daifu_id=t.daifu_id)  orderStatus
+    FROM cl_jd_goods t
+    WHERE t.member_id=#{memberId}
+    ORDER  BY orderCreateTime
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from cl_jd_goods
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from cl_jd_goods
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.shoumipay.domain.JdGoodsExample">
+    delete from cl_jd_goods
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.shoumipay.domain.JdGoods">
+    insert into cl_jd_goods (id, price, count, 
+      ware_Name, image_Url, sku_Id, 
+      daifu_id, member_id)
+    values (#{id,jdbcType=BIGINT}, #{price,jdbcType=DECIMAL}, #{count,jdbcType=INTEGER}, 
+      #{wareName,jdbcType=VARCHAR}, #{imageUrl,jdbcType=VARCHAR}, #{skuId,jdbcType=VARCHAR}, 
+      #{daifuId,jdbcType=BIGINT}, #{memberId,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.shoumipay.domain.JdGoods">
+    insert into cl_jd_goods
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="price != null">
+        price,
+      </if>
+      <if test="count != null">
+        count,
+      </if>
+      <if test="wareName != null">
+        ware_Name,
+      </if>
+      <if test="imageUrl != null">
+        image_Url,
+      </if>
+      <if test="skuId != null">
+        sku_Id,
+      </if>
+      <if test="daifuId != null">
+        daifu_id,
+      </if>
+      <if test="memberId != null">
+        member_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="price != null">
+        #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="count != null">
+        #{count,jdbcType=INTEGER},
+      </if>
+      <if test="wareName != null">
+        #{wareName,jdbcType=VARCHAR},
+      </if>
+      <if test="imageUrl != null">
+        #{imageUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="skuId != null">
+        #{skuId,jdbcType=VARCHAR},
+      </if>
+      <if test="daifuId != null">
+        #{daifuId,jdbcType=BIGINT},
+      </if>
+      <if test="memberId != null">
+        #{memberId,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <insert id="insertJdGoodsList" >
+    insert into cl_jd_goods (price, count,
+    ware_Name, image_Url, sku_Id,
+    daifu_id, member_id)
+    values
+    <foreach collection="list" item="list"  separator="," >
+    ( #{list.price}, #{list.count},
+    #{list.wareName}, #{list.imageUrl}, #{list.skuId},
+    #{daifuId}, #{memberId})
+    </foreach>
+  </insert>
+  <select id="countByExample" parameterType="com.shoumipay.domain.JdGoodsExample" resultType="java.lang.Long">
+    select count(*) from cl_jd_goods
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update cl_jd_goods
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.price != null">
+        price = #{record.price,jdbcType=DECIMAL},
+      </if>
+      <if test="record.count != null">
+        count = #{record.count,jdbcType=INTEGER},
+      </if>
+      <if test="record.wareName != null">
+        ware_Name = #{record.wareName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.imageUrl != null">
+        image_Url = #{record.imageUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.skuId != null">
+        sku_Id = #{record.skuId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.daifuId != null">
+        daifu_id = #{record.daifuId,jdbcType=BIGINT},
+      </if>
+      <if test="record.memberId != null">
+        member_id = #{record.memberId,jdbcType=BIGINT},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update cl_jd_goods
+    set id = #{record.id,jdbcType=BIGINT},
+      price = #{record.price,jdbcType=DECIMAL},
+      count = #{record.count,jdbcType=INTEGER},
+      ware_Name = #{record.wareName,jdbcType=VARCHAR},
+      image_Url = #{record.imageUrl,jdbcType=VARCHAR},
+      sku_Id = #{record.skuId,jdbcType=VARCHAR},
+      daifu_id = #{record.daifuId,jdbcType=BIGINT},
+      member_id = #{record.memberId,jdbcType=BIGINT}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.shoumipay.domain.JdGoods">
+    update cl_jd_goods
+    <set>
+      <if test="price != null">
+        price = #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="count != null">
+        count = #{count,jdbcType=INTEGER},
+      </if>
+      <if test="wareName != null">
+        ware_Name = #{wareName,jdbcType=VARCHAR},
+      </if>
+      <if test="imageUrl != null">
+        image_Url = #{imageUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="skuId != null">
+        sku_Id = #{skuId,jdbcType=VARCHAR},
+      </if>
+      <if test="daifuId != null">
+        daifu_id = #{daifuId,jdbcType=BIGINT},
+      </if>
+      <if test="memberId != null">
+        member_id = #{memberId,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.shoumipay.domain.JdGoods">
+    update cl_jd_goods
+    set price = #{price,jdbcType=DECIMAL},
+      count = #{count,jdbcType=INTEGER},
+      ware_Name = #{wareName,jdbcType=VARCHAR},
+      image_Url = #{imageUrl,jdbcType=VARCHAR},
+      sku_Id = #{skuId,jdbcType=VARCHAR},
+      daifu_id = #{daifuId,jdbcType=BIGINT},
+      member_id = #{memberId,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

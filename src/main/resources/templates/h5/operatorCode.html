@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="x-ua-compatible" content="ie=edge"/>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0,minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <meta name="application-name" content=""/>
+    <meta name="description" content=""/>
+    <meta name="keywords" content=""/>
+    <meta content="yes" name="apple-mobile-web-app-capable"/>
+    <title>哆啦付</title>
+    <link rel="stylesheet" href="css/reset.css" th:href="@{/assets/h5/css/reset.css}"/>
+    <link rel="stylesheet" href="css/first.css" th:href="@{/assets/h5/css/first.css}"/>
+    <link rel="stylesheet" href="css/submit.css" th:href="@{/assets/h5/css/submit.css}"/>
+    <style>
+        .overLoading {
+            display: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #f5f5f5;
+            opacity:0.5;
+            z-index: 1000;
+        }
+        .layoutLoading {
+            display: none;
+            position: absolute;
+            top: 40%;
+            left: 35%;
+            width: 5%;
+            height: 5%;
+            z-index: 1001;
+            text-align:center;
+        }
+    </style>
+</head>
+<body>
+<div class="begin_title">
+    <a href="#"><span class="back">
+			<img src="images/jiantouhl.png" th:src="@{/assets/h5/images/jiantouhl.png}"/></span></a>
+    运营商认证
+    <a href="question">
+        <div class="head_querstion">常见问题</div>
+    </a>
+</div>
+<div class="begin_yz">
+    <ul>
+        <li class="f_w">
+					<span class="phone_begin">
+						<img src="images/phone.png" th:src="@{/assets/h5/images/phone.png}"/></span>
+            <b class="phone_name">手机号码</b>
+        </li>
+        <li class="f_rw">
+            <input type="number"
+                   placeholder="请输入您的手机号码"
+                   class="phone_input"
+                   onblur="phone()"
+                   id="phone"
+                   th:value="${phone}" readonly="readonly"
+            />
+        </li>
+    </ul>
+    <ul>
+        <li class="f_w">
+
+						<span class="massage_begin">
+							<img src="images/message.png" th:src="@{/assets/h5/images/message.png}"/></span>
+            <b class="massage_name">服务密码</b>
+        </li>
+        <li class="f_rw">
+            <input type="text"
+                   placeholder="手机服务密码"
+                   class="massage_input"
+                   id="password" th:value="${password}"/>
+        </li>
+    </ul>
+    <ul>
+        <li class="f_w">
+					<span class="massage_begin">
+						<img src="images/message.png" th:src="@{/assets/h5/images/message.png}"/></span>
+            <b class="massage_name">短信随机码</b>
+        </li>
+        <li class="f_rw">
+            <input type="text"
+                   placeholder="手机短信随机码"
+                   class="massage_input"
+                   id="code"/>
+            <input type="button" id="getCode" class="houqu_yzm" onclick="settime(this)" value="获取"/>
+        </li>
+    </ul>
+</div>
+<a id="submit">
+    <button class="begin_button">
+        确定
+    </button>
+</a>
+<div class="error_phone">
+    <p class="tsxx">手机号码有误，请重填</p>
+    <p class="qr_phone">
+        <button>确认</button>
+    </p>
+</div>
+<div class="bg_zzc"></div>
+<div id="over" class="overLoading"></div>
+<div id="layout" class="layoutLoading"><img src="images/loading.gif" th:src="@{/assets/h5/images/loading.gif}"/></div>
+<script src="js/jquery-1.8.3.min.js" th:src="@{/assets/h5/js/jquery-1.8.3.min.js}"></script>
+<!--<script src="js/operator.js" th:src="@{/assets/h5/js/operator.js}"></script>-->
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    var getCode=document.getElementById("getCode");
+    var countdown = 300;
+
+    function settime(val) {
+        if (countdown == 0) {
+            val.removeAttribute("disabled");
+            val.value = "获取";
+            countdown = 300;
+            return;
+        } else {
+            val.setAttribute("disabled", true);
+            val.value = countdown + "秒";
+            countdown--;
+        }
+        setTimeout(function () {
+            settime(val)
+        }, 1000);
+    }
+    settime(getCode)
+
+    $("#phone,#massage,#code").on("input", function () {
+        var firnum = $("#phone").val(),
+            code = $("#code").val(),
+            secnum = $("#massage").val();
+        if (firnum !== "" && secnum !== "" && code !== "") {
+            $(".begin_button").css({"background": "#CC3333", "color": "#fff"})
+        }
+    })
+    $(function () {
+        var message = [[${msg}]];
+        if (message != null && message.trim().length > 0) {
+            settime(document.getElementById("getCode"))
+            alert(message.toString());
+        }
+        $("#getCode").click(function () {
+            var phone = $("#phone").val();
+            var password = $("#password").val();
+            $.ajax({
+                url: "/wx/JXLCode",
+                type: "post",
+                data: {"phone": phone, "password": password},
+                success: function (data) {
+                }
+            })
+        })
+    })
+        /*$(function () {
+            var message = [[${msgs}]];
+            if (message != null && message.trim().length > 0) {
+                alert(message.toString());
+                if (message.toString() == "请完成身份证绑定!") {
+                    window.location.href = "/wx/material"
+                }
+            }
+        })*/
+    function showLoading(show){
+        if(show){
+            document.getElementById("over").style.display = "block";
+            document.getElementById("layout").style.display = "block";
+        }else{
+            document.getElementById("over").style.display = "none";
+            document.getElementById("layout").style.display = "none";
+        }
+
+    }
+
+        //简单登录操作
+        $("#submit").click(function () {
+            var phone = $("#phone").val();
+            var password = $("#password").val();
+            var code = $("#code").val();
+            if (phone == "" || password == "" || code == "") {
+                alert("手机号，服务密码，随机码不能为空")
+            } else {
+                $.ajax({
+                    url: "/wx/bindJXL",
+                    cache: false,
+                    dataType: 'json',
+                    data: {
+                        "phone": phone, "password": password, "code": code
+                    },
+                    type: 'post',
+                    beforeSend: function () {
+                        // 禁用按钮防止重复提交
+                        $('#submit').attr({disabled: "disabled"});
+                        showLoading(true);
+                    },
+                    success: function (result) {
+                        showLoading(false);
+                        alert(result.msg);
+                        if (result.flag == 0) {
+
+                        } else if(result.flag == 2) {
+                            window.location.href = "/wx/material";
+                        }
+                    },
+                    complete: function () {
+                        $('#submit').removeAttr("disabled");
+                    },
+                    error: function (data) {
+                        console.info("error: " + data.responseText);
+                    }
+                });
+//                $('#submit').attr({disabled: "disabled"});
+//                window.location.href = "/wx/bindJXL?phone="+phone+"&password="+password+"&code="+code;
+            //    $.post("/wx/JXLStratCode", { phone: phone, password: password,code:code});
+               // post("/wx/bindJXL", {"phone": phone, "password": password, "code": code});
+            }
+        })
+    /*]]>*/
+</script>
+</body>
+</html>

@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="x-ua-compatible" content="ie=edge"/>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0,minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <meta name="application-name" content=""/>
+    <meta name="description" content=""/>
+    <meta name="keywords" content=""/>
+    <meta content="yes" name="apple-mobile-web-app-capable"/>
+    <title>哆啦付</title>
+    <link rel="stylesheet" href="../../static/assets/h5/css/reset.css" th:href="@{/assets/h5/css/reset.css}"/>
+    <link rel="stylesheet" href="../../static/assets/h5/css/first.css" th:href="@{/assets/h5/css/first.css}"/>
+    <link rel="stylesheet" href="../../static/assets/h5/css/style.css" th:href="@{/assets/h5/css/style.css}"/>
+</head>
+<body>
+<div class="begin_title">
+    <a href="javascript:self.location=document.referrer;"><span class="back">
+				<img src="../../static/assets/h5/images/jiantouhl.png"
+                     th:src="@{/assets/h5/images/jiantouhl.png}"/></span></a>
+    平台关联
+</div>
+<div class="platform">
+    <ul>
+        <li class="platform_l">
+            <span><img src="../../static/assets/h5/images/phone.png" th:src="@{/assets/h5/images/phone.png}"/></span>当前手机号码<b
+                class="platform_number" th:text="${phone}">1877091663</b>
+        </li>
+    </ul>
+</div>
+<div class="platform_pt">已关联平台</div>
+<div class="pt_list">
+    <li th:if="${jd}" style="margin-left:21px;">京东</li>
+    <li th:if="${tb}" style="margin-left:21px;">淘宝</li><!--
+			<li>聚</li>
+			<li>咸鱼</li>-->
+    <!--<li style="margin-right: 0;">1688</li>-->
+</div>
+<div class="platform_wgl">未关联平台</div>
+<div>
+    <div class="platform_swgl" th:if="${!jd||!tb}">
+        <dl th:if="${!jd}">
+            <a href="/gxb?authItem=jd">
+                <dt>京东</dt>
+                <dd>
+                    <p class="platform_name">京东</p>
+                    <p class="platform_mgl">
+                        <button>尚未关联</button>
+                    </p>
+                </dd>
+            </a>
+        </dl>
+        <dl class="margin67" th:if="${!tb}" th:class="${jd?'':'margin67'}">
+            <a href="/gxb?authItem=ecommerce">
+                <dt>淘宝</dt>
+                <dd>
+                    <p class="platform_name">淘宝</p>
+                    <p class="platform_mgl">
+                        <button>尚未关联</button>
+                    </p>
+                </dd>
+            </a>
+        </dl>
+        <dl th:if="${jd||tb}">
+            <dt>苏宁</dt>
+            <dd>
+                <p class="platform_name">苏宁易购</p>
+                <p class="platform_mgl">
+                    <button>未开通,敬请期待</button>
+                </p>
+            </dd>
+        </dl>
+        <dl class="margin67" th:if="${jd||tb}">
+            <dt>贝贝</dt>
+            <dd>
+                <p class="platform_name">贝贝</p>
+                <p class="platform_mgl">
+                    <button>未开通,敬请期待</button>
+                </p>
+            </dd>
+        </dl>
+    </div>
+    <div class="platform_swgl" th:if="${jd and tb}">
+        <dl>
+            <dt>苏宁</dt>
+            <dd>
+                <p class="platform_name">苏宁易购</p>
+                <p class="platform_mgl">
+                    <button>未开通,敬请期待</button>
+                </p>
+            </dd>
+        </dl>
+        <dl class="margin67">
+            <dt>贝贝</dt>
+            <dd>
+                <p class="platform_name">贝贝</p>
+                <p class="platform_mgl">
+                    <button>未开通,敬请期待</button>
+                </p>
+            </dd>
+        </dl>
+    </div>
+</div>
+<!--<div th:if="${jd}">
+    <div class="platform_swgl">
+        <dl>
+            <a href="/gxb?authItem=ecommerce">
+            <dt>淘宝</dt>
+            <dd>
+                <p class="platform_name">淘宝</p>
+                <p class="platform_mgl">
+                    <button>尚未关联</button>
+                </p>
+            </dd>
+            </a>
+        </dl>
+        <dl class="margin67">
+            <dt>苏宁</dt>
+            <dd>
+                <p class="platform_name">苏宁易购</p>
+                <p class="platform_mgl">
+                    <button>未开通,敬请期待</button>
+                </p>
+            </dd>
+        </dl>
+        <dl>
+            <dt>贝贝</dt>
+            <dd>
+                <p class="platform_name">贝贝</p>
+                <p class="platform_mgl">
+                    <button>未开通,敬请期待</button>
+                </p>
+            </dd>
+        </dl>
+    </div>
+</div>-->
+</body>
+
+</html>

@@ -1,0 +1,334 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shoumipay.dao.GoodsRepaymentPlanMapper">
+  <resultMap id="BaseResultMap" type="com.shoumipay.domain.GoodsRepaymentPlan">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="order_Id" jdbcType="BIGINT" property="orderId" />
+    <result column="repayment_plan_times" jdbcType="INTEGER" property="repaymentPlanTimes" />
+    <result column="repayment_plan_amount" jdbcType="DECIMAL" property="repaymentPlanAmount" />
+    <result column="repayment_plan_capital" jdbcType="DECIMAL" property="repaymentPlanCapital" />
+    <result column="repayment_plan_interest" jdbcType="DECIMAL" property="repaymentPlanInterest" />
+    <result column="repayment_plan_end_time" jdbcType="TIMESTAMP" property="repaymentPlanEndTime" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="created" jdbcType="TIMESTAMP" property="created" />  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, order_Id, repayment_plan_times, repayment_plan_amount, repayment_plan_capital, 
+    repayment_plan_interest, repayment_plan_end_time, status, created
+  </sql>
+  <select id="selectByExample" parameterType="com.shoumipay.domain.GoodsRepaymentPlanExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from cl_goods_repayment_plan
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+
+  <select id="selectByMemberId"  resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from cl_goods_repayment_plan
+    WHERE order_Id IN (SELECT id FROM cl_goods_order WHERE member_Id = #{memberId})
+    order by repayment_plan_end_time DESC
+  </select>
+
+  <select id="selectUnRepayByOrderId"  resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from cl_goods_repayment_plan
+    WHERE order_Id = #{orderId} AND `status` = 0
+    ORDER BY repayment_plan_times ASC
+  </select>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from cl_goods_repayment_plan
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+
+  <select id="selectByOrderIdTimes" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from cl_goods_repayment_plan
+    where order_Id = #{orderId,jdbcType=BIGINT} AND repayment_plan_times = #{times} AND status = 0
+  </select>
+
+  <select id="selectLatest" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from cl_goods_repayment_plan
+    where order_Id = #{orderId,jdbcType=BIGINT} AND status = 0
+    ORDER BY repayment_plan_times
+    LIMIT 1
+  </select>
+
+  <select id="selectByOrderId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from cl_goods_repayment_plan
+    where order_Id = #{1}
+  </select>
+
+  <select id="selectRepayTip" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from cl_goods_repayment_plan
+    where status = 0
+    <if test="null!=start">
+      AND repayment_plan_end_time >= #{start}
+    </if>
+    <if test="null!=end">
+      AND #{end} >= repayment_plan_end_time
+    </if>
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from cl_goods_repayment_plan
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.shoumipay.domain.GoodsRepaymentPlanExample">
+    delete from cl_goods_repayment_plan
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.shoumipay.domain.GoodsRepaymentPlan">
+    insert into cl_goods_repayment_plan (id, order_Id, repayment_plan_times, 
+      repayment_plan_amount, repayment_plan_capital, 
+      repayment_plan_interest, repayment_plan_end_time, 
+      status, created)
+    values (#{id,jdbcType=BIGINT}, #{orderId,jdbcType=BIGINT}, #{repaymentPlanTimes,jdbcType=INTEGER}, 
+      #{repaymentPlanAmount,jdbcType=DECIMAL}, #{repaymentPlanCapital,jdbcType=DECIMAL}, 
+      #{repaymentPlanInterest,jdbcType=DECIMAL}, #{repaymentPlanEndTime,jdbcType=TIMESTAMP}, 
+      #{status,jdbcType=INTEGER}, #{created,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.shoumipay.domain.GoodsRepaymentPlan">
+    insert into cl_goods_repayment_plan
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="orderId != null">
+        order_Id,
+      </if>
+      <if test="repaymentPlanTimes != null">
+        repayment_plan_times,
+      </if>
+      <if test="repaymentPlanAmount != null">
+        repayment_plan_amount,
+      </if>
+      <if test="repaymentPlanCapital != null">
+        repayment_plan_capital,
+      </if>
+      <if test="repaymentPlanInterest != null">
+        repayment_plan_interest,
+      </if>
+      <if test="repaymentPlanEndTime != null">
+        repayment_plan_end_time,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="created != null">
+        created,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="orderId != null">
+        #{orderId,jdbcType=BIGINT},
+      </if>
+      <if test="repaymentPlanTimes != null">
+        #{repaymentPlanTimes,jdbcType=INTEGER},
+      </if>
+      <if test="repaymentPlanAmount != null">
+        #{repaymentPlanAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="repaymentPlanCapital != null">
+        #{repaymentPlanCapital,jdbcType=DECIMAL},
+      </if>
+      <if test="repaymentPlanInterest != null">
+        #{repaymentPlanInterest,jdbcType=DECIMAL},
+      </if>
+      <if test="repaymentPlanEndTime != null">
+        #{repaymentPlanEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="created != null">
+        #{created,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.shoumipay.domain.GoodsRepaymentPlanExample" resultType="java.lang.Long">
+    select count(*) from cl_goods_repayment_plan
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <select id="countUnRepay" parameterType="java.lang.Long" resultType="java.lang.Long">
+    select count(*) from (cl_goods_order as o INNER join cl_goods_repayment_plan as p
+      ON o.id = p.order_Id) LEFT OUTER JOIN cl_goods_repayment as r
+      ON (r.order_Id=p.order_Id and r.repayment_times=p.repayment_plan_times)
+    WHERE o.member_Id = #{1} AND (p.status=0 OR r.active=1)
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update cl_goods_repayment_plan
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.orderId != null">
+        order_Id = #{record.orderId,jdbcType=BIGINT},
+      </if>
+      <if test="record.repaymentPlanTimes != null">
+        repayment_plan_times = #{record.repaymentPlanTimes,jdbcType=INTEGER},
+      </if>
+      <if test="record.repaymentPlanAmount != null">
+        repayment_plan_amount = #{record.repaymentPlanAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="record.repaymentPlanCapital != null">
+        repayment_plan_capital = #{record.repaymentPlanCapital,jdbcType=DECIMAL},
+      </if>
+      <if test="record.repaymentPlanInterest != null">
+        repayment_plan_interest = #{record.repaymentPlanInterest,jdbcType=DECIMAL},
+      </if>
+      <if test="record.repaymentPlanEndTime != null">
+        repayment_plan_end_time = #{record.repaymentPlanEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.status != null">
+        status = #{record.status,jdbcType=INTEGER},
+      </if>
+      <if test="record.created != null">
+        created = #{record.created,jdbcType=TIMESTAMP},
+      </if>    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update cl_goods_repayment_plan
+    set id = #{record.id,jdbcType=BIGINT},
+      order_Id = #{record.orderId,jdbcType=BIGINT},
+      repayment_plan_times = #{record.repaymentPlanTimes,jdbcType=INTEGER},
+      repayment_plan_amount = #{record.repaymentPlanAmount,jdbcType=DECIMAL},
+      repayment_plan_capital = #{record.repaymentPlanCapital,jdbcType=DECIMAL},
+      repayment_plan_interest = #{record.repaymentPlanInterest,jdbcType=DECIMAL},
+      repayment_plan_end_time = #{record.repaymentPlanEndTime,jdbcType=TIMESTAMP},
+      status = #{record.status,jdbcType=INTEGER},
+      created = #{record.created,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.shoumipay.domain.GoodsRepaymentPlan">
+    update cl_goods_repayment_plan
+    <set>
+      <if test="orderId != null">
+        order_Id = #{orderId,jdbcType=BIGINT},
+      </if>
+      <if test="repaymentPlanTimes != null">
+        repayment_plan_times = #{repaymentPlanTimes,jdbcType=INTEGER},
+      </if>
+      <if test="repaymentPlanAmount != null">
+        repayment_plan_amount = #{repaymentPlanAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="repaymentPlanCapital != null">
+        repayment_plan_capital = #{repaymentPlanCapital,jdbcType=DECIMAL},
+      </if>
+      <if test="repaymentPlanInterest != null">
+        repayment_plan_interest = #{repaymentPlanInterest,jdbcType=DECIMAL},
+      </if>
+      <if test="repaymentPlanEndTime != null">
+        repayment_plan_end_time = #{repaymentPlanEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="created != null">
+        created = #{created,jdbcType=TIMESTAMP},
+      </if>    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.shoumipay.domain.GoodsRepaymentPlan">
+    update cl_goods_repayment_plan
+    set order_Id = #{orderId,jdbcType=BIGINT},
+      repayment_plan_times = #{repaymentPlanTimes,jdbcType=INTEGER},
+      repayment_plan_amount = #{repaymentPlanAmount,jdbcType=DECIMAL},
+      repayment_plan_capital = #{repaymentPlanCapital,jdbcType=DECIMAL},
+      repayment_plan_interest = #{repaymentPlanInterest,jdbcType=DECIMAL},
+      repayment_plan_end_time = #{repaymentPlanEndTime,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=INTEGER},
+      created = #{created,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

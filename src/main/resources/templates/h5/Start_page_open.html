@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="x-ua-compatible" content="ie=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <meta name="application-name" content=""/>
+    <meta name="description" content=""/>
+    <meta name="keywords" content="" />
+    <title>哆啦付</title>
+    <link rel="stylesheet" href="../../static/assets/h5/css/reset.css" th:href="@{/assets/h5/css/reset.css}"/>
+    <link rel="stylesheet" href="../../static/assets/h5/css/first.css" th:href="@{/assets/h5/css/first.css}"/>
+    <!--<script>
+        window.alert = function (name) {
+            var iframe = document.createElement("IFRAME");
+            iframe.style.display = "none";
+            iframe.setAttribute("src", 'data:text/plain,');
+            document.documentElement.appendChild(iframe);
+            window.frames[0].window.alert(name);
+            iframe.parentNode.removeChild(iframe);
+        }
+    </script>-->
+</head>
+<body style="background: #fff;">
+<div class="zhuce_banner">
+    <img src="../../static/assets/h5/images/zhuce_banner.png" th:src="@{/assets/h5/images/zhuce_banner.png}"/>
+</div>
+<div class="zhuce_jieshao">
+    <dl>
+        <dt><img src="../../static/assets/h5/images/zhuce_img01.png" th:src="@{/assets/h5/images/zhuce_img01.png}"/></dt>
+        <dd>三步开通</dd>
+    </dl>
+    <dl>
+        <dt><img src="../../static/assets/h5/images/zhuce_img02.png" th:src="@{/assets/h5/images/zhuce_img02.png}"/></dt>
+        <dd>先买后付</dd>
+    </dl>
+    <dl>
+        <dt><img src="../../static/assets/h5/images/zhuce_img03.png" th:src="@{/assets/h5/images/zhuce_img03.png}"/></dt>
+        <dd>代付额度高</dd>
+    </dl>
+</div>
+<div class="zhuce_yz">
+    <ul>
+        <li class="f_rw">
+            <input type="number"
+                   placeholder="请输入手机号"
+                   class="phone_newinput"
+                   onblur="phone()"
+                   id="phone"
+                   oninput="if(value.length>11)value=value.slice(0,11)"
+            />
+        </li>
+    </ul>
+    <ul>
+        <li class="f_rw">
+            <input type="text"
+                   placeholder="请输入短信验证码"
+                   maxlength="6"
+                   class="yzm_newinput"
+                   id="yzm"/>
+            <input type="button" class="houqu_newyzm" onclick="settime(this);code();" value="获取短信验证码"/>
+        </li>
+    </ul>
+</div>
+<a href="javascript:;">
+    <button class="begin_newbutton" id="submit">
+        立即申请
+    </button>
+</a>
+<p class="zhuce_tx">注册视为同意<span class="colorb"><a href="/wx/protocol">服务协议</a></span></p>
+<div class="zhuce_cpjs">
+    <h2 class="dlf">哆啦付产品</h2>
+    <ul>
+        <li class="zhuce_l" style="margin-right: 5%;"><img src="../../static/assets/h5/images/zhuce_img04.png" th:src="@{/assets/h5/images/zhuce_img04.png}"/></li>
+        <li class="zhuce_r"><p>独家代付</p>
+            <p>淘宝&nbsp;京东&nbsp;苏宁购物代付享分期</p></li>
+    </ul>
+    <ul>
+        <li class="zhuce_r" style="text-align: right;margin-right: 2%;"><p>价格最低</p>
+            <p>全网比价选最便宜&nbsp;优惠活动不错过</p></li>
+        <li class="zhuce_l"><img src="../../static/assets/h5/images/zhuce_img05.png" th:src="@{/assets/h5/images/zhuce_img05.png}"/></li>
+    </ul>
+    <ul>
+        <li class="zhuce_l" style="margin-right: 5%;"><img src="../../static/assets/h5/images/zhuce_img06.png" th:src="@{/assets/h5/images/zhuce_img06.png}"/></li>
+        <li class="zhuce_r"><p>海量商品</p>
+            <p>不限品类&nbsp;新老订单都可代付</p></li>
+    </ul>
+    <p class="dlf_copy">哆啦付&copy;2018</p>
+</div>
+<div class="error_phone">
+    <p class="tsxx">手机号码有误，请重填</p>
+    <p class="qr_phone">
+        <button>确认</button>
+    </p>
+</div>
+<div class="bg_zzc"></div>
+<script src="../../static/assets/h5/js/jquery-1.8.3.min.js" th:src="@{/assets/h5/js/jquery-1.8.3.min.js}"></script>
+<script>
+    /*<![CDATA[*/
+    $("#submit").click(function () {
+        var yzm = $("#yzm").val();
+        if (yzm.length == 0) {
+            alert("请输入验证码!");
+            $("#yzm").focus();
+            return;
+        }
+        $.post("/wx/generalize/register", {phoneNumber: $("#phone").val(), code: $("#yzm").val()}, function (data) {
+            if (data.flag == 1) {
+                alert("注册成功!");
+                $("#submit").attr({disabled: "disabled"});
+                window.location.href = "/wx/generalize/success";
+            } else {
+                alert(data.msg);
+            }
+        });
+    })
+    $("#phone,#yzm").on("input", function () {
+        var firnum = $("#phone").val(),
+            secnum = $("#yzm").val();
+        if (firnum !== "" && secnum !== "") {
+            $(".begin_button").css({"background": "#CC3333", "color": "#fff"})
+        }
+    })
+
+    function phone() {
+        var phone = document.getElementById('phone').value;
+        if (!(/^1[34578]\d{9}$/.test(phone))) {
+            $(".error_phone").css("display", "block");
+            $(".bg_zzc").css("display", "block");
+            $("#phone").val("");
+            return false;
+        }
+    };
+    $(".qr_phone").click(function () {
+        $(".error_phone").css("display", "none");
+        $(".bg_zzc").css("display", "none");
+    })
+    function code() {
+        $.post("/services/code", {phoneNumber: $("#phone").val(), flag: "1"}, function (data) {
+            alert(data.msg);
+            if (!data.flag) {
+                alert("系统异常!");
+            }
+        });
+    }
+
+    var countdown = 300;
+    function settime(val) {
+        if (countdown == 0) {
+            val.removeAttribute("disabled");
+            val.value = "获取短信验证码";
+            countdown = 300;
+            return;
+        } else {
+            val.setAttribute("disabled", true);
+            val.value = countdown + "秒";
+            countdown--;
+        }
+        setTimeout(function () {
+            settime(val)
+        }, 1000);
+    }
+    /*]]>*/
+</script>
+</body>
+
+</html>

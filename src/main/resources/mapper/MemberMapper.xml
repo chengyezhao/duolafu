@@ -1,0 +1,580 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shoumipay.dao.MemberMapper">
+    <resultMap id="BaseResultMap" type="com.shoumipay.domain.Member">
+        <id column="uid" jdbcType="BIGINT" property="uid"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="username" jdbcType="VARCHAR" property="username"/>
+        <result column="password" jdbcType="VARCHAR" property="password"/>
+        <result column="salt" jdbcType="VARCHAR" property="salt"/>
+        <result column="state" jdbcType="TINYINT" property="state"/>
+        <result column="authentication_status" jdbcType="INTEGER" property="authenticationStatus"/>
+        <result column="payment_password" jdbcType="VARCHAR" property="paymentPassword"/>
+        <result column="level_of_risk" jdbcType="CHAR" property="levelOfRisk"/>
+        <result column="phone_number" jdbcType="VARCHAR" property="phoneNumber"/>
+        <result column="addtime" jdbcType="TIMESTAMP" property="addtime"/>
+        <result column="upptime" jdbcType="TIMESTAMP" property="upptime"/>
+        <result column="cost" jdbcType="DECIMAL" property="cost"/>
+        <result column="head_icon" jdbcType="VARCHAR" property="headIcon"/>
+        <result column="wechat_openid" jdbcType="VARCHAR" property="wechatOpenid"/>
+        <result column="wechat_nickname" jdbcType="VARCHAR" property="wechatNickname"/>
+        <result column="wechat_headimgurl" jdbcType="VARCHAR" property="wechatHeadimgurl"/>
+        <result column="jd_data" jdbcType="VARCHAR" property="jdData"/>
+        <result column="tb_data" jdbcType="VARCHAR" property="tbData"/>
+        <result column="Jxl_data" jdbcType="VARCHAR" property="jxlData"/>
+ <result column="max_amount" jdbcType="DECIMAL" property="maxAmount" />
+    <result column="bills_true_amount" jdbcType="DECIMAL" property="billsTrueAmount" />
+    <result column="bills_false_amount" jdbcType="DECIMAL" property="billsFalseAmount" />
+    <result column="prepayment_amount" jdbcType="DECIMAL" property="prepaymentAmount" />
+    </resultMap>
+    <sql id="Example_Where_Clause">
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause">
+        <where>
+            <foreach collection="example.oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Base_Column_List">
+    uid, name, username, password, salt, state, authentication_status, payment_password, 
+    level_of_risk, phone_number, addtime, upptime, cost,head_icon, wechat_openid, wechat_nickname, 
+    wechat_headimgurl,jd_data,tb_data, Jxl_data, max_amount, bills_true_amount, bills_false_amount,
+    prepayment_amount
+  </sql>
+    <select id="selectByUsername" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from cl_member where username=#{1}
+    </select>
+    <select id="selectByPhoneNumber" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from cl_member where phone_number=#{phoneNumber}
+    </select>
+    <select id="selectByExample" parameterType="com.shoumipay.domain.MemberExample" resultMap="BaseResultMap">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        'true' as QUERYID,
+        <include refid="Base_Column_List"/>
+        from cl_member
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+    </select>
+    <select id="selectByCount" resultType="com.shoumipay.vo.CountOrderStatusVO">
+        SELECT
+         member_Id AS memberId,count(id) as orderNum from cl_goods_order where order_status=10 GROUP BY member_Id
+    </select>
+    <select id="selectByTime" resultType="com.shoumipay.vo.MemberVO">
+        SELECT
+        t.uid uid,t.name name,t.username username,
+        t.authentication_status authenticationStatus,
+        t.phone_number phoneNumber,t.addtime addtime,
+        t.level_of_risk levelOfRisk,t.max_amount maxAmount,t.prepayment_amount prepaymentAmount,
+        t.bills_true_amount billsTrueAmount,t.bills_false_amount billsFalseAmount,
+        td.fullname fullname,td.id_card idCard,t.state status,
+        o.order_status orderStatus,COUNT(uid) as orderNum
+        FROM (cl_member t left join cl_member_detail td on t.uid=td.memberId) LEFT JOIN cl_goods_order o ON
+        t.uid=o.member_id
+        WHERE 1=1
+        <if test="phone !=null and phone !='' ">
+            AND t.phone_number LIKE CONCAT('%', #{phone}, '%')
+        </if>
+        <if test="ids!=null and ids!='000'">
+            AND t.uid in(#{ids})
+        </if>
+        <if test="fullName !=null and fullName !='' ">
+            AND td.fullname LIKE CONCAT('%', #{fullName}, '%')
+        </if>
+        <if test="startTime !=null and startTime !='' ">
+            <![CDATA[ and t.addtime  >=  #{startTime}  ]]>
+        </if>
+        <if test="endTime !=null and endTime!='' ">
+            <![CDATA[ and t.addtime <=  #{endTime}  ]]>
+        </if>
+        <if test="status !=null and status !='' ">
+            AND t.state=#{status}
+        </if>
+        <if test="authenticationStatus != null ">
+            AND t.authentication_status=#{authenticationStatus}
+        </if>
+        <if test="orderStatusPay!=null">
+            AND o.order_status = #{orderStatusPay}
+        </if>
+        GROUP BY uid, o.order_status
+    </select>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from cl_member
+        where uid = #{uid,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from cl_member
+    where uid = #{uid,jdbcType=BIGINT}
+  </delete>
+    <delete id="deleteByExample" parameterType="com.shoumipay.domain.MemberExample">
+        delete from cl_member
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </delete>
+    <insert id="insert" parameterType="com.shoumipay.domain.Member">
+    insert into cl_member (uid, name, username, 
+      password, salt, state, 
+      authentication_status, payment_password, 
+      level_of_risk, phone_number, addtime, 
+      upptime, cost,head_icon, wechat_openid, 
+      wechat_nickname, wechat_headimgurl,
+      jd_data,tb_data, Jxl_data, max_amount,
+      bills_true_amount, bills_false_amount, prepayment_amount)
+    values (#{uid,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{username,jdbcType=VARCHAR}, 
+      #{password,jdbcType=VARCHAR}, #{salt,jdbcType=VARCHAR}, #{state,jdbcType=TINYINT}, 
+      #{authenticationStatus,jdbcType=INTEGER}, #{paymentPassword,jdbcType=VARCHAR}, 
+      #{levelOfRisk,jdbcType=CHAR}, #{phoneNumber,jdbcType=VARCHAR}, #{addtime,jdbcType=TIMESTAMP}, 
+      #{upptime,jdbcType=TIMESTAMP},#{cost,jdbcType=DECIMAL}, #{headIcon,jdbcType=VARCHAR}, #{wechatOpenid,jdbcType=VARCHAR}, 
+      #{wechatNickname,jdbcType=VARCHAR}, #{wechatHeadimgurl,jdbcType=VARCHAR}, #{jdData,jdbcType=VARCHAR},#{tbData,jdbcType=VARCHAR},
+       #{jxlData,jdbcType=VARCHAR}, #{maxAmount,jdbcType=DECIMAL}, 
+      #{billsTrueAmount,jdbcType=DECIMAL}, #{billsFalseAmount,jdbcType=DECIMAL}, #{prepaymentAmount,jdbcType=DECIMAL}
+      )
+  </insert>
+    <insert id="insertSelective" parameterType="com.shoumipay.domain.Member" useGeneratedKeys="true" keyProperty="uid">
+        insert into cl_member
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="uid != null">
+                uid,
+            </if>
+            <if test="name != null">
+                `name`,
+            </if>
+            <if test="username != null">
+                username,
+            </if>
+            <if test="password != null">
+                password,
+            </if>
+            <if test="salt != null">
+                salt,
+            </if>
+            <if test="state != null">
+                state,
+            </if>
+            <if test="authenticationStatus != null">
+                authentication_status,
+            </if>
+            <if test="paymentPassword != null">
+                payment_password,
+            </if>
+            <if test="levelOfRisk != null">
+                level_of_risk,
+            </if>
+            <if test="phoneNumber != null">
+                phone_number,
+            </if>
+            <if test="addtime != null">
+                addtime,
+            </if>
+            <if test="upptime != null">
+                upptime,
+            </if>
+            <if test="cost != null">
+                cost,
+            </if>
+            <if test="headIcon != null">
+                head_icon,
+            </if>
+            <if test="wechatOpenid != null">
+                wechat_openid,
+            </if>
+            <if test="wechatNickname != null">
+                wechat_nickname,
+            </if>
+            <if test="wechatHeadimgurl != null">
+                wechat_headimgurl,
+            </if>
+            <if test="jdData != null">
+                jd_data,
+            </if>
+            <if test="tbData != null">
+                tb_data,
+            </if>
+            <if test="jxlData != null">
+                Jxl_data,
+</if>
+      <if test="maxAmount != null">
+        max_amount,
+      </if>
+      <if test="billsTrueAmount != null">
+        bills_true_amount,
+      </if>
+      <if test="billsFalseAmount != null">
+        bills_false_amount,
+      </if>
+      <if test="prepaymentAmount != null">
+        prepayment_amount,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="uid != null">
+                #{uid,jdbcType=BIGINT},
+            </if>
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="username != null">
+                #{username,jdbcType=VARCHAR},
+            </if>
+            <if test="password != null">
+                #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="salt != null">
+                #{salt,jdbcType=VARCHAR},
+            </if>
+            <if test="state != null">
+                #{state,jdbcType=TINYINT},
+            </if>
+            <if test="authenticationStatus != null">
+                #{authenticationStatus,jdbcType=INTEGER},
+            </if>
+            <if test="paymentPassword != null">
+                #{paymentPassword,jdbcType=VARCHAR},
+            </if>
+            <if test="levelOfRisk != null">
+                #{levelOfRisk,jdbcType=CHAR},
+            </if>
+            <if test="phoneNumber != null">
+                #{phoneNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="addtime != null">
+                #{addtime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="upptime != null">
+                #{upptime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="cost != null">
+                #{cost,jdbcType=DECIMAL},
+            </if>
+            <if test="headIcon != null">
+                #{headIcon,jdbcType=VARCHAR},
+            </if>
+            <if test="wechatOpenid != null">
+                #{wechatOpenid,jdbcType=VARCHAR},
+            </if>
+            <if test="wechatNickname != null">
+                #{wechatNickname,jdbcType=VARCHAR},
+            </if>
+            <if test="wechatHeadimgurl != null">
+                #{wechatHeadimgurl,jdbcType=VARCHAR},
+            </if>
+            <if test="jdData != null">
+                #{jdData,jdbcType=VARCHAR},
+            </if>
+            <if test="tbData != null">
+                #{tbData,jdbcType=VARCHAR},
+            </if>
+            <if test="jxlData != null">
+                #{jxlData,jdbcType=VARCHAR},
+</if>
+      <if test="maxAmount != null">
+        #{maxAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="billsTrueAmount != null">
+        #{billsTrueAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="billsFalseAmount != null">
+        #{billsFalseAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="prepaymentAmount != null">
+        #{prepaymentAmount,jdbcType=DECIMAL},
+            </if>
+        </trim>
+    </insert>
+    <select id="countByExample" parameterType="com.shoumipay.domain.MemberExample" resultType="java.lang.Long">
+        select count(*) from cl_member
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
+        update cl_member
+        <set>
+            <if test="record.uid != null">
+                uid = #{record.uid,jdbcType=BIGINT},
+            </if>
+            <if test="record.name != null">
+                name = #{record.name,jdbcType=VARCHAR},
+            </if>
+            <if test="record.username != null">
+                username = #{record.username,jdbcType=VARCHAR},
+            </if>
+            <if test="record.password != null">
+                password = #{record.password,jdbcType=VARCHAR},
+            </if>
+            <if test="record.salt != null">
+                salt = #{record.salt,jdbcType=VARCHAR},
+            </if>
+            <if test="record.state != null">
+                state = #{record.state,jdbcType=TINYINT},
+            </if>
+            <if test="record.authenticationStatus != null">
+                authentication_status = #{record.authenticationStatus,jdbcType=INTEGER},
+            </if>
+            <if test="record.paymentPassword != null">
+                payment_password = #{record.paymentPassword,jdbcType=VARCHAR},
+            </if>
+            <if test="record.levelOfRisk != null">
+                level_of_risk = #{record.levelOfRisk,jdbcType=CHAR},
+            </if>
+            <if test="record.phoneNumber != null">
+                phone_number = #{record.phoneNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="record.addtime != null">
+                addtime = #{record.addtime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="record.upptime != null">
+                upptime = #{record.upptime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="record.cost != null">
+                cost = #{record.cost,jdbcType=DECIMAL},
+            </if>
+            <if test="record.headIcon != null">
+                head_icon = #{record.headIcon,jdbcType=VARCHAR},
+            </if>
+            <if test="record.wechatOpenid != null">
+                wechat_openid = #{record.wechatOpenid,jdbcType=VARCHAR},
+            </if>
+            <if test="record.wechatNickname != null">
+                wechat_nickname = #{record.wechatNickname,jdbcType=VARCHAR},
+            </if>
+            <if test="record.wechatHeadimgurl != null">
+                wechat_headimgurl = #{record.wechatHeadimgurl,jdbcType=VARCHAR},
+            </if>
+            <if test="record.jdData != null">
+                jd_data = #{record.jdData,jdbcType=VARCHAR},
+            </if>
+            <if test="record.tbData != null">
+                tb_data = #{record.tbData,jdbcType=VARCHAR},
+            </if>
+            <if test="record.jxlData != null">
+                Jxl_data = #{record.jxlData,jdbcType=VARCHAR},
+            </if>
+<if test="record.maxAmount != null">
+        max_amount = #{record.maxAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="record.billsTrueAmount != null">
+        bills_true_amount = #{record.billsTrueAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="record.billsFalseAmount != null">
+        bills_false_amount = #{record.billsFalseAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="record.prepaymentAmount != null">
+        prepayment_amount = #{record.prepaymentAmount,jdbcType=DECIMAL},
+      </if>
+        </set>
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByExample" parameterType="map">
+        update cl_member
+        set uid = #{record.uid,jdbcType=BIGINT},
+        name = #{record.name,jdbcType=VARCHAR},
+        username = #{record.username,jdbcType=VARCHAR},
+        password = #{record.password,jdbcType=VARCHAR},
+        salt = #{record.salt,jdbcType=VARCHAR},
+        state = #{record.state,jdbcType=TINYINT},
+        authentication_status = #{record.authenticationStatus,jdbcType=INTEGER},
+        payment_password = #{record.paymentPassword,jdbcType=VARCHAR},
+        level_of_risk = #{record.levelOfRisk,jdbcType=CHAR},
+        phone_number = #{record.phoneNumber,jdbcType=VARCHAR},
+        addtime = #{record.addtime,jdbcType=TIMESTAMP},
+        upptime = #{record.upptime,jdbcType=TIMESTAMP},
+        cost = #{record.cost,jdbcType=DECIMAL},
+        head_icon = #{record.headIcon,jdbcType=VARCHAR},
+        wechat_openid = #{record.wechatOpenid,jdbcType=VARCHAR},
+        wechat_nickname = #{record.wechatNickname,jdbcType=VARCHAR},
+        wechat_headimgurl = #{record.wechatHeadimgurl,jdbcType=VARCHAR},
+        jd_data = #{record.jdData,jdbcType=VARCHAR},
+        tb_data = #{record.tbData,jdbcType=VARCHAR},
+        Jxl_data = #{record.jxlData,jdbcType=VARCHAR},
+      max_amount = #{record.maxAmount,jdbcType=DECIMAL},
+      bills_true_amount = #{record.billsTrueAmount,jdbcType=DECIMAL},
+      bills_false_amount = #{record.billsFalseAmount,jdbcType=DECIMAL},
+      prepayment_amount = #{record.prepaymentAmount,jdbcType=DECIMAL}
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="com.shoumipay.domain.Member">
+        update cl_member
+        <set>
+            <if test="name != null">
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="username != null">
+                username = #{username,jdbcType=VARCHAR},
+            </if>
+            <if test="password != null">
+                password = #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="salt != null">
+                salt = #{salt,jdbcType=VARCHAR},
+            </if>
+            <if test="state != null">
+                state = #{state,jdbcType=TINYINT},
+            </if>
+            <if test="authenticationStatus != null">
+                authentication_status = #{authenticationStatus,jdbcType=INTEGER},
+            </if>
+            <if test="paymentPassword != null">
+                payment_password = #{paymentPassword,jdbcType=VARCHAR},
+            </if>
+            <if test="levelOfRisk != null">
+                level_of_risk = #{levelOfRisk,jdbcType=CHAR},
+            </if>
+            <if test="phoneNumber != null">
+                phone_number = #{phoneNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="addtime != null">
+                addtime = #{addtime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="upptime != null">
+                upptime = #{upptime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="cost != null">
+                cost = #{cost,jdbcType=DECIMAL},
+            </if>
+            <if test="headIcon != null">
+                head_icon = #{headIcon,jdbcType=VARCHAR},
+            </if>
+            <if test="wechatOpenid != null">
+                wechat_openid = #{wechatOpenid,jdbcType=VARCHAR},
+            </if>
+            <if test="wechatNickname != null">
+                wechat_nickname = #{wechatNickname,jdbcType=VARCHAR},
+            </if>
+            <if test="wechatHeadimgurl != null">
+                wechat_headimgurl = #{wechatHeadimgurl,jdbcType=VARCHAR},
+            </if>
+            <if test="jdData != null">
+                jd_data = #{jdData,jdbcType=VARCHAR},
+            </if>
+            <if test="tbData != null">
+                tb_data = #{tbData,jdbcType=VARCHAR},
+            </if>
+            <if test="jxlData != null">
+                Jxl_data = #{jxlData,jdbcType=VARCHAR},
+            </if>
+<if test="maxAmount != null">
+        max_amount = #{maxAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="billsTrueAmount != null">
+        bills_true_amount = #{billsTrueAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="billsFalseAmount != null">
+        bills_false_amount = #{billsFalseAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="prepaymentAmount != null">
+        prepayment_amount = #{prepaymentAmount,jdbcType=DECIMAL},
+      </if>
+        </set>
+        where uid = #{uid,jdbcType=BIGINT}
+    </update>
+    <update id="updateByArrayId" parameterType="java.lang.Integer">
+        update cl_member set state=#{state} WHERE uid in
+        <foreach item="idItem" collection="ids" open="(" separator="," close=")">
+            #{idItem}
+        </foreach>
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.shoumipay.domain.Member">
+    update cl_member
+    set name = #{name,jdbcType=VARCHAR},
+      username = #{username,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      salt = #{salt,jdbcType=VARCHAR},
+      state = #{state,jdbcType=TINYINT},
+      authentication_status = #{authenticationStatus,jdbcType=INTEGER},
+      payment_password = #{paymentPassword,jdbcType=VARCHAR},
+      level_of_risk = #{levelOfRisk,jdbcType=CHAR},
+      phone_number = #{phoneNumber,jdbcType=VARCHAR},
+      addtime = #{addtime,jdbcType=TIMESTAMP},
+      upptime = #{upptime,jdbcType=TIMESTAMP},
+cost = #{cost,jdbcType=DECIMAL},
+      head_icon = #{headIcon,jdbcType=VARCHAR},
+      wechat_openid = #{wechatOpenid,jdbcType=VARCHAR},
+      wechat_nickname = #{wechatNickname,jdbcType=VARCHAR},
+      wechat_headimgurl = #{wechatHeadimgurl,jdbcType=VARCHAR},
+      jd_data = #{jdData,jdbcType=VARCHAR},
+      tb_data = #{tbData,jdbcType=VARCHAR},
+      Jxl_data = #{jxlData,jdbcType=VARCHAR},
+      max_amount = #{maxAmount,jdbcType=DECIMAL},
+      bills_true_amount = #{billsTrueAmount,jdbcType=DECIMAL},
+      bills_false_amount = #{billsFalseAmount,jdbcType=DECIMAL},
+      prepayment_amount = #{prepaymentAmount,jdbcType=DECIMAL}
+    where uid = #{uid,jdbcType=BIGINT}
+  </update>
+
+
+    <select id="findAll" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from cl_member
+    </select>
+</mapper>

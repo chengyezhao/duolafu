@@ -1,0 +1,225 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <link rel="stylesheet" href="../static/assets/css/bootstrap.min.css" th:href="@{/assets/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" href="../static/assets/css/font-awesome.min.css"
+          th:href="@{/assets/css/font-awesome.min.css}"/>
+    <link rel="stylesheet" href="../static/assets/css/jquery-ui-1.10.3.full.min.css"
+          th:href="@{/assets/css/jquery-ui-1.10.3.full.min.css}"/>
+    <link rel="stylesheet" href="../static/assets/css/datepicker.css" th:href="@{/assets/css/datepicker.css}"/>
+    <link rel="stylesheet" href="../static/assets/css/googleFamily.css" th:href="@{/assets/css/googleFamily.css}"/>
+    <link rel="stylesheet" href="../static/assets/css/ui.jqgrid.css" th:href="@{/assets/css/ui.jqgrid.css}"/>
+    <link rel="stylesheet" href="../static/assets/css/chosen.css" th:href="@{/assets/css/chosen.css}"/>
+    <link rel="stylesheet" href="../static/assets/css/custom.css" th:href="@{/assets/css/custom.css}"/>
+    <link rel="stylesheet" href="../static/assets/css/ace.min.css" th:href="@{/assets/css/ace.min.css}"/>
+    <link rel="stylesheet" href="../static/assets/css/ace-rtl.min.css" th:href="@{/assets/css/ace-rtl.min.css}"/>
+    <link rel="stylesheet" href="../static/assets/css/ace-skins.min.css" th:href="@{/assets/css/ace-skins.min.css}"/>
+    <script src="../static/assets/js/jquery-2.0.3.min.js" th:src="@{/assets/js/jquery-2.0.3.min.js}"></script>
+    <title>已放款业务</title>
+    <style>
+        .form-group > div {
+            margin-top: 10px;
+        }
+        .form-group * {
+            padding: 0;
+        }
+        .form-group input{
+            padding: 3px;
+        }
+        .form-group div{
+            padding: 3px;
+        }
+        .form-group button{
+            padding: 4px;
+        }
+        .form-group label{
+            padding: 3px;
+        }
+        .form-group .control-label{
+            padding-top: 9px;
+        }
+    </style>
+</head>
+<body>
+<div class="row">
+    <div class="col-sm-12">
+        <div class="widget-box">
+            <div class="widget-header widget-header-small">
+                <h4>已放款业务</h4>
+            </div>
+            <div class="widget-body widget-body-inner widget-main" style="display: block;"> <div class="row">
+                <div class="col-sm-12">
+                    <div class="panel panel-default" style="margin-bottom:10px;">
+                        <div class="panel-body">
+                            <form class="form-horizontal" role="form" onsubmit="return false;">
+                                <div class="form-group" style="margin-bottom: 0;">
+                                    <div class="col-sm-12" style="margin: 0;padding: 0;">
+                                        <div class="col-sm-2 col-xs-4">
+                                            <label class="col-sm-4 control-label">申请人:</label>
+                                            <div class="col-sm-8" >
+                                                <input id="phoneNumber" class="form-control radius" placeholder="手机号" />
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-4 col-xs-8">
+                                            <label class="col-sm-3 control-label">申请时间:</label>
+                                            <div class="col-sm-4" >
+                                                <input id="applyStart" class="form-control radius date-picker" placeholder="开始时间"/>
+                                            </div>
+                                            <label class="col-sm-1 control-label" style="width:10px;">-</label>
+                                            <div class="col-sm-4" >
+                                                <input id="applyEnd" class="form-control radius date-picker" placeholder="结束时间"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4 col-xs-8">
+                                            <label class="col-sm-3 control-label">申请金额:</label>
+                                            <div class="col-sm-4" >
+                                                <input id="minApplyAmount" class="form-control radius" placeholder="最小值"/>
+                                            </div>
+                                            <label class="col-sm-1 control-label" style="width:10px;">-</label>
+                                            <div class="col-sm-4" >
+                                                <input id="maxApplyAmount" class="form-control radius" placeholder="最大值"/>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-2 col-xs-4" >
+                                            <label class="col-sm-3 control-label" style="padding-left: 0">状态:</label>
+                                            <div class="col-sm-9 " >
+                                                <select disabled="disabled" id="status" class="form-control radius" >
+                                                    <option value="-1">全部</option>
+                                                    <option value="0" >未提交</option>
+                                                    <option value="1">已提交待审批</option>
+                                                    <option value="2">审批通过</option>
+                                                    <option value="3">审批拒绝</option>
+                                                    <option value="4">已关闭申请</option>
+                                                    <option value="5">待放款</option>
+                                                    <option value="6">放款中</option>
+                                                    <option value="7" selected="selected" >已放款</option>
+                                                    <option value="8">放款失败</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12" style="margin: 0;padding: 0;">
+                                        <div class="col-sm-2">
+                                            <label class="col-sm-4 control-label">产品:</label>
+                                            <div class="col-sm-8" >
+                                                <input id="goodAlias" class="form-control radius" placeholder="产品别名"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <label class="col-sm-3 control-label">审批金额:</label>
+                                            <div class="col-sm-4" >
+                                                <input id="minApprovalAmount" class="form-control radius" placeholder="最小值"/>
+                                            </div>
+                                            <label class="col-sm-1 control-label" style="width:10px;">-</label>
+                                            <div class="col-sm-4" >
+                                                <input id="maxApprovalAmount" class="form-control radius" placeholder="最大值"/>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-4">
+                                            <label class="col-sm-3 control-label">审批时间:</label>
+                                            <div class="col-sm-4" >
+                                                <input id="approvalStart" class="form-control radius date-picker" placeholder="开始时间"/>
+                                            </div>
+                                            <label class="col-sm-1 control-label" style="width:10px;">-</label>
+                                            <div class="col-sm-4" >
+                                                <input id="approvalEnd" class="form-control radius date-picker" placeholder="结束时间"/>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-2" >
+                                            <div class="col-sm-4">
+                                                <button id="query" class="btn btn-info btn-sm btn-label-left radius">
+                                                    <i class="fa fa-search"></i>搜索
+                                                </button>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <button disabled="disabled" id="loan" class="btn btn-info btn-sm btn-label-left radius" >
+                                                    <i class="glyphicon glyphicon-yen"></i>放款
+                                                </button>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <button disabled="disabled" id="export" class="btn btn-info btn-sm btn-label-left radius" >
+                                                    <i class="glyphicon glyphicon-floppy-disk"></i>导出
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-12">
+                    <table id="jqGrid"></table>
+                    <div id="jqGridPager"></div>
+                </div>
+            </div> </div>
+        </div>
+    </div>
+</div>
+<div id="bankcardModal" class="bootbox modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog " style="width:600px" >
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="myModalBankcardLabel">设备信息</h4>
+            </div>
+            <div class="modal-body" id="bankcardDiv">
+                <!-- PAGE CONTENT BEGINS -->
+               <!-- <table id="grid-table"></table>
+                <div id="grid-pager"></div>
+                <script type="text/javascript">
+                    var $path_base = "/";//this will be used in gritter alerts containing images
+                </script>-->
+                <!-- PAGE CONTENT ENDS -->
+            </div>
+
+        </div>
+    </div>
+</div>
+<script src="../static/assets/js/ace-extra.min.js" th:src="@{/assets/js/ace-extra.min.js}"></script>
+<!--[if lt IE 9]>
+<script src="../static/assets/js/html5shiv.js" th:src="@{/assets/js/html5shiv.js}"></script>
+<script src="../static/assets/js/respond.min.js" th:src="@{/assets/js/respond.min.js}"></script>
+<![endif]-->
+<script src="../static/assets/js/jqGrid/jquery.jqGrid.min.js"
+        th:src="@{/assets/js/jqGrid/jquery.jqGrid.min.js}"></script>
+<script src="../static/assets/js/jqGrid/i18n/grid.locale-en.js"
+        th:src="@{/assets/js/jqGrid/i18n/grid.locale-en.js}"></script>
+<script src="../static/assets/js/bootstrap.min.js" th:src="@{/assets/js/bootstrap.min.js}"></script>
+<script src="../static/assets/js/typeahead-bs2.min.js" th:src="@{/assets/js/typeahead-bs2.min.js}"></script>
+<!-- page specific plugin scripts -->
+<script src="../static/assets/js/jquery-ui-1.10.3.custom.min.js"
+        th:src="@{/assets/js/jquery-ui-1.10.3.custom.min.js}"></script>
+<script src="../static/assets/js/date-time/moment.min.js" th:src="@{/assets/js/date-time/moment.min.js}"></script>
+<script src="../static/assets/js/date-time/bootstrap-datepicker.min.js"
+        th:src="@{/assets/js/date-time/bootstrap-datepicker.min.js}"></script>
+<script src="../static/assets/js/jquery.slimscroll.min.js" th:src="@{/assets/js/jquery.slimscroll.min.js}"></script>
+<script src="../static/assets/js/chosen.jquery.min.js" th:src="@{/assets/js/chosen.jquery.min.js}"></script>
+<script src="../static/assets/js/ace-elements.min.js" th:src="@{/assets/js/ace-elements.min.js}"></script>
+<script src="../static/assets/js/ace.min.js" th:src="@{/assets/js/ace.min.js}"></script>
+<script src="../static/assets/js/md5.js" th:src="@{/assets/js/md5.js}"></script>
+<script src="../static/assets/js/custom.js" th:src="@{/assets/js/custom.js}"></script>
+<script src="../static/assets/js/jquery.messager.js" th:src="@{/assets/js/jquery.messager.js}"></script>
+<script src="../static/assets/js/layer/layer.js" th:src="@{/assets/js/layer/layer.js}"></script>
+<script src="../static/assets/js/bootbox.min.js" th:src="@{/assets/js/bootbox.min.js}"></script>
+<script th:src="@{/js/loaning/loaned.js}"></script>
+<script type="text/javascript">
+    $(function () {
+        $('.date-picker').datepicker({
+            autoclose: true,
+            language: "cn",
+            format: "yyyy-mm-dd"
+        }).next().on(ace.click_event, function () {
+            $(this).prev().focus();
+        });
+    });
+</script>
+
+</body>
+</html>

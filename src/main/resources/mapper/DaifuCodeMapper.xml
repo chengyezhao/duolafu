@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.shoumipay.v2.mapper.DaifuCodeMapper">
+
+    <resultMap id="BaseResultMap" type="com.shoumipay.v2.domain.DaifuCode">
+        <id column="codeId" jdbcType="BIGINT" property="codeId" />
+        <result column="daifuId" jdbcType="VARCHAR" property="daifuId" />
+        <result column="orderStatus" jdbcType="VARCHAR" property="orderStatus" />
+        <result column="parsingStatus" jdbcType="VARCHAR" property="parsingStatus" />
+        <result column="platform" jdbcType="VARCHAR" property="platform" />
+        <result column="shareUrl" jdbcType="VARCHAR" property="shareUrl" />
+        <result column="items" jdbcType="VARCHAR" property="items" />
+        <result column="price" jdbcType="DECIMAL" property="price" />
+        <result column="username" jdbcType="VARCHAR" property="username" />
+        <result column="phonenum" jdbcType="VARCHAR" property="phonenum" />
+        <result column="commission" jdbcType="VARCHAR" property="commission" />
+        <result column="createdDate" jdbcType="TIMESTAMP" property="createdDate" />
+        <result column="lastUpdatedDate" jdbcType="TIMESTAMP" property="lastUpdatedDate" />
+        <result column="memberId" jdbcType="BIGINT" property="memberId" />
+        <result column="imageUrl" jdbcType="VARCHAR" property="imageUrl" />
+    </resultMap>
+    <sql id="Base_Column_List" >
+        orderlegId, orderId, billId, amount, fee, interest, status, overdueStatus, createdDate,
+        lastUpdatedDate,sequence, memberId
+    </sql>
+    <select id="selectById" resultMap="BaseResultMap">
+        select * from daifu_code where codeId=#{codeId}
+    </select>
+
+    <select id="selectByDaifuId" resultMap="BaseResultMap">
+        select * from daifu_code where daifuId=#{daifuId}
+    </select>
+
+    <select id="selectBy" resultMap="BaseResultMap">
+        select * from daifu_code where platform=#{platform} and parsingStatus=#{status};
+    </select>
+
+
+
+
+    <select id="queryList" resultMap="BaseResultMap">
+        select * from daifu_code where 1=1
+        <if test="memberId != null">
+            and memberId=#{memberId}
+        </if>
+    </select>
+
+    <update id="update" parameterType="com.shoumipay.v2.domain.DaifuCode" >
+        update daifu_code
+        set daifuId = #{daifuId},
+        platform = #{platform},
+        shareUrl = #{shareUrl},
+        items = #{items},
+        price = #{price},
+        username = #{username},
+        phonenum = #{phonenum},
+        parsingStatus = #{parsingStatus},
+        orderStatus = #{orderStatus},
+        commission = #{commission},
+        memberId = #{memberId},
+        imageUrl = #{imageUrl},
+        lastUpdatedDate = NOW()
+        where codeId = #{codeId}
+    </update>
+
+
+
+
+
+
+
+
+    <update id="updateByPrimaryKey" parameterType="com.shoumipay.v2.domain.DaifuCode" >
+        update daifu_code
+        set parsingStatus = #{parsingStatus,jdbcType=VARCHAR},
+        items = #{items,jdbcType=VARCHAR},
+        price = #{price,jdbcType=DECIMAL},
+        username = #{username,jdbcType=VARCHAR},
+        orderStatus = #{orderStatus,jdbcType=VARCHAR},
+        phonenum = #{phonenum,jdbcType=VARCHAR},
+        parsingStatus = #{parsingStatus,jdbcType=VARCHAR},
+        imageUrl = #{imageUrl,jdbcType=VARCHAR},
+        lastUpdatedDate = NOW()
+        where codeId = #{codeId,jdbcType=BIGINT}
+    </update>
+
+    <insert id="insert" parameterType="com.shoumipay.v2.domain.DaifuCode">
+        insert into daifu_code(daifuId, platform, shareUrl, createdDate, lastupdatedDate, orderStatus, parsingStatus, memberId, imageUrl, items, price, username, phonenum) values
+        (#{daifuId,jdbcType=BIGINT}, #{platform,jdbcType=VARCHAR}, #{shareUrl,jdbcType=VARCHAR}, NOW(), NOW(), #{orderStatus,jdbcType=VARCHAR}, #{parsingStatus,jdbcType=VARCHAR},
+        #{memberId,jdbcType=VARCHAR}, #{imageUrl,jdbcType=VARCHAR}, #{items,jdbcType=VARCHAR},#{price, jdbcType=DECIMAL}, #{username,jdbcType=VARCHAR}, #{phonenum,jdbcType=VARCHAR})
+    </insert>
+</mapper>

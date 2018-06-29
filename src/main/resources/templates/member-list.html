@@ -1,0 +1,1396 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <link rel="stylesheet" href="../static/assets/css/bootstrap.min.css" th:href="@{/assets/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" href="../static/assets/css/font-awesome.min.css"
+          th:href="@{/assets/css/font-awesome.min.css}"/>
+    <link rel="stylesheet" href="../static/assets/css/jquery-ui-1.10.3.full.min.css"
+          th:href="@{/assets/css/jquery-ui-1.10.3.full.min.css}"/>
+    <link rel="stylesheet" href="../static/assets/css/bootstrap-datetimepicker.min.css"
+          th:href="@{/assets/css/bootstrap-datetimepicker.min.css}"/>
+    <link rel="stylesheet" href="../static/assets/css/googleFamily.css" th:href="@{/assets/css/googleFamily.css}"/>
+    <link rel="stylesheet" href="../static/assets/css/ui.jqgrid.css" th:href="@{/assets/css/ui.jqgrid.css}"/>
+    <link rel="stylesheet" href="../static/assets/css/chosen.css" th:href="@{/assets/css/chosen.css}"/>
+    <link rel="stylesheet" href="../static/assets/css/custom.css" th:href="@{/assets/css/custom.css}"/>
+    <link rel="stylesheet" href="../static/assets/css/ace.min.css" th:href="@{/assets/css/ace.min.css}"/>
+    <link rel="stylesheet" href="../static/assets/css/ace-rtl.min.css" th:href="@{/assets/css/ace-rtl.min.css}"/>
+    <link rel="stylesheet" href="../static/assets/css/ace-skins.min.css" th:href="@{/assets/css/ace-skins.min.css}"/>
+    <script src="../static/assets/js/jquery-2.0.3.min.js" th:src="@{/assets/js/jquery-2.0.3.min.js}"></script>
+    <title>风控管理后台</title>
+    <script type="text/javascript">
+        /*<![CDATA[*/
+        function userinfo(id) {
+            $.post("member/queryMemberDetailByMemberId", {"memberid": id},
+                function (data) {
+                    $.each(data, function (n, value) {
+                        $('input[name=' + n + ']').val(value);
+                        $('select[name=' + n + ']').val(value);
+                    });
+                }, "json");
+            task = "addDetail";
+            $('#myModalMemberDetailLabel').text('会员详情');
+            $("#memberDetailModal").modal({
+                keyboard: false,
+                show: true,
+                backdrop: "static"
+            });
+        }
+
+        function linkman(id) {
+            $.post("member/queryLinkmanByMemberId", {"memberid": id},
+                function (data) {
+                    $.each(data, function (n, value) {
+                        $('input[name=' + n + ']').val(value);
+                        $('select[name=' + n + ']').val(value);
+                    });
+                }, "json");
+            task = "addLinkman";
+            $('#myModalLinkmanLabel').text('联系人');
+            $("#linkmanModal").modal({
+                keyboard: false,
+                show: true,
+                backdrop: "static"
+            });
+        }
+
+        function job(id) {
+            $.post("member/queryJobByMemberId", {"memberid": id},
+                function (data) {
+                    $.each(data, function (n, value) {
+                        $('input[name=' + n + ']').val(value);
+                        $('select[name=' + n + ']').val(value);
+                    });
+                }, "json");
+            task = "addJob";
+            $('#myModalJobLabel').text('职业信息');
+            $("#jobModal").modal({
+                keyboard: false,
+                show: true,
+                backdrop: "static"
+            });
+        }
+
+        function devices(id) {
+            $.post("member/queryDevicesByMemberId", {"memberid": id},
+                function (data) {
+                    $.each(data, function (n, value) {
+                        $('input[name=' + n + ']').val(value);
+                        $('select[name=' + n + ']').val(value);
+                    });
+                }, "json");
+            task = "addDevices";
+            $('#myModalDevicesLabel').text('设备信息');
+            $("#devicesModal").modal({
+                keyboard: false,
+                show: true,
+                backdrop: "static"
+            });
+        }
+
+        var grid_data = "";
+
+        function bankcard(id) {
+            $.post("member/queryBankcardByMemberId", {"memberid": id},
+                function (data) {
+                    $("#bankcardDiv").html("<table id=\"grid-table\"></table>\n" +
+                        "<div id=\"grid-pager\"></div>\n" +
+                        "<script type=\"text/javascript\">\n" +
+                        "var $path_base = \"/\";" +
+                        " <\/script> ");
+                    grid_data = data;
+                    jQuery(function ($) {
+                        var grid_selector = "#grid-table";
+                        var pager_selector = "#grid-pager";
+                        jQuery(grid_selector).jqGrid({
+                            //direction: "rtl",
+                            data: grid_data,
+                            datatype: "local",
+                            height: 400,
+                            colNames: [' ', 'id', '银行卡卡号', '银行卡类型', '银行名称',
+                                '开户行', '开户省市', '开户支行', '预留手机号码',
+                                '银行卡有效期', '审核人', '注册时间', '更新时间', '绑定类型', '状态'
+                                , '排列顺序'],
+                            colModel: [
+                                {
+                                    name: 'cardid',
+                                    index: 'cardid',
+                                    width: 80,
+                                    fixed: true,
+                                    sortable: false,
+                                    resize: false,
+                                    formatter: 'actions',
+                                    /*formatoptions: {
+                                        keys: true,
+                                        delOptions: {recreateForm: true, beforeShowForm: beforeDeleteCallback},
+                                        //editformbutton:true, editOptions:{recreateForm: true, beforeShowForm:beforeEditCallback}
+                                    }*/
+                                },
+                                {name: 'cardid', index: 'cardid', width: 80, sorttype: "int", editable: true},
+                                {
+                                    name: 'bankcardNumber',
+                                    index: 'bankcardNumber',
+                                    width: 80,
+                                    editable: true,
+                                    editoptions: {size: "20", maxlength: "30"}
+                                },
+                                {
+                                    name: 'cardType',
+                                    index: 'cardType',
+                                    width: 80,
+                                    editable: true,
+                                    edittype: "select",
+                                    editoptions: {value: "0:储蓄卡;1:信用卡"}
+                                },
+                                {name: 'bankCardName', index: 'bankCardName', width: 80, editable: true},
+                                {name: 'bankOfDeposit', index: 'bankOfDeposit', width: 80, editable: true},
+                                {name: 'provincesAndCities', index: 'provincesAndCities', width: 80, editable: true},
+                                {name: 'openingBranch', index: 'openingBranch', width: 80, editable: true},
+                                {name: 'phonenumber', index: 'phonenumber', width: 80, editable: true},
+                                {
+                                    name: 'bankCardValidity',
+                                    index: 'bankCardValidity',
+                                    width: 80,
+                                    editable: true,
+                                    sorttype: "date",
+                                    unformat: pickDate
+                                },
+                                {name: 'auditor', index: 'auditor', width: 80, editable: true},
+                                {
+                                    name: 'cardAddtime',
+                                    index: 'cardAddtime',
+                                    width: 80,
+                                    editable: true,
+                                    sorttype: "date",
+                                    unformat: pickDate
+                                },
+                                {
+                                    name: 'cardUpptime',
+                                    index: 'cardUpptime',
+                                    width: 80,
+                                    editable: true,
+                                    sorttype: "date",
+                                    unformat: pickDate
+                                },
+                                {
+                                    name: 'cardBindType',
+                                    index: 'cardBindType',
+                                    width: 80,
+                                    editable: true,
+                                    edittype: "select",
+                                    editoptions: {value: "0:提现;1:还款"}
+                                },
+                                {
+                                    name: 'cardState',
+                                    index: 'cardState',
+                                    width: 80,
+                                    editable: true,
+                                    edittype: "select",
+                                    editoptions: {value: "0:认证失败;1:正常;2:已解绑"}
+                                },
+                                {name: 'cardnum', index: 'cardnum', width: 80, sorttype: "int", editable: true},
+                                /* {
+                                    name: 'stock',
+                                    index: 'stock',
+                                    width: 70,
+                                    editable: true,
+                                    edittype: "checkbox",
+                                    editoptions: {value: "Yes:No"},
+                                    unformat: aceSwitch
+                                },
+                                {
+                                    name: 'note',
+                                    index: 'note',
+                                    width: 150,
+                                    sortable: false,
+                                    editable: true,
+                                    edittype: "textarea",
+                                    editoptions: {rows: "2", cols: "10"}
+                                }*/
+                            ],
+                            viewrecords: true,
+                            rowNum: 10,
+                            rowList: [10, 20, 30, 100],
+                            /*pager: pager_selector,
+                            altRows: true,*/
+                            //toppager: true,
+                            multiselect: false,
+                            //multikey: "ctrlKey",
+                            multiboxonly: false,
+                            loadComplete: function () {
+                                var table = this;
+                                setTimeout(function () {
+                                    styleCheckbox(table);
+                                    updateActionIcons(table);
+                                    updatePagerIcons(table);
+                                    enableTooltips(table);
+                                }, 0);
+                            },
+                            editurl: $path_base + "member/addBankcard",//nothing is saved
+                            autowidth: true
+
+                        });
+
+                        //enable search/filter toolbar
+                        //jQuery(grid_selector).jqGrid('filterToolbar',{defaultSearch:true,stringResult:true})
+
+                        //switch element when editing inline
+                        function aceSwitch(cellvalue, options, cell) {
+                            setTimeout(function () {
+                                $(cell).find('input[type=checkbox]')
+                                    .wrap('<label class="inline" />')
+                                    .addClass('ace ace-switch ace-switch-5')
+                                    .after('<span class="lbl"></span>');
+                            }, 0);
+                        }
+
+                        //enable datepicker
+                        function pickDate(cellvalue, options, cell) {
+                            setTimeout(function () {
+                                $(cell).find('input[type=text]')
+                                    .datepicker({format: 'yyyy-mm-dd', autoclose: true});
+                            }, 0);
+                        }
+
+
+                        //navButtons
+                        jQuery(grid_selector).jqGrid('navGrid', pager_selector,
+                            { 	//navbar options
+                                edit: true,
+                                editicon: 'icon-pencil blue',
+                                add: true,
+                                addicon: 'icon-plus-sign purple',
+                                del: true,
+                                delicon: 'icon-trash red',
+                                search: true,
+                                searchicon: 'icon-search orange',
+                                refresh: true,
+                                refreshicon: 'icon-refresh green',
+                                view: true,
+                                viewicon: 'icon-zoom-in grey',
+                            },
+                            {
+                                //edit record form
+                                //closeAfterEdit: true,
+                                recreateForm: true,
+                                beforeShowForm: function (e) {
+                                    var form = $(e[0]);
+                                    form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar').wrapInner('<div class="widget-header" />')
+                                    style_edit_form(form);
+                                }
+                            },
+                            {
+                                //new record form
+                                closeAfterAdd: true,
+                                recreateForm: true,
+                                viewPagerButtons: false,
+                                beforeShowForm: function (e) {
+                                    var form = $(e[0]);
+                                    form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar').wrapInner('<div class="widget-header" />')
+                                    style_edit_form(form);
+                                }
+                            },
+                            {
+                                //delete record form
+                                recreateForm: true,
+                                beforeShowForm: function (e) {
+                                    var form = $(e[0]);
+                                    if (form.data('styled')) return false;
+
+                                    form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar').wrapInner('<div class="widget-header" />')
+                                    style_delete_form(form);
+
+                                    form.data('styled', true);
+                                },
+                                onClick: function (e) {
+                                    alert(1);
+                                }
+                            },
+                            {
+                                //search form
+                                recreateForm: true,
+                                afterShowSearch: function (e) {
+                                    var form = $(e[0]);
+                                    form.closest('.ui-jqdialog').find('.ui-jqdialog-title').wrap('<div class="widget-header" />')
+                                    style_search_form(form);
+                                },
+                                afterRedraw: function () {
+                                    style_search_filters($(this));
+                                }
+                                ,
+                                multipleSearch: true,
+                                /**
+                                 multipleGroup:true,
+                                 showQuery: true
+                                 */
+                            },
+                            {
+                                //view record form
+                                recreateForm: true,
+                                beforeShowForm: function (e) {
+                                    var form = $(e[0]);
+                                    form.closest('.ui-jqdialog').find('.ui-jqdialog-title').wrap('<div class="widget-header" />')
+                                }
+                            }
+                        )
+
+
+                        function style_edit_form(form) {
+                            //enable datepicker on "sdate" field and switches for "stock" field
+                            form.find('input[name=sdate]').datepicker({format: 'yyyy-mm-dd', autoclose: true})
+                                .end().find('input[name=stock]')
+                                .addClass('ace ace-switch ace-switch-5').wrap('<label class="inline" />').after('<span class="lbl"></span>');
+
+                            //update buttons classes
+                            var buttons = form.next().find('.EditButton .fm-button');
+                            buttons.addClass('btn btn-sm').find('[class*="-icon"]').remove();//ui-icon, s-icon
+                            buttons.eq(0).addClass('btn-primary').prepend('<i class="icon-ok"></i>');
+                            buttons.eq(1).prepend('<i class="icon-remove"></i>')
+
+                            buttons = form.next().find('.navButton a');
+                            buttons.find('.ui-icon').remove();
+                            buttons.eq(0).append('<i class="icon-chevron-left"></i>');
+                            buttons.eq(1).append('<i class="icon-chevron-right"></i>');
+                        }
+
+                        function style_delete_form(form) {
+                            var buttons = form.next().find('.EditButton .fm-button');
+                            buttons.addClass('btn btn-sm').find('[class*="-icon"]').remove();//ui-icon, s-icon
+                            buttons.eq(0).addClass('btn-danger').prepend('<i class="icon-trash"></i>');
+                            buttons.eq(1).prepend('<i class="icon-remove"></i>')
+                        }
+
+                        function style_search_filters(form) {
+                            form.find('.delete-rule').val('X');
+                            form.find('.add-rule').addClass('btn btn-xs btn-primary');
+                            form.find('.add-group').addClass('btn btn-xs btn-success');
+                            form.find('.delete-group').addClass('btn btn-xs btn-danger');
+                        }
+
+                        function style_search_form(form) {
+                            var dialog = form.closest('.ui-jqdialog');
+                            var buttons = dialog.find('.EditTable')
+                            buttons.find('.EditButton a[id*="_reset"]').addClass('btn btn-sm btn-info').find('.ui-icon').attr('class', 'icon-retweet');
+                            buttons.find('.EditButton a[id*="_query"]').addClass('btn btn-sm btn-inverse').find('.ui-icon').attr('class', 'icon-comment-alt');
+                            buttons.find('.EditButton a[id*="_search"]').addClass('btn btn-sm btn-purple').find('.ui-icon').attr('class', 'icon-search');
+                        }
+
+                        function beforeDeleteCallback(e) {
+                            var form = $(e[0]);
+                            if (form.data('styled')) return false;
+
+                            form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar').wrapInner('<div class="widget-header" />')
+                            style_delete_form(form);
+
+                            form.data('styled', true);
+                        }
+
+                        function beforeEditCallback(e) {
+                            var form = $(e[0]);
+                            form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar').wrapInner('<div class="widget-header" />')
+                            style_edit_form(form);
+                        }
+
+
+                        //it causes some flicker when reloading or navigating grid
+                        //it may be possible to have some custom formatter to do this as the grid is being created to prevent this
+                        //or go back to default browser checkbox styles for the grid
+                        function styleCheckbox(table) {
+                            /**
+                             $(table).find('input:checkbox').addClass('ace')
+                             .wrap('<label />')
+                             .after('<span class="lbl align-top" />')
+
+
+                             $('.ui-jqgrid-labels th[id*="_cb"]:first-child')
+                             .find('input.cbox[type=checkbox]').addClass('ace')
+                             .wrap('<label />').after('<span class="lbl align-top" />');
+                             */
+                        }
+
+
+                        //unlike navButtons icons, action icons in rows seem to be hard-coded
+                        //you can change them like this in here if you want
+                        function updateActionIcons(table) {
+                            /**
+                             var replacement =
+                             {
+                                 'ui-icon-pencil' : 'icon-pencil blue',
+                                 'ui-icon-trash' : 'icon-trash red',
+                                 'ui-icon-disk' : 'icon-ok green',
+                                 'ui-icon-cancel' : 'icon-remove red'
+                             };
+                             $(table).find('.ui-pg-div span.ui-icon').each(function(){
+						var icon = $(this);
+						var $class = $.trim(icon.attr('class').replace('ui-icon', ''));
+						if($class in replacement) icon.attr('class', 'ui-icon '+replacement[$class]);
+					})
+                             */
+                        }
+
+                        //replace icons with FontAwesome icons like above
+                        function updatePagerIcons(table) {
+                            var replacement =
+                                {
+                                    'ui-icon-seek-first': 'icon-double-angle-left bigger-140',
+                                    'ui-icon-seek-prev': 'icon-angle-left bigger-140',
+                                    'ui-icon-seek-next': 'icon-angle-right bigger-140',
+                                    'ui-icon-seek-end': 'icon-double-angle-right bigger-140'
+                                };
+                            $('.ui-pg-table:not(.navtable) > tbody > tr > .ui-pg-button > .ui-icon').each(function () {
+                                var icon = $(this);
+                                var $class = $.trim(icon.attr('class').replace('ui-icon', ''));
+
+                                if ($class in replacement) icon.attr('class', 'ui-icon ' + replacement[$class]);
+                            })
+                        }
+
+                        function enableTooltips(table) {
+                            $('.navtable .ui-pg-button').tooltip({container: 'body'});
+                            $(table).find('.ui-pg-div').tooltip({container: 'body'});
+                        }
+
+                        //var selr = jQuery(grid_selector).jqGrid('getGridParam','selrow');
+                    });
+                }, "json");
+            $("#bank").attr("style", "width:1300px");
+            $("#sendSMS").html("");
+            $('#myModalBankcardLabel').text('银行卡信息');
+            $("#bankcardModal").modal({
+                keyboard: false,
+                show: true,
+                backdrop: "static"
+            });
+        }
+
+        /*]]>*/
+    </script>
+</head>
+<body>
+<div class="row">
+    <div class="col-xs-12">
+        <div class="widget-box">
+            <div class="widget-header widget-header-small">
+                <h4>用户管理</h4>
+            </div>
+            <div class="widget-body">
+                <div class="widget-body-inner" style="display: block;">
+                    <div class="widget-main">
+                        <div>
+                            <div class="row">
+                                <input th:if="${phoneNumber!=null}" th:value="${phoneNumber}"  th:id="phoneNumber" value=""  style="display: none"/>
+                                <div class="col-xs-12" th:if="${phoneNumber==null}">
+                                    <div class="panel panel-default" style="margin-bottom:10px;">
+                                        <div class="panel-body">
+                                            <form class="form-horizontal" role="form" onsubmit="return false;">
+                                                <div class="form-group" style="margin-bottom: 0;">
+                                                    <label class="col-sm-1 control-label">手机号：</label>
+                                                    <div class="col-sm-3" style="width: 200px;">
+                                                        <input id="phone" data-original-title="Tooltip for name"
+                                                               class="form-control radius" placeholder="关键字"
+                                                               type="text" value=""/>
+                                                    </div>
+                                                    <label class="col-sm-1 control-label">姓名：</label>
+                                                    <div class="col-sm-3" style="width: 200px;">
+                                                        <input id="fullname" data-original-title="Tooltip for name"
+                                                               class="form-control radius" placeholder="关键字"
+                                                               type="text"/>
+                                                    </div>
+                                                    <!--<label class="col-sm-1 control-label">状态</label>
+                                                    <select id="type" class="col-sm-8 radius" style="width: 200px">
+                                                        <option value="0">正常</option>
+                                                        <option value="1">黑名单</option>
+                                                    </select>-->
+
+                                                <div class="col-sm-4 col-xs-8">
+                                                    <label class="col-sm-3 control-label">创建时间:</label>
+                                                    <div class="col-sm-4">
+                                                        <input id="startTime" readonly="readonly"
+                                                               class="form-control radius date-picker"
+                                                               placeholder="开始时间"/>
+                                                    </div>
+                                                    <label class="col-sm-1 control-label" style="width:10px;">-</label>
+                                                    <div class="col-sm-4">
+                                                        <input id="endTime" readonly="readonly"
+                                                               class="form-control radius date-picker"
+                                                               placeholder="结束时间"/>
+                                                    </div>
+                                                </div>
+                                                    <div class="col-sm-1">
+                                                        <button id="queryBtn"
+                                                                class="btn btn-info btn-sm btn-label-left radius">
+                                                            <i class="fa fa-search"></i>查询
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group" style="margin-bottom: 0;margin-top: 15px">
+                                                    <label class="col-sm-1 control-label">实名认证：</label>
+                                                    <div class="col-sm-3" style="width: 200px;">
+                                                        <select id="authenticationStatus" style="width: 170px;">
+                                                            <option th:value="null">全部</option>
+                                                            <option th:value="0">未认证</option>
+                                                            <option th:value="1">银行卡未认证</option>
+                                                            <option th:value="2">已认证</option>
+                                                        </select>
+                                                    </div>
+                                                    <label class="col-sm-1 control-label">当前借款：</label>
+                                                    <div class="col-sm-3" style="width: 200px;">
+                                                        <select id="orderStatusPay" style="width: 170px;">
+                                                            <option th:value="null">全部</option>
+                                                            <option th:value="7">有</option>
+                                                            <option th:value="10">无</option>
+                                                        </select>
+                                                    </div>
+                                                    <label class="col-sm-1 control-label">借款历史：</label>
+                                                    <div class="col-sm-3" style="width: 200px;">
+                                                        <input id="orderNum" data-original-title="Tooltip for name"
+                                                               class="form-control radius" placeholder="次数"
+                                                               type="text"/>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xs-12">
+                                    <div style="margin-bottom: 10px;">
+                                        <!--<button class="btn btn-success btn-sm radius" id="addUserBtn">
+                                            <i class="fa  fa-plus"></i> 新增账号
+                                        </button>-->
+                                        <span id="fastMenuDiv" th:if="${phoneNumber==null}">
+                                            <button class="btn btn-primary btn-sm radius" id="orderStatus"
+                                                    value="">
+                                                <i class="fa fa-pencil-square-o"></i> <span
+                                                    id="mentuOrderName">业务来往</span>
+                                                <input type="hidden" value="" id="fullnameIn"/>
+                                            </button>
+                                        </span>
+                                        <script>
+                                            $(function () {
+                                                //单击快捷方式
+                                                $("#fastMenuDiv").on("click", "button.btn", function () {
+                                                    if (memberOrder()) {
+                                                        var id = $(this).attr("id");
+                                                        var url = $(this).attr("value");
+                                                        /*<![CDATA[*/
+                                                        if (id && url) {
+                                                            parent.addTabs({
+                                                                id: id,
+                                                                title: $("#fullnameIn").text()+"业务往来",
+                                                                url: url,
+                                                                close: true
+                                                            });
+                                                        }
+                                                        /*]]>*/
+                                                    }
+                                                })
+                                            });
+                                        </script>
+                                        <button class="btn btn-success btn-sm radius" id="userinfo">
+                                            <i class="fa  fa-plus"></i> 基础信息
+                                        </button>
+                                        <button class="btn btn-success btn-sm radius" id="job">
+                                            <i class="fa  fa-plus"></i> 工作单位
+                                        </button>
+                                        <button class="btn btn-success btn-sm radius" id="bankcard">
+                                            <i class="fa  fa-plus"></i> 银行卡
+                                        </button>
+                                        <button class="btn btn-success btn-sm radius" id="linkman">
+                                            <i class="fa  fa-plus"></i> 联系人
+                                        </button>
+                                        <button class="btn btn-success btn-sm radius" id="devices">
+                                            <i class="fa  fa-plus"></i> 设备信息
+                                        </button>
+                                        <button class="btn btn-success btn-sm radius" id="checkRisk">
+                                            <i class="fa  fa-plus"></i> 风控信息
+                                        </button>
+                                        <button class="btn btn-success btn-sm radius" id="addressBook">
+                                            <i class="fa  fa-plus"></i> 通讯录
+                                        </button>
+                                        <button class="btn btn-danger btn-sm radius" id="backlist" th:if="${phoneNumber==null}">
+                                            <script>
+                                                $("#backlist").click(function () {
+                                                    var state = $("#uppBacklist").val();
+                                                    var ids = "";
+                                                    var rows = $(grid_selector).getGridParam('selarrrow');
+                                                    rows.forEach(function (item, index) {
+                                                        ids += $(grid_selector).jqGrid('getRowData', rows[index]).uid + ",";
+                                                    });
+                                                    if (rows.length > 0) {
+                                                        $.messager.confirm("温馨提示", "是否确定修改所选记录？", function () {
+                                                            $.ajax({
+                                                                url: "member/blacklist",
+                                                                cache: false,
+                                                                type: "post",
+                                                                data: {"ids": ids, "status": state},
+                                                                beforeSend: function () {
+                                                                    loading = layer.load("正在修改中...");
+                                                                },
+                                                                success: function (result) {
+                                                                    $.messager.alert(result.message);
+                                                                    refreshData();
+                                                                }, error: function () {
+                                                                    $.messager.alert("温馨提示", "请求错误!");
+                                                                },
+                                                                complete: function () {
+                                                                    layer.close(loading);
+                                                                }
+                                                            });
+                                                        });
+                                                    } else {
+                                                        //两种风格的提示,layer或者messager自己选择一种用即可。
+                                                        // $.messager.alert("温馨提示","至少选择一行记录！");
+                                                        layer.msg('至少选中一行记录！', {icon: 7, time: 2000}); //2秒关闭（如果不配置，默认是3秒）
+                                                    }
+                                                });
+                                            </script>
+                                            <i class="fa fa-trash-o fa-lg"></i> <span th:text="${satausName}">加入</span>黑名单
+                                            <input th:value="${sataus}" id="uppBacklist" value=""
+                                                   style="display: none"/>
+                                        </button>
+                                        <button class="btn btn-warning btn-sm radius" id="authorizeBtn">
+                                            <i class="icon-group"></i> 导出
+                                        </button>
+                                        <!--<button class="btn btn-primary btn-sm radius" id="modifyUserBtn">
+                                            <i class="fa fa-pencil-square-o"></i> 修改
+                                        </button>-->
+                                    </div>
+                                    <table id="jqGrid"></table>
+                                    <div id="jqGridPager"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--新增窗口-->
+<div id="addModal" class="bootbox modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog ">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">新增账号</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" role="form" onsubmit="return false;">
+
+                    <div class="form-group" style="display: none;">
+                        <label class="col-sm-2 control-label">id</label>
+                        <div class="col-sm-8">
+                            <input id="uid" type="text" class="form-control" placeholder=""/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">昵称</label>
+                        <div class="col-sm-8">
+                            <input id="name" type="text" class="form-control" placeholder="昵称"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">登录账号</label>
+                        <div class="col-sm-8">
+                            <input id="username" type="text" class="form-control" placeholder="输入登录账号"/>
+                            <div id="errorTip" style="color: red;display: none;"
+                                 class="help-block col-xs-12 col-sm-reset"></div>
+                        </div>
+                    </div>
+                    <div id="oldpasswordStr">
+
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" id="newusername">密码</label>
+                        <div class="col-sm-8">
+                            <input id="password" type="text" class="form-control" placeholder="输入密码"/>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button data-bb-handler="confirm" type="button" id="saveUserBtn" class="btn btn-success radius">
+                    <span><i class="icon-ok"></i></span> &nbsp;保&nbsp;&nbsp;存
+                </button>
+                <button data-bb-handler="cancel" type="button" id="cancelSave" class="btn btn-danger radius">取消</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--新增用户详情窗口-->
+<div id="memberDetailModal" class="bootbox modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog ">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="myModalMemberDetailLabel">用户详情</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" role="form" onsubmit="return false;" id="detailForm">
+                    <div class="form-group" style="display: none;">
+                        <label class="col-sm-2 control-label">id</label>
+                        <div class="col-sm-8">
+                            <input name="id" value="" type="text" class="form-control" placeholder=""/>
+                        </div>
+                    </div>
+                    <div class="form-group" style="display: none;">
+                        <label class="col-sm-2 control-label">id</label>
+                        <div class="col-sm-8">
+                            <input name="memberid" value="" type="text" class="form-control" placeholder=""/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">姓名</label>
+                        <div class="col-sm-8">
+                            <input name="fullname" type="text" class="form-control" placeholder="姓名"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">证件类型</label>
+                        <select name="idType" class="col-sm-8" style="margin-left:15px;width: 62%">
+                            <option value="0">身份证</option>
+                            <option value="1">军官证</option>
+                            <option value="2">护照</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">证件号</label>
+                        <div class="col-sm-8">
+                            <input name="idCard" type="text" class="form-control" placeholder="证件号"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">有效期</label>
+                        <div class='input-group col-sm-8' style="margin-left:115px;width: 61.5%">
+                            <input name="periodOfValidity" type='text' class="form-control date-picker"
+                                   readonly="readonly"
+                                   placeholder="证件有效期"/>
+                            <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                 </span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">年龄</label>
+                        <div class="col-sm-8">
+                            <input name="age" type="text" class="form-control" placeholder="年龄"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">性别</label>
+                        <select name="sex" class="col-sm-8" style="margin-left:15px;width: 62%">
+                            <option value="0">男</option>
+                            <option value="1">女</option>
+                        </select>
+                    </div>
+                    <!--todo 地址 未与客户端确定数据源-->
+                    <!--<div class="form-group">
+                        <label class="col-sm-2 control-label">户籍所在城市</label>
+                        <div class="col-sm-8">
+                            <input id="domicileCity" type="text" class="form-control" placeholder="户籍所在城市"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">户籍地址</label>
+                        <div class="col-sm-8">
+                            <input id="permanentAddress" type="text" class="form-control" placeholder="户籍地址"/>
+
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">现居住城市</label>
+                        <div class="col-sm-8">
+                            <input id="nowLivingInCity" type="text" class="form-control" placeholder="现居住城市"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">居住地址</label>
+                        <div class="col-sm-8">
+                            <input id="residence" type="text" class="form-control" placeholder="居住地址"/>
+                        </div>
+                    </div>-->
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">学历</label>
+                        <select name="recordOfFormalSchooling" class="col-sm-8" style="margin-left:15px;width: 62%">
+                            <option value="">&nbsp;&nbsp;</option>
+                            <option value="0">博士及博士后</option>
+                            <option value="1">硕士</option>
+                            <option value="2">大学本科</option>
+                            <option value="3">大专</option>
+                            <option value="4">高中</option>
+                            <option value="5">中专</option>
+                            <option value="6">初中</option>
+                            <option value="7">小学</option>
+                            <option value="8">其他</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">毕业时间</label>
+                        <!--指定 date标记-->
+                        <div class='input-group col-sm-8' style="margin-left:115px;width: 61.5%">
+                            <input name="graduationTime" type='text' class="form-control date-picker"
+                                   readonly="readonly"
+                                   placeholder="毕业时间"/>
+                            <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                 </span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">家庭人数</label>
+                        <div class="col-sm-8">
+                            <input name="familySize" type="text" class="form-control" placeholder="家庭成员人数"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">是否有房</label>
+                        <select name="isroom" class="col-sm-8" style="margin-left:15px;width: 62%">
+                            <option value="0">否</option>
+                            <option value="1">是</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">是否有车</label>
+                        <select name="iscar" class="col-sm-8" style="margin-left:15px;width: 62%">
+                            <option value="0">否</option>
+                            <option value="1">是</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">婚姻</label>
+                        <select name="ismarry" class="col-sm-8" style="margin-left:15px;width: 62%">
+                            <option value="0">未婚</option>
+                            <option value="1">已婚</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">行业</label>
+                        <div class="col-sm-8">
+                            <input name="vocation" type="text" class="form-control" placeholder="行业"/>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button data-bb-handler="confirm" type="button" id="saveDetailBtn" class="btn btn-success radius">
+                    <span><i class="icon-ok"></i></span> &nbsp;保&nbsp;&nbsp;存
+                </button>
+                <button data-bb-handler="cancel" type="button" id="cancelDetailSave" class="btn btn-danger radius">取消
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--新增用户联系人窗口-->
+<div id="linkmanModal" class="bootbox modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog ">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="myModalLinkmanLabel">用户详情</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" role="form" onsubmit="return false;" id="linkmanForm">
+                    <div class="form-group" style="display: none;">
+                        <label class="col-sm-2 control-label">id</label>
+                        <div class="col-sm-8">
+                            <input name="id" value="" type="text" class="form-control" placeholder=""/>
+                        </div>
+                    </div>
+                    <div class="form-group" style="display: none;">
+                        <label class="col-sm-2 control-label">id</label>
+                        <div class="col-sm-8">
+                            <input name="memberid" value="" type="text" class="form-control" placeholder=""/>
+                        </div>
+                    </div>
+                    <div>联系人一</div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">姓名</label>
+                        <div class="col-sm-8">
+                            <input name="linkmanName" type="text" class="form-control" placeholder="联系人一姓名"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">关系</label>
+                        <select name="linkmanRelation" class="col-sm-8" style="margin-left:15px;width: 62%">
+                            <option value="0">父母</option>
+                            <option value="1">朋友</option>
+                            <option value="2">配偶</option>
+                            <option value="3">其他</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">电话</label>
+                        <div class="col-sm-8">
+                            <input name="linkmanPhone" type="text" class="form-control" placeholder="联系人一电话"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">添加时间</label>
+                        <div class='input-group col-sm-8' style="margin-left:115px;width: 61.5%">
+                            <input name="linkmanAddtime" type='text' class="form-control date-picker"
+                                   readonly="readonly"
+                                   placeholder="联系人一添加时间"/>
+                            <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                 </span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">添加渠道</label>
+                        <div class="col-sm-8">
+                            <input name="linkmanAddChannel" type="text" class="form-control" placeholder="联系人一添加渠道"/>
+                        </div>
+                    </div>
+                    <div>联系人二</div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">姓名</label>
+                        <div class="col-sm-8">
+                            <input name="linkmanNameTwo" type="text" class="form-control" placeholder="联系人二姓名"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">关系</label>
+                        <select name="linkmanRelationTwo" class="col-sm-8" style="margin-left:15px;width: 62%">
+                            <option value="0">父母</option>
+                            <option value="1">朋友</option>
+                            <option value="2">配偶</option>
+                            <option value="3">其他</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">电话</label>
+                        <div class="col-sm-8">
+                            <input name="linkmanPhoneTwo" type="text" class="form-control" placeholder="联系人二电话"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">添加时间</label>
+                        <div class='input-group col-sm-8' style="margin-left:115px;width: 61.5%">
+                            <input name="linkmanAddtimeTwo" type='text' class="form-control date-picker"
+                                   readonly="readonly"
+                                   placeholder="联系人二添加时间"/>
+                            <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                 </span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">添加渠道</label>
+                        <div class="col-sm-8">
+                            <input name="linkmanAddChannelTwo" type="text" class="form-control" placeholder="联系人二添加渠道"/>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button data-bb-handler="confirm" type="button" id="saveLinkmanBtn" class="btn btn-success radius">
+                    <span><i class="icon-ok"></i></span> &nbsp;保&nbsp;&nbsp;存
+                </button>
+                <button data-bb-handler="cancel" type="button" id="cancelLinkmanSave" class="btn btn-danger radius">取消
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--新增用户职业窗口-->
+<div id="jobModal" class="bootbox modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog ">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="myModalJobLabel">职业信息</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" role="form" onsubmit="return false;" id="jobForm">
+                    <div class="form-group" style="display: none;">
+                        <label class="col-sm-2 control-label">id</label>
+                        <div class="col-sm-8">
+                            <input name="id" value="" type="text" class="form-control" placeholder=""/>
+                        </div>
+                    </div>
+                    <div class="form-group" style="display: none;">
+                        <label class="col-sm-2 control-label">id</label>
+                        <div class="col-sm-8">
+                            <input name="memberid" value="" type="text" class="form-control" placeholder=""/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">单位名称</label>
+                        <div class="col-sm-8">
+                            <input name="corporateName" type="text" class="form-control" placeholder="单位名称"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">所属行业</label>
+                        <div class="col-sm-8">
+                            <input name="industry" type="text" class="form-control" placeholder="所属行业"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">职务</label>
+                        <select name="companyPositions" class="col-sm-8" style="margin-left:15px;width: 62%">
+                            <option value="0">初级</option>
+                            <option value="1">中级</option>
+                            <option value="2">高级</option>
+                            <option value="3">未知</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">所在城市</label>
+                        <div class="col-sm-8">
+                            <input name="businessCity" type="text" class="form-control" placeholder="单位所在城市"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">地址</label>
+                        <div class="col-sm-8">
+                            <input name="companyAddress" type="text" class="form-control" placeholder="单位地址"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">入职时间</label>
+                        <div class='input-group col-sm-8' style="margin-left:115px;width: 61.5%">
+                            <input name="jobsAddCompanyTime" type='text' class="form-control date-picker"
+                                   readonly="readonly"
+                                   placeholder="入职时间"/>
+                            <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                 </span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">工作年限</label>
+                        <div class="col-sm-8">
+                            <input name="jobsTime" type="text" class="form-control" placeholder="工作年限"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">公积金</label>
+                        <select name="isAccumulationFund" class="col-sm-8" style="margin-left:15px;width: 62%">
+                            <option value="0">无</option>
+                            <option value="1">有</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">工资</label>
+                        <select name="wages" class="col-sm-8" style="margin-left:15px;width: 62%">
+                            <option value="0">1-3k</option>
+                            <option value="1">3-5k</option>
+                            <option value="1">5k以上</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">添加时间</label>
+                        <div class='input-group col-sm-8' style="margin-left:115px;width: 61.5%">
+                            <input name="jobsAddtime" type='text' class="form-control date-picker"
+                                   readonly="readonly"
+                                   placeholder="添加时间"/>
+                            <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                 </span>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button data-bb-handler="confirm" type="button" id="saveJobBtn" class="btn btn-success radius">
+                    <span><i class="icon-ok"></i></span> &nbsp;保&nbsp;&nbsp;存
+                </button>
+                <button data-bb-handler="cancel" type="button" id="cancelJobSave" class="btn btn-danger radius">取消
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--新增设备信息窗口-->
+<div id="devicesModal" class="bootbox modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog ">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="myModalDevicesLabel">设备信息</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" role="form" onsubmit="return false;" id="devicesForm">
+                    <div class="form-group" style="display: none;">
+                        <label class="col-sm-2 control-label">id</label>
+                        <div class="col-sm-8">
+                            <input name="id" value="" type="text" class="form-control" placeholder=""/>
+                        </div>
+                    </div>
+                    <div class="form-group" style="display: none;">
+                        <label class="col-sm-2 control-label">id</label>
+                        <div class="col-sm-8">
+                            <input name="memberid" value="" type="text" class="form-control" placeholder=""/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">手机号</label>
+                        <div class="col-sm-8">
+                            <input name="devicesPhone" type="text" class="form-control" placeholder="手机号"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">ifa信息</label>
+                        <div class="col-sm-8">
+                            <input name="devicesIfa" type="text" class="form-control" placeholder="ifa信息"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">mac地址</label>
+                        <div class="col-sm-8">
+                            <input name="devicesMac" type="text" class="form-control" placeholder="mac地址"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">Wifi</label>
+                        <div class="col-sm-8">
+                            <input name="devicesWifi" type="text" class="form-control" placeholder="Wifi"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">IP</label>
+                        <div class="col-sm-8">
+                            <input name="devicesIp" type="text" class="form-control" placeholder="IP"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">系统类型</label>
+                        <div class="col-sm-8">
+                            <input name="devicesSystemType" type="text" class="form-control" placeholder="系统类型"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">系统版本</label>
+                        <div class="col-sm-8">
+                            <input name="devicesSystemVersion" type="text" class="form-control" placeholder="系统版本"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">应用版本</label>
+                        <div class="col-sm-8">
+                            <input name="devicesAppVersion" type="text" class="form-control" placeholder="应用版本"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">添加时间</label>
+                        <div class='input-group col-sm-8' style="margin-left:115px;width: 61.5%">
+                            <input name="devicesAddtime" type='text' class="form-control date-picker"
+                                   readonly="readonly"
+                                   placeholder="添加时间"/>
+                            <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                 </span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">修改时间</label>
+                        <div class='input-group col-sm-8' style="margin-left:115px;width: 61.5%">
+                            <input name="devicesUpptime" type='text' class="form-control date-picker"
+                                   readonly="readonly"
+                                   placeholder="修改时间"/>
+                            <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                 </span>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button data-bb-handler="confirm" type="button" id="saveDevicesBtn" class="btn btn-success radius">
+                    <span><i class="icon-ok"></i></span> &nbsp;保&nbsp;&nbsp;存
+                </button>
+                <button data-bb-handler="cancel" type="button" id="cancelDevicesSave" class="btn btn-danger radius">取消
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="bankcardModal" class="bootbox modal fade" tabindex="-1" role="dialog" style="z-index: 1041">
+    <div class="modal-dialog " style="width:1300px" id="bank">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="myModalBankcardLabel">设备信息</h4>
+            </div>
+            <div id="sendSMS">
+                <div class="panel-body">
+                    <button class="btn btn-success btn-sm radius" onclick="sendSMS()">
+                        <i class="fa  fa-plus"></i> 发送短信
+                    </button>
+                </div>
+            </div>
+            <div class="modal-body" id="bankcardDiv">
+                <!-- PAGE CONTENT BEGINS -->
+                <!-- <table id="grid-table"></table>
+                 <div id="grid-pager"></div>
+                 <script type="text/javascript">
+                     var $path_base = "/";//this will be used in gritter alerts containing images
+                 </script>-->
+                <!-- PAGE CONTENT ENDS -->
+            </div>
+
+        </div>
+    </div>
+</div>
+<!--新增窗口-->
+<div id="addModal2" class="bootbox modal fade" tabindex="-1" role="dialog" style="z-index: 1042">
+    <div class="modal-dialog ">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel2">发送短信</h4>
+            </div>
+            <div class="modal-body" id="com">
+                <form class="form-horizontal" role="form" onsubmit="return false;">
+
+                    <div class="form-group" style="display: none;">
+                        <label class="col-sm-2 control-label">id</label>
+                        <div class="col-sm-8">
+                            <input id="id" type="text" class="form-control" placeholder=""/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">手机号码</label>
+                        <div class="col-sm-8">
+                            <textarea id="phone2" type="text" class="form-control" style="width:369px;height:80px;"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">发送通道</label>
+                        <div class="col-sm-8">
+                            <select id="use12" class="form-control" > <!--id="name"-->
+                                <option value="ipyy-通知" selected="selected">ipyy-通知</option>
+                                <option value="ipyy-营销">ipyy-营销</option>
+                                <option  value="235-通知" >235-通知</option>
+                                <option  value="235-营销" >235-营销</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">内容模板</label>
+                        <div class="col-sm-8">
+                            <textarea id="content"  style="width:369px;height:80px;"></textarea>
+                            <div style="display: none; width:372px;" class="oopv" id="oopv">
+                                <ul id="numbers" class="numbers">
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button data-bb-handler="confirm" type="button" id="saveLearnBtn" class="btn btn-success radius">
+                    <span><i class="icon-ok"></i></span> &nbsp;发&nbsp;&nbsp;送
+                </button>
+                <button data-bb-handler="cancel" type="button" id="cancelSave2" class="btn btn-danger radius">取消</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="addModal3" class="bootbox modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog ">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel8">留言回复</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" role="form" onsubmit="return false;">
+                    <div class="form-group" style="display: none;">
+                        <label class="col-sm-2 control-label">id</label>
+                        <div class="col-sm-8">
+                            <input id="id8" type="text" class="form-control" placeholder=""/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">类型</label>
+                        <div class="col-sm-8">
+                            <select id="type14"  class="form-control" >
+                                <option th:value="公告">公告</option>
+                                <option th:value="通知">通知</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">收件人</label>
+                        <div class="col-sm-8">
+                            <input id="acceptor" type="text" class="form-control"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">标题</label>
+                        <div class="col-sm-8">
+                            <input id="title" type="text" class="form-control" th:value="回复"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">内容</label>
+                        <div class="col-sm-8">
+                            <textarea id="content8"  style="width:369px;height:80px;"></textarea>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button data-bb-handler="confirm" type="button" id="saveLearnBtn2" class="btn btn-success radius">
+                    <span><i class="icon-ok"></i></span> &nbsp;提&nbsp;&nbsp;交
+                </button>
+                <button data-bb-handler="cancel" type="button" id="cancelSave8" class="btn btn-danger radius">取消</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../static/assets/js/ace-extra.min.js" th:src="@{/assets/js/ace-extra.min.js}"></script>
+<!--[if lt IE 9]>
+<script src="../static/assets/js/html5shiv.js" th:src="@{/assets/js/html5shiv.js}"></script>
+<script src="../static/assets/js/respond.min.js" th:src="@{/assets/js/respond.min.js}"></script>
+<![endif]-->
+<script src="../static/assets/js/jqGrid/jquery.jqGrid.min.js"
+        th:src="@{/assets/js/jqGrid/jquery.jqGrid.min.js}"></script>
+<script src="../static/assets/js/jqGrid/i18n/grid.locale-en.js"
+        th:src="@{/assets/js/jqGrid/i18n/grid.locale-en.js}"></script>
+<script src="../static/assets/js/bootstrap.min.js" th:src="@{/assets/js/bootstrap.min.js}"></script>
+<script src="../static/assets/js/typeahead-bs2.min.js" th:src="@{/assets/js/typeahead-bs2.min.js}"></script>
+<!-- page specific plugin scripts -->
+<script src="../static/assets/js/jquery-ui-1.10.3.custom.min.js"
+        th:src="@{/assets/js/jquery-ui-1.10.3.custom.min.js}"></script>
+<script src="../static/assets/js/date-time/moment.min.js" th:src="@{/assets/js/date-time/moment.min.js}"></script>
+<script src="../static/assets/js/date-time/bootstrap-datetimepicker.min.js"
+        th:src="@{/assets/js/date-time/bootstrap-datetimepicker.min.js}"></script>
+<script src="../static/assets/js/date-time/bootstrap-datetimepicker.zh-CN.js"
+        th:src="@{/assets/js/date-time/bootstrap-datetimepicker.zh-CN.js}"></script>
+<script src="../static/assets/js/jquery.slimscroll.min.js" th:src="@{/assets/js/jquery.slimscroll.min.js}"></script>
+<script src="../static/assets/js/chosen.jquery.min.js" th:src="@{/assets/js/chosen.jquery.min.js}"></script>
+<script src="../static/assets/js/ace-elements.min.js" th:src="@{/assets/js/ace-elements.min.js}"></script>
+<script src="../static/assets/js/ace.min.js" th:src="@{/assets/js/ace.min.js}"></script>
+<script src="../static/assets/js/md5.js" th:src="@{/assets/js/md5.js}"></script>
+<script src="../static/assets/js/custom.js" th:src="@{/assets/js/custom.js}"></script>
+<script src="../static/assets/js/jquery.messager.js" th:src="@{/assets/js/jquery.messager.js}"></script>
+<script src="../static/assets/js/layer/layer.js" th:src="@{/assets/js/layer/layer.js}"></script>
+<script src="../static/assets/js/bootbox.min.js" th:src="@{/assets/js/bootbox.min.js}"></script>
+<script th:src="@{/js/member-list.js}"></script>
+<script type="text/javascript">
+    $(function () {
+        $('.date-picker').datetimepicker({
+            format: "yyyy-mm-dd hh:ii",
+            language: "zh-CN",
+            todayHighlight: true,
+            todayBtn: true
+        });
+    });
+
+</script>
+
+</body>
+</html>

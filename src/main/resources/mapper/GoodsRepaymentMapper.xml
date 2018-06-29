@@ -1,0 +1,546 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shoumipay.dao.GoodsRepaymentMapper">
+  <resultMap id="BaseResultMap" type="com.shoumipay.domain.GoodsRepayment">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="order_Id" jdbcType="BIGINT" property="orderId" />
+    <result column="repayment_times" jdbcType="INTEGER" property="repaymentTimes" />
+    <result column="repayment_amount" jdbcType="DECIMAL" property="repaymentAmount" />
+    <result column="repayment_cost" jdbcType="DECIMAL" property="repaymentCost" />
+    <result column="repayment_capital" jdbcType="DECIMAL" property="repaymentCapital" />
+    <result column="repayment_interest" jdbcType="DECIMAL" property="repaymentInterest" />
+    <result column="repayment_default_interest" jdbcType="DECIMAL" property="repaymentDefaultInterest" />
+    <result column="repayment_manage_cost" jdbcType="DECIMAL" property="repaymentManageCost" />
+    <result column="real_amount" jdbcType="DECIMAL" property="realAmount" />
+    <result column="real_cost" jdbcType="DECIMAL" property="realCost" />
+    <result column="real_capital" jdbcType="DECIMAL" property="realCapital" />
+    <result column="real_interest" jdbcType="DECIMAL" property="realInterest" />
+    <result column="real_default_interest" jdbcType="DECIMAL" property="realDefaultInterest" />
+    <result column="real_manage_cost" jdbcType="DECIMAL" property="realManageCost" />    <result column="repayment_status" jdbcType="INTEGER" property="repaymentStatus" />
+    <result column="repayment_type" jdbcType="INTEGER" property="repaymentType" />
+    <result column="repayment_cardId" jdbcType="BIGINT" property="repaymentCardid" />
+    <result column="repayment_time" jdbcType="TIMESTAMP" property="repaymentTime" />
+    <result column="repayment_number" jdbcType="VARCHAR" property="repaymentNumber" />
+    <result column="active" jdbcType="INTEGER" property="active" />  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, order_Id, repayment_times, repayment_amount, repayment_cost, repayment_capital, 
+    repayment_interest, repayment_default_interest, repayment_manage_cost, real_amount, 
+    real_cost, real_capital, real_interest, real_default_interest, real_manage_cost, 
+    repayment_status, repayment_type, repayment_cardId, repayment_time, repayment_number, 
+    active  </sql>
+  <select id="selectByExample" parameterType="com.shoumipay.domain.GoodsRepaymentExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from cl_goods_repayment
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from cl_goods_repayment
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+
+
+  <select id="selectUnRepayByOrderIdTimes" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from cl_goods_repayment
+    where order_Id = #{orderId,jdbcType=BIGINT} AND repayment_times = #{times} AND `active` = 1
+  </select>
+  <select id="queryByPrepaymentVO" resultType="com.shoumipay.vo.PrepaymentVO">
+    SELECT
+    t1.order_number orderNumber,t.id id,t.order_Id orderId,t.repayment_times repaymentTimes,
+    t.repayment_Amount repaymentAmount,t.repayment_Cost repaymentCost,t.repayment_Capital repaymentCapital,
+    t.repayment_Interest repaymentInterest,t.repayment_Default_Interest repaymentDefaultInterest,
+    t.repayment_Manage_Cost repaymentManageCost,t.real_Amount  realAmount,t.real_Cost realCost,
+    t.real_Capital realCapital,t.real_Interest realInterest,t.real_Default_Interest realDefaultInterest,
+    t.real_Manage_Cost realManageCost,t.repayment_Status repaymentStatus,t.repayment_Type repaymentType,
+    t2.bankCard_Number repaymentCardid,t.repayment_Time repaymentTime,t.repayment_Number repaymentNumber,
+    t.active active
+    FROM cl_goods_repayment t,cl_goods_order t1,cl_member_bankcard t2
+    WHERE t1.id=t.order_Id and t.repayment_Cardid=t2.cardId
+    <if test="vo.repaymentType !=null and vo.repaymentType !='' ">
+      AND t.repayment_Type = ${vo.repaymentType}
+    </if>
+    <if test="vo.repaymentStatus !=null and vo.repaymentStatus !='' ">
+      AND t.repayment_status = ${vo.repaymentStatus}
+    </if>
+    <if test="vo.orderId !=null and vo.orderId !='' ">
+      AND t.order_Id = ${vo.orderId}
+    </if>
+    <if test="vo.active !=null and vo.active !='' ">
+      AND t.active = ${vo.orderTypes}
+    </if>
+    <if test="vo.orderNumber !=null and vo.orderNumber !='' ">
+      AND t1.order_number LIKE CONCAT('%', #{vo.orderNumber}, '%')
+    </if>
+    <if test="vo.repaymentCardid !=null and vo.repaymentCardid !='' ">
+      AND t2.bankCard_Number LIKE CONCAT('%', #{vo.repaymentCardid}, '%')
+    </if>
+    <if test="vo.minRepayTime !=null and vo.minRepayTime !='' ">
+      <![CDATA[ and t.repayment_time  >=  #{vo.minRepayTime}  ]]>
+    </if>
+    <if test="vo.maxRepayTime !=null and vo.maxRepayTime!='' ">
+      <![CDATA[ and t.repayment_time <=  #{vo.maxRepayTime}  ]]>
+    </if>
+    <if test="vo.minRepayAmount !=null and vo.minRepayAmount !='' ">
+      <![CDATA[ and t.real_amount  >=  #{vo.minRepayAmount}  ]]>
+    </if>
+    <if test="vo.maxRepayAmount !=null and vo.maxRepayAmount!='' ">
+      <![CDATA[ and t.real_amount <=  #{vo.maxRepayAmount}  ]]>
+    </if>
+    ORDER BY  t.repayment_time,t1.order_number DESC
+  </select>
+<select id="selectByOrderId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from cl_goods_repayment
+    where order_Id = #{1}
+  </select>
+
+  <select id="selectRepayByOrderIdTimes" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from cl_goods_repayment
+    where order_Id = #{orderId} AND `active` = 0
+  </select>
+
+  <select id="selectByOrderIdTimes" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from cl_goods_repayment
+    where order_Id = #{orderId} AND repayment_times = #{times}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from cl_goods_repayment
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.shoumipay.domain.GoodsRepaymentExample">
+    delete from cl_goods_repayment
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.shoumipay.domain.GoodsRepayment">
+    insert into cl_goods_repayment (id, order_Id, repayment_times, 
+      repayment_amount, repayment_cost, repayment_capital, 
+      repayment_interest, repayment_default_interest, 
+      repayment_manage_cost, real_amount, real_cost, 
+      real_capital, real_interest, real_default_interest, 
+      real_manage_cost, repayment_status, repayment_type, 
+      repayment_cardId, repayment_time, repayment_number, 
+      active)
+    values (#{id,jdbcType=BIGINT}, #{orderId,jdbcType=BIGINT}, #{repaymentTimes,jdbcType=INTEGER}, 
+      #{repaymentAmount,jdbcType=DECIMAL}, #{repaymentCost,jdbcType=DECIMAL}, #{repaymentCapital,jdbcType=DECIMAL}, 
+      #{repaymentInterest,jdbcType=DECIMAL}, #{repaymentDefaultInterest,jdbcType=DECIMAL}, 
+      #{repaymentManageCost,jdbcType=DECIMAL}, #{realAmount,jdbcType=DECIMAL}, #{realCost,jdbcType=DECIMAL}, 
+      #{realCapital,jdbcType=DECIMAL}, #{realInterest,jdbcType=DECIMAL}, #{realDefaultInterest,jdbcType=DECIMAL}, 
+      #{realManageCost,jdbcType=DECIMAL}, #{repaymentStatus,jdbcType=INTEGER}, #{repaymentType,jdbcType=INTEGER}, 
+      #{repaymentCardid,jdbcType=BIGINT}, #{repaymentTime,jdbcType=TIMESTAMP}, #{repaymentNumber,jdbcType=VARCHAR}, 
+      #{active,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.shoumipay.domain.GoodsRepayment">
+    insert into cl_goods_repayment
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="orderId != null">
+        order_Id,
+      </if>
+      <if test="repaymentTimes != null">
+        repayment_times,
+      </if>
+      <if test="repaymentAmount != null">
+        repayment_amount,
+      </if>
+      <if test="repaymentCost != null">
+        repayment_cost,
+      </if>
+      <if test="repaymentCapital != null">
+        repayment_capital,
+      </if>
+      <if test="repaymentInterest != null">
+        repayment_interest,
+      </if>
+      <if test="repaymentDefaultInterest != null">
+        repayment_default_interest,
+      </if>
+      <if test="repaymentManageCost != null">
+        repayment_manage_cost,
+      </if>
+      <if test="realAmount != null">
+        real_amount,
+      </if>
+      <if test="realCost != null">
+        real_cost,
+      </if>
+      <if test="realCapital != null">
+        real_capital,
+      </if>
+      <if test="realInterest != null">
+        real_interest,
+      </if>
+      <if test="realDefaultInterest != null">
+        real_default_interest,
+      </if>
+      <if test="realManageCost != null">
+        real_manage_cost,
+      </if>      <if test="repaymentStatus != null">
+        repayment_status,
+      </if>
+      <if test="repaymentType != null">
+        repayment_type,
+      </if>
+      <if test="repaymentCardid != null">
+        repayment_cardId,
+      </if>
+      <if test="repaymentTime != null">
+        repayment_time,
+      </if>
+      <if test="repaymentNumber != null">
+        repayment_number,
+      </if>
+      <if test="active != null">
+        active,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="orderId != null">
+        #{orderId,jdbcType=BIGINT},
+      </if>
+      <if test="repaymentTimes != null">
+        #{repaymentTimes,jdbcType=INTEGER},
+      </if>
+      <if test="repaymentAmount != null">
+        #{repaymentAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="repaymentCost != null">
+        #{repaymentCost,jdbcType=DECIMAL},
+      </if>
+      <if test="repaymentCapital != null">
+        #{repaymentCapital,jdbcType=DECIMAL},
+      </if>
+      <if test="repaymentInterest != null">
+        #{repaymentInterest,jdbcType=DECIMAL},
+      </if>
+      <if test="repaymentDefaultInterest != null">
+        #{repaymentDefaultInterest,jdbcType=DECIMAL},
+      </if>
+      <if test="repaymentManageCost != null">
+        #{repaymentManageCost,jdbcType=DECIMAL},
+      </if>
+      <if test="realAmount != null">
+        #{realAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="realCost != null">
+        #{realCost,jdbcType=DECIMAL},
+      </if>
+      <if test="realCapital != null">
+        #{realCapital,jdbcType=DECIMAL},
+      </if>
+      <if test="realInterest != null">
+        #{realInterest,jdbcType=DECIMAL},
+      </if>
+      <if test="realDefaultInterest != null">
+        #{realDefaultInterest,jdbcType=DECIMAL},
+      </if>
+      <if test="realManageCost != null">
+        #{realManageCost,jdbcType=DECIMAL},
+      </if>      <if test="repaymentStatus != null">
+        #{repaymentStatus,jdbcType=INTEGER},
+      </if>
+      <if test="repaymentType != null">
+        #{repaymentType,jdbcType=INTEGER},
+      </if>
+      <if test="repaymentCardid != null">
+        #{repaymentCardid,jdbcType=BIGINT},
+      </if>
+      <if test="repaymentTime != null">
+        #{repaymentTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="repaymentNumber != null">
+        #{repaymentNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="active != null">
+        #{active,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.shoumipay.domain.GoodsRepaymentExample" resultType="java.lang.Long">
+    select count(*) from cl_goods_repayment
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <select id="countOverdue" resultType="java.lang.Long">
+    select count(*)
+    from cl_goods_repayment as r RIGHT JOIN cl_goods_repayment_plan as p
+      ON (r.order_Id=p.order_Id and r.repayment_times=p.repayment_plan_times)
+    WHERE r.order_Id=#{orderId} and (r.repayment_status=2 or r.repayment_status=3) and
+    TIMESTAMPDIFF(SECOND ,p.repayment_plan_end_time,now()) > 60*60*24*#{days}
+  </select>
+  <select id="countOverdue7" parameterType="java.lang.Long" resultType="java.lang.Long">
+    select count(*)
+    from cl_goods_repayment as r RIGHT JOIN cl_goods_repayment_plan as p
+    ON (r.order_Id=p.order_Id and r.repayment_times=p.repayment_plan_times)
+    WHERE r.order_Id=#{orderId} and (r.repayment_status=2 or r.repayment_status=3) and
+    TIMESTAMPDIFF(SECOND ,p.repayment_plan_end_time,now()) > 60*60*24*7
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update cl_goods_repayment
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.orderId != null">
+        order_Id = #{record.orderId,jdbcType=BIGINT},
+      </if>
+      <if test="record.repaymentTimes != null">
+        repayment_times = #{record.repaymentTimes,jdbcType=INTEGER},
+      </if>
+      <if test="record.repaymentAmount != null">
+        repayment_amount = #{record.repaymentAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="record.repaymentCost != null">
+        repayment_cost = #{record.repaymentCost,jdbcType=DECIMAL},
+      </if>
+      <if test="record.repaymentCapital != null">
+        repayment_capital = #{record.repaymentCapital,jdbcType=DECIMAL},
+      </if>
+      <if test="record.repaymentInterest != null">
+        repayment_interest = #{record.repaymentInterest,jdbcType=DECIMAL},
+      </if>
+      <if test="record.repaymentDefaultInterest != null">
+        repayment_default_interest = #{record.repaymentDefaultInterest,jdbcType=DECIMAL},
+      </if>
+      <if test="record.repaymentManageCost != null">
+        repayment_manage_cost = #{record.repaymentManageCost,jdbcType=DECIMAL},
+      </if>
+      <if test="record.realAmount != null">
+        real_amount = #{record.realAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="record.realCost != null">
+        real_cost = #{record.realCost,jdbcType=DECIMAL},
+      </if>
+      <if test="record.realCapital != null">
+        real_capital = #{record.realCapital,jdbcType=DECIMAL},
+      </if>
+      <if test="record.realInterest != null">
+        real_interest = #{record.realInterest,jdbcType=DECIMAL},
+      </if>
+      <if test="record.realDefaultInterest != null">
+        real_default_interest = #{record.realDefaultInterest,jdbcType=DECIMAL},
+      </if>
+      <if test="record.realManageCost != null">
+        real_manage_cost = #{record.realManageCost,jdbcType=DECIMAL},
+      </if>      <if test="record.repaymentStatus != null">
+        repayment_status = #{record.repaymentStatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.repaymentType != null">
+        repayment_type = #{record.repaymentType,jdbcType=INTEGER},
+      </if>
+      <if test="record.repaymentCardid != null">
+        repayment_cardId = #{record.repaymentCardid,jdbcType=BIGINT},
+      </if>
+      <if test="record.repaymentTime != null">
+        repayment_time = #{record.repaymentTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.repaymentNumber != null">
+        repayment_number = #{record.repaymentNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.active != null">
+        active = #{record.active,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update cl_goods_repayment
+    set id = #{record.id,jdbcType=BIGINT},
+      order_Id = #{record.orderId,jdbcType=BIGINT},
+      repayment_times = #{record.repaymentTimes,jdbcType=INTEGER},
+      repayment_amount = #{record.repaymentAmount,jdbcType=DECIMAL},
+      repayment_cost = #{record.repaymentCost,jdbcType=DECIMAL},
+      repayment_capital = #{record.repaymentCapital,jdbcType=DECIMAL},
+      repayment_interest = #{record.repaymentInterest,jdbcType=DECIMAL},
+      repayment_default_interest = #{record.repaymentDefaultInterest,jdbcType=DECIMAL},
+      repayment_manage_cost = #{record.repaymentManageCost,jdbcType=DECIMAL},
+      real_amount = #{record.realAmount,jdbcType=DECIMAL},
+      real_cost = #{record.realCost,jdbcType=DECIMAL},
+      real_capital = #{record.realCapital,jdbcType=DECIMAL},
+      real_interest = #{record.realInterest,jdbcType=DECIMAL},
+      real_default_interest = #{record.realDefaultInterest,jdbcType=DECIMAL},
+      real_manage_cost = #{record.realManageCost,jdbcType=DECIMAL},      repayment_status = #{record.repaymentStatus,jdbcType=INTEGER},
+      repayment_type = #{record.repaymentType,jdbcType=INTEGER},
+      repayment_cardId = #{record.repaymentCardid,jdbcType=BIGINT},
+      repayment_time = #{record.repaymentTime,jdbcType=TIMESTAMP},
+      repayment_number = #{record.repaymentNumber,jdbcType=VARCHAR},
+      active = #{record.active,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.shoumipay.domain.GoodsRepayment">
+    update cl_goods_repayment
+    <set>
+      <if test="orderId != null">
+        order_Id = #{orderId,jdbcType=BIGINT},
+      </if>
+      <if test="repaymentTimes != null">
+        repayment_times = #{repaymentTimes,jdbcType=INTEGER},
+      </if>
+      <if test="repaymentAmount != null">
+        repayment_amount = #{repaymentAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="repaymentCost != null">
+        repayment_cost = #{repaymentCost,jdbcType=DECIMAL},
+      </if>
+      <if test="repaymentCapital != null">
+        repayment_capital = #{repaymentCapital,jdbcType=DECIMAL},
+      </if>
+      <if test="repaymentInterest != null">
+        repayment_interest = #{repaymentInterest,jdbcType=DECIMAL},
+      </if>
+      <if test="repaymentDefaultInterest != null">
+        repayment_default_interest = #{repaymentDefaultInterest,jdbcType=DECIMAL},
+      </if>
+      <if test="repaymentManageCost != null">
+        repayment_manage_cost = #{repaymentManageCost,jdbcType=DECIMAL},
+      </if>
+      <if test="realAmount != null">
+        real_amount = #{realAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="realCost != null">
+        real_cost = #{realCost,jdbcType=DECIMAL},
+      </if>
+      <if test="realCapital != null">
+        real_capital = #{realCapital,jdbcType=DECIMAL},
+      </if>
+      <if test="realInterest != null">
+        real_interest = #{realInterest,jdbcType=DECIMAL},
+      </if>
+      <if test="realDefaultInterest != null">
+        real_default_interest = #{realDefaultInterest,jdbcType=DECIMAL},
+      </if>
+      <if test="realManageCost != null">
+        real_manage_cost = #{realManageCost,jdbcType=DECIMAL},
+      </if>      <if test="repaymentStatus != null">
+        repayment_status = #{repaymentStatus,jdbcType=INTEGER},
+      </if>
+      <if test="repaymentType != null">
+        repayment_type = #{repaymentType,jdbcType=INTEGER},
+      </if>
+      <if test="repaymentCardid != null">
+        repayment_cardId = #{repaymentCardid,jdbcType=BIGINT},
+      </if>
+      <if test="repaymentTime != null">
+        repayment_time = #{repaymentTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="repaymentNumber != null">
+        repayment_number = #{repaymentNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="active != null">
+        active = #{active,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.shoumipay.domain.GoodsRepayment">
+    update cl_goods_repayment
+    set order_Id = #{orderId,jdbcType=BIGINT},
+      repayment_times = #{repaymentTimes,jdbcType=INTEGER},
+      repayment_amount = #{repaymentAmount,jdbcType=DECIMAL},
+      repayment_cost = #{repaymentCost,jdbcType=DECIMAL},
+      repayment_capital = #{repaymentCapital,jdbcType=DECIMAL},
+      repayment_interest = #{repaymentInterest,jdbcType=DECIMAL},
+      repayment_default_interest = #{repaymentDefaultInterest,jdbcType=DECIMAL},
+      repayment_manage_cost = #{repaymentManageCost,jdbcType=DECIMAL},
+      real_amount = #{realAmount,jdbcType=DECIMAL},
+      real_cost = #{realCost,jdbcType=DECIMAL},
+      real_capital = #{realCapital,jdbcType=DECIMAL},
+      real_interest = #{realInterest,jdbcType=DECIMAL},
+      real_default_interest = #{realDefaultInterest,jdbcType=DECIMAL},
+      real_manage_cost = #{realManageCost,jdbcType=DECIMAL},      repayment_status = #{repaymentStatus,jdbcType=INTEGER},
+      repayment_type = #{repaymentType,jdbcType=INTEGER},
+      repayment_cardId = #{repaymentCardid,jdbcType=BIGINT},
+      repayment_time = #{repaymentTime,jdbcType=TIMESTAMP},
+      repayment_number = #{repaymentNumber,jdbcType=VARCHAR},
+      active = #{active,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

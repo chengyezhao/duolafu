@@ -1,0 +1,497 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shoumipay.dao.MemberDetailMapper">
+  <resultMap id="BaseResultMap" type="com.shoumipay.domain.MemberDetail">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="fullname" jdbcType="VARCHAR" property="fullname" />
+    <result column="id_type" jdbcType="INTEGER" property="idType" />
+    <result column="id_card" jdbcType="VARCHAR" property="idCard" />
+    <result column="period_of_validity" jdbcType="VARCHAR" property="periodOfValidity" />
+    <result column="age" jdbcType="INTEGER" property="age" />
+    <result column="sex" jdbcType="INTEGER" property="sex" />
+    <result column="ethnicity" jdbcType="VARCHAR" property="ethnicity" />
+    <result column="issuing_authority" jdbcType="VARCHAR" property="issuingAuthority" />
+    <result column="date_of_birth" jdbcType="VARCHAR" property="dateOfBirth" />
+    <result column="domicile_city" jdbcType="VARCHAR" property="domicileCity" />
+    <result column="permanent_address" jdbcType="VARCHAR" property="permanentAddress" />
+    <result column="record_of_formal_schooling" jdbcType="INTEGER" property="recordOfFormalSchooling" />
+    <result column="graduation_time" jdbcType="TIMESTAMP" property="graduationTime" />
+    <result column="now_living_in_city" jdbcType="VARCHAR" property="nowLivingInCity" />
+    <result column="residence" jdbcType="VARCHAR" property="residence" />
+    <result column="vocation" jdbcType="VARCHAR" property="vocation" />
+    <result column="ismarry" jdbcType="INTEGER" property="ismarry" />
+    <result column="family_size" jdbcType="INTEGER" property="familySize" />
+    <result column="isRoom" jdbcType="TINYINT" property="isroom" />
+    <result column="isCar" jdbcType="TINYINT" property="iscar" />
+    <result column="memberId" jdbcType="BIGINT" property="memberid" />
+    <result column="force_calculate_bill" jdbcType="INTEGER" property="forceCalculateBill" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+     id, fullname, id_type, id_card, period_of_validity, age, sex, ethnicity, issuing_authority, 
+    date_of_birth, domicile_city, permanent_address, record_of_formal_schooling, graduation_time, 
+    now_living_in_city, residence, vocation, ismarry, family_size, isRoom, isCar, memberId, force_calculate_bill
+  </sql>
+  <select id="selectByExample" parameterType="com.shoumipay.domain.MemberDetailExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from cl_member_detail
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByMemberId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from cl_member_detail
+    where memberId=#{1}
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from cl_member_detail
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+    <select id="selectByBirthday" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from cl_member_detail
+        where  date_of_birth regexp CONCAT(#{day}, '$')
+    </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from cl_member_detail
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.shoumipay.domain.MemberDetailExample">
+    delete from cl_member_detail
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.shoumipay.domain.MemberDetail">
+    insert into cl_member_detail (id, fullname, id_type, 
+     id_card, period_of_validity, age, 
+      sex, ethnicity, issuing_authority, 
+      date_of_birth, domicile_city, permanent_address, 
+      record_of_formal_schooling, graduation_time, 
+      now_living_in_city, residence, vocation, 
+      ismarry, family_size, isRoom, 
+      isCar, memberId, force_bill_id)
+    values (#{id,jdbcType=BIGINT}, #{fullname,jdbcType=VARCHAR}, #{idType,jdbcType=INTEGER}, 
+      #{idCard,jdbcType=VARCHAR}, #{periodOfValidity,jdbcType=VARCHAR}, #{age,jdbcType=INTEGER}, 
+      #{sex,jdbcType=INTEGER}, #{ethnicity,jdbcType=VARCHAR}, #{issuingAuthority,jdbcType=VARCHAR}, 
+      #{dateOfBirth,jdbcType=VARCHAR}, #{domicileCity,jdbcType=VARCHAR}, #{permanentAddress,jdbcType=VARCHAR}, 
+      #{recordOfFormalSchooling,jdbcType=INTEGER}, #{graduationTime,jdbcType=TIMESTAMP}, 
+      #{nowLivingInCity,jdbcType=VARCHAR}, #{residence,jdbcType=VARCHAR}, #{vocation,jdbcType=VARCHAR}, 
+      #{ismarry,jdbcType=INTEGER}, #{familySize,jdbcType=INTEGER}, #{isroom,jdbcType=TINYINT}, 
+      #{iscar,jdbcType=TINYINT}, #{memberid,jdbcType=BIGINT}, #{forceCalculateBill,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.shoumipay.domain.MemberDetail">
+    insert into cl_member_detail
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="fullname != null">
+        fullname,
+      </if>
+      <if test="idType != null">
+        id_type,
+      </if>
+      <if test="idCard != null">
+        id_card,
+      </if>
+      <if test="periodOfValidity != null">
+        period_of_validity,
+      </if>
+      <if test="age != null">
+        age,
+      </if>
+      <if test="sex != null">
+        sex,
+  </if>
+      <if test="ethnicity != null">
+        ethnicity,
+      </if>
+      <if test="issuingAuthority != null">
+        issuing_authority,
+      </if>
+      <if test="dateOfBirth != null">
+        date_of_birth,
+      </if>
+      <if test="domicileCity != null">
+        domicile_city,
+      </if>
+      <if test="permanentAddress != null">
+        permanent_address,
+      </if>
+      <if test="recordOfFormalSchooling != null">
+        record_of_formal_schooling,
+      </if>
+      <if test="graduationTime != null">
+        graduation_time,
+      </if>
+      <if test="nowLivingInCity != null">
+        now_living_in_city,
+      </if>
+      <if test="residence != null">
+        residence,
+      </if>
+      <if test="vocation != null">
+        vocation,
+      </if>
+      <if test="ismarry != null">
+        ismarry,
+      </if>
+      <if test="familySize != null">
+        family_size,
+      </if>
+      <if test="isroom != null">
+        isRoom,
+      </if>
+      <if test="iscar != null">
+        isCar,
+      </if>
+      <if test="memberid != null">
+        memberId,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="fullname != null">
+        #{fullname,jdbcType=VARCHAR},
+      </if>
+      <if test="idType != null">
+        #{idType,jdbcType=INTEGER},
+      </if>
+      <if test="idCard != null">
+        #{idCard,jdbcType=VARCHAR},
+      </if>
+      <if test="periodOfValidity != null">
+         #{periodOfValidity,jdbcType=VARCHAR},
+      </if>
+      <if test="age != null">
+        #{age,jdbcType=INTEGER},
+      </if>
+      <if test="sex != null">
+        #{sex,jdbcType=INTEGER},
+</if>
+      <if test="ethnicity != null">
+        #{ethnicity,jdbcType=VARCHAR},
+      </if>
+      <if test="issuingAuthority != null">
+        #{issuingAuthority,jdbcType=VARCHAR},
+      </if>
+      <if test="dateOfBirth != null">
+       #{dateOfBirth,jdbcType=VARCHAR},
+      </if>
+      <if test="domicileCity != null">
+        #{domicileCity,jdbcType=VARCHAR},
+      </if>
+      <if test="permanentAddress != null">
+        #{permanentAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="recordOfFormalSchooling != null">
+        #{recordOfFormalSchooling,jdbcType=INTEGER},
+      </if>
+      <if test="graduationTime != null">
+        #{graduationTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="nowLivingInCity != null">
+        #{nowLivingInCity,jdbcType=VARCHAR},
+      </if>
+      <if test="residence != null">
+        #{residence,jdbcType=VARCHAR},
+      </if>
+      <if test="vocation != null">
+        #{vocation,jdbcType=VARCHAR},
+      </if>
+      <if test="ismarry != null">
+        #{ismarry,jdbcType=INTEGER},
+      </if>
+      <if test="familySize != null">
+        #{familySize,jdbcType=INTEGER},
+      </if>
+      <if test="isroom != null">
+        #{isroom,jdbcType=TINYINT},
+      </if>
+      <if test="iscar != null">
+        #{iscar,jdbcType=TINYINT},
+      </if>
+      <if test="memberid != null">
+        #{memberid,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.shoumipay.domain.MemberDetailExample" resultType="java.lang.Long">
+    select count(*) from cl_member_detail
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update cl_member_detail
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.fullname != null">
+        fullname = #{record.fullname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.idType != null">
+        id_type = #{record.idType,jdbcType=INTEGER},
+      </if>
+      <if test="record.idCard != null">
+        id_card = #{record.idCard,jdbcType=VARCHAR},
+      </if>
+      <if test="record.periodOfValidity != null">
+       period_of_validity = #{record.periodOfValidity,jdbcType=VARCHAR},
+      </if>
+      <if test="record.age != null">
+        age = #{record.age,jdbcType=INTEGER},
+      </if>
+      <if test="record.sex != null">
+        sex = #{record.sex,jdbcType=INTEGER},
+      </if>
+<if test="record.ethnicity != null">
+        ethnicity = #{record.ethnicity,jdbcType=VARCHAR},
+      </if>
+      <if test="record.issuingAuthority != null">
+        issuing_authority = #{record.issuingAuthority,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dateOfBirth != null">
+          date_of_birth = #{record.dateOfBirth,jdbcType=VARCHAR},
+      </if>
+      <if test="record.domicileCity != null">
+        domicile_city = #{record.domicileCity,jdbcType=VARCHAR},
+      </if>
+      <if test="record.permanentAddress != null">
+        permanent_address = #{record.permanentAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="record.recordOfFormalSchooling != null">
+        record_of_formal_schooling = #{record.recordOfFormalSchooling,jdbcType=INTEGER},
+      </if>
+      <if test="record.graduationTime != null">
+        graduation_time = #{record.graduationTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.nowLivingInCity != null">
+        now_living_in_city = #{record.nowLivingInCity,jdbcType=VARCHAR},
+      </if>
+      <if test="record.residence != null">
+        residence = #{record.residence,jdbcType=VARCHAR},
+      </if>
+      <if test="record.vocation != null">
+        vocation = #{record.vocation,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ismarry != null">
+        ismarry = #{record.ismarry,jdbcType=INTEGER},
+      </if>
+      <if test="record.familySize != null">
+        family_size = #{record.familySize,jdbcType=INTEGER},
+      </if>
+      <if test="record.isroom != null">
+        isRoom = #{record.isroom,jdbcType=TINYINT},
+      </if>
+      <if test="record.iscar != null">
+        isCar = #{record.iscar,jdbcType=TINYINT},
+      </if>
+      <if test="record.memberid != null">
+        memberId = #{record.memberid,jdbcType=BIGINT},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update cl_member_detail
+    set id = #{record.id,jdbcType=BIGINT},
+      fullname = #{record.fullname,jdbcType=VARCHAR},
+      id_type = #{record.idType,jdbcType=INTEGER},
+      id_card = #{record.idCard,jdbcType=VARCHAR},
+      period_of_validity = #{record.periodOfValidity,jdbcType=VARCHAR},
+      age = #{record.age,jdbcType=INTEGER},
+      sex = #{record.sex,jdbcType=INTEGER},
+ ethnicity = #{record.ethnicity,jdbcType=VARCHAR},
+      issuing_authority = #{record.issuingAuthority,jdbcType=VARCHAR},
+       date_of_birth = #{record.dateOfBirth,jdbcType=VARCHAR},
+      domicile_city = #{record.domicileCity,jdbcType=VARCHAR},
+      permanent_address = #{record.permanentAddress,jdbcType=VARCHAR},
+      record_of_formal_schooling = #{record.recordOfFormalSchooling,jdbcType=INTEGER},
+      graduation_time = #{record.graduationTime,jdbcType=TIMESTAMP},
+      now_living_in_city = #{record.nowLivingInCity,jdbcType=VARCHAR},
+      residence = #{record.residence,jdbcType=VARCHAR},
+      vocation = #{record.vocation,jdbcType=VARCHAR},
+      ismarry = #{record.ismarry,jdbcType=INTEGER},
+      family_size = #{record.familySize,jdbcType=INTEGER},
+      isRoom = #{record.isroom,jdbcType=TINYINT},
+      isCar = #{record.iscar,jdbcType=TINYINT},
+      memberId = #{record.memberid,jdbcType=BIGINT}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.shoumipay.domain.MemberDetail">
+    update cl_member_detail
+    <set>
+      <if test="fullname != null">
+        fullname = #{fullname,jdbcType=VARCHAR},
+      </if>
+      <if test="idType != null">
+        id_type = #{idType,jdbcType=INTEGER},
+      </if>
+      <if test="idCard != null">
+        id_card = #{idCard,jdbcType=VARCHAR},
+      </if>
+      <if test="periodOfValidity != null">
+          period_of_validity = #{periodOfValidity,jdbcType=VARCHAR},
+      </if>
+      <if test="age != null">
+        age = #{age,jdbcType=INTEGER},
+      </if>
+      <if test="sex != null">
+        sex = #{sex,jdbcType=INTEGER},
+</if>
+      <if test="ethnicity != null">
+        ethnicity = #{ethnicity,jdbcType=VARCHAR},
+      </if>
+      <if test="issuingAuthority != null">
+        issuing_authority = #{issuingAuthority,jdbcType=VARCHAR},
+      </if>
+      <if test="dateOfBirth != null">
+       date_of_birth = #{dateOfBirth,jdbcType=VARCHAR},
+      </if>
+      <if test="domicileCity != null">
+        domicile_city = #{domicileCity,jdbcType=VARCHAR},
+      </if>
+      <if test="permanentAddress != null">
+        permanent_address = #{permanentAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="recordOfFormalSchooling != null">
+        record_of_formal_schooling = #{recordOfFormalSchooling,jdbcType=INTEGER},
+      </if>
+      <if test="graduationTime != null">
+        graduation_time = #{graduationTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="nowLivingInCity != null">
+        now_living_in_city = #{nowLivingInCity,jdbcType=VARCHAR},
+      </if>
+      <if test="residence != null">
+        residence = #{residence,jdbcType=VARCHAR},
+      </if>
+      <if test="vocation != null">
+        vocation = #{vocation,jdbcType=VARCHAR},
+      </if>
+      <if test="ismarry != null">
+        ismarry = #{ismarry,jdbcType=INTEGER},
+      </if>
+      <if test="familySize != null">
+        family_size = #{familySize,jdbcType=INTEGER},
+      </if>
+      <if test="isroom != null">
+        isRoom = #{isroom,jdbcType=TINYINT},
+      </if>
+      <if test="iscar != null">
+        isCar = #{iscar,jdbcType=TINYINT},
+      </if>
+      <if test="memberid != null">
+        memberId = #{memberid,jdbcType=BIGINT},
+      </if>
+        <if test="forceCalculateBill != null">
+            force_calculate_bill = #{forceCalculateBill,jdbcType=INTEGER},
+        </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.shoumipay.domain.MemberDetail">
+    update cl_member_detail
+    set fullname = #{fullname,jdbcType=VARCHAR},
+      id_type = #{idType,jdbcType=INTEGER},
+      id_card = #{idCard,jdbcType=VARCHAR},
+       period_of_validity = #{periodOfValidity,jdbcType=VARCHAR},
+      age = #{age,jdbcType=INTEGER},
+      sex = #{sex,jdbcType=INTEGER},
+      ethnicity = #{ethnicity,jdbcType=VARCHAR},
+      issuing_authority = #{issuingAuthority,jdbcType=VARCHAR},
+      date_of_birth = #{dateOfBirth,jdbcType=VARCHAR},
+      domicile_city = #{domicileCity,jdbcType=VARCHAR},
+      permanent_address = #{permanentAddress,jdbcType=VARCHAR},
+      record_of_formal_schooling = #{recordOfFormalSchooling,jdbcType=INTEGER},
+      graduation_time = #{graduationTime,jdbcType=TIMESTAMP},
+      now_living_in_city = #{nowLivingInCity,jdbcType=VARCHAR},
+      residence = #{residence,jdbcType=VARCHAR},
+      vocation = #{vocation,jdbcType=VARCHAR},
+      ismarry = #{ismarry,jdbcType=INTEGER},
+      family_size = #{familySize,jdbcType=INTEGER},
+      isRoom = #{isroom,jdbcType=TINYINT},
+      isCar = #{iscar,jdbcType=TINYINT},
+      memberId = #{memberid,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shoumipay.dao.SmsTemplateMapper">
+    <resultMap id="BaseResultMap" type="com.shoumipay.domain.SmsTemplate">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="touch" jdbcType="VARCHAR" property="touch"/>
+        <result column="content" jdbcType="VARCHAR" property="content"/>
+        <result column="enable" jdbcType="INTEGER" property="enable"/>
+        <result column="instruction" jdbcType="VARCHAR" property="instruction"/>
+        <result column="templateType" jdbcType="VARCHAR" property="templatetype"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+    </resultMap>
+    <sql id="Example_Where_Clause">
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause">
+        <where>
+            <foreach collection="example.oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Base_Column_List">
+    id, touch, content, enable, instruction, templateType, name
+  </sql>
+    <select id="selectByExample" parameterType="com.shoumipay.domain.SmsTemplateExample" resultMap="BaseResultMap">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        'false' as QUERYID,
+        <include refid="Base_Column_List"/>
+        from cl_sms_template
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+    </select>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from cl_sms_template
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from cl_sms_template
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+    <delete id="deleteByExample" parameterType="com.shoumipay.domain.SmsTemplateExample">
+        delete from cl_sms_template
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </delete>
+    <delete id="deleteByIds" parameterType="java.lang.String">
+        DELETE FROM cl_sms_template WHERE id in
+        <foreach item="idItem" collection="array" open="(" separator="," close=")">
+            #{idItem}
+        </foreach>
+    </delete>
+    <insert id="insert" parameterType="com.shoumipay.domain.SmsTemplate">
+    insert into cl_sms_template (id, touch, content, 
+      enable, instruction, templateType, 
+      name)
+    values (#{id,jdbcType=BIGINT}, #{touch,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, 
+      #{enable,jdbcType=INTEGER}, #{instruction,jdbcType=VARCHAR}, #{templatetype,jdbcType=VARCHAR}, 
+      #{name,jdbcType=VARCHAR})
+  </insert>
+    <insert id="insertSelective" parameterType="com.shoumipay.domain.SmsTemplate">
+        insert into cl_sms_template
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="touch != null">
+                touch,
+            </if>
+            <if test="content != null">
+                content,
+            </if>
+            <if test="enable != null">
+                enable,
+            </if>
+            <if test="instruction != null">
+                instruction,
+            </if>
+            <if test="templatetype != null">
+                templateType,
+            </if>
+            <if test="name != null">
+                name,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="touch != null">
+                #{touch,jdbcType=VARCHAR},
+            </if>
+            <if test="content != null">
+                #{content,jdbcType=VARCHAR},
+            </if>
+            <if test="enable != null">
+                #{enable,jdbcType=INTEGER},
+            </if>
+            <if test="instruction != null">
+                #{instruction,jdbcType=VARCHAR},
+            </if>
+            <if test="templatetype != null">
+                #{templatetype,jdbcType=VARCHAR},
+            </if>
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <select id="countByExample" parameterType="com.shoumipay.domain.SmsTemplateExample" resultType="java.lang.Long">
+        select count(*) from cl_sms_template
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
+        update cl_sms_template
+        <set>
+            <if test="record.id != null">
+                id = #{record.id,jdbcType=BIGINT},
+            </if>
+            <if test="record.touch != null">
+                touch = #{record.touch,jdbcType=VARCHAR},
+            </if>
+            <if test="record.content != null">
+                content = #{record.content,jdbcType=VARCHAR},
+            </if>
+            <if test="record.enable != null">
+                enable = #{record.enable,jdbcType=INTEGER},
+            </if>
+            <if test="record.instruction != null">
+                instruction = #{record.instruction,jdbcType=VARCHAR},
+            </if>
+            <if test="record.templatetype != null">
+                templateType = #{record.templatetype,jdbcType=VARCHAR},
+            </if>
+            <if test="record.name != null">
+                name = #{record.name,jdbcType=VARCHAR},
+            </if>
+        </set>
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByExample" parameterType="map">
+        update cl_sms_template
+        set id = #{record.id,jdbcType=BIGINT},
+        touch = #{record.touch,jdbcType=VARCHAR},
+        content = #{record.content,jdbcType=VARCHAR},
+        enable = #{record.enable,jdbcType=INTEGER},
+        instruction = #{record.instruction,jdbcType=VARCHAR},
+        templateType = #{record.templatetype,jdbcType=VARCHAR},
+        name = #{record.name,jdbcType=VARCHAR}
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="com.shoumipay.domain.SmsTemplate">
+        update cl_sms_template
+        <set>
+            <if test="touch != null">
+                touch = #{touch,jdbcType=VARCHAR},
+            </if>
+            <if test="content != null">
+                content = #{content,jdbcType=VARCHAR},
+            </if>
+            <if test="enable != null">
+                enable = #{enable,jdbcType=INTEGER},
+            </if>
+            <if test="instruction != null">
+                instruction = #{instruction,jdbcType=VARCHAR},
+            </if>
+            <if test="templatetype != null">
+                templateType = #{templatetype,jdbcType=VARCHAR},
+            </if>
+            <if test="name != null">
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.shoumipay.domain.SmsTemplate">
+    update cl_sms_template
+    set touch = #{touch,jdbcType=VARCHAR},
+      content = #{content,jdbcType=VARCHAR},
+      enable = #{enable,jdbcType=INTEGER},
+      instruction = #{instruction,jdbcType=VARCHAR},
+      templateType = #{templatetype,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

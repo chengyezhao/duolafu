@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shoumipay.v2.mapper.DaifuOrderLegMapper" >
+  <resultMap id="BaseResultMap" type="com.shoumipay.v2.domain.DaifuOrderLeg" >
+    <id column="orderlegId" property="orderlegId" jdbcType="BIGINT" />
+    <result column="orderId" property="orderId" jdbcType="BIGINT" />
+    <result column="billId" property="billId" jdbcType="BIGINT" />
+    <result column="amount" property="amount" jdbcType="DECIMAL" />
+    <result column="fee" property="fee" jdbcType="DECIMAL" />
+    <result column="interest" property="interest" jdbcType="DECIMAL" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="overdueStatus" property="overdueStatus" jdbcType="VARCHAR" />
+    <result column="createdDate" property="createdDate" jdbcType="TIMESTAMP" />
+    <result column="lastUpdatedDate" property="lastUpdatedDate" jdbcType="TIMESTAMP" />
+    <result column="memberId" property="memberId" jdbcType="BIGINT" />
+    <result column="sequence" property="sequence" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    orderlegId, orderId, billId, amount, fee, interest, status, overdueStatus, createdDate, 
+    lastUpdatedDate,sequence, memberId
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from daifu_order_leg
+    where orderlegId = #{orderlegId,jdbcType=BIGINT}
+  </select>
+  <select id="selectByOrderId" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select
+    <include refid="Base_Column_List" />
+    from daifu_order_leg
+    where orderId = #{orderId,jdbcType=BIGINT}
+  </select>
+  <select id="selectByBillId" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select
+    <include refid="Base_Column_List" />
+    from daifu_order_leg
+    where billId = #{billId,jdbcType=BIGINT}
+  </select>
+  <select id="selectByMemberId" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select
+    <include refid="Base_Column_List" />
+    from daifu_order_leg
+    where memberId = #{memberId,jdbcType=BIGINT}
+  </select>
+
+  <select id="queryList" resultMap="BaseResultMap">
+    select * from daifu_order_leg where 1=1
+    <if test="memberId != null">
+        and memberId = #{memberId}
+    </if>
+    <if test="orderId != null">
+        and orderId = #{orderId}
+    </if>
+    <if test="billId != null">
+        and billId = #{billId}
+    </if>
+  </select>
+
+
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from daifu_order_leg
+    where orderlegId = #{orderlegId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.shoumipay.v2.domain.DaifuOrderLeg" >
+    insert into daifu_order_leg (orderlegId, orderId, billId, 
+      amount, fee, interest, 
+      status, overdueStatus, createdDate, 
+      lastUpdatedDate,sequence, memberId)
+    values (#{orderlegId,jdbcType=BIGINT}, #{orderId,jdbcType=BIGINT}, #{billId,jdbcType=BIGINT}, 
+      #{amount,jdbcType=DECIMAL}, #{fee,jdbcType=DECIMAL}, #{interest,jdbcType=DECIMAL}, 
+      #{status,jdbcType=VARCHAR}, #{overdueStatus,jdbcType=VARCHAR}, NOW(),
+     NOW(),#{sequence}, #{memberId, jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.shoumipay.v2.domain.DaifuOrderLeg" >
+    insert into daifu_order_leg
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="orderlegId != null" >
+        orderlegId,
+      </if>
+      <if test="orderId != null" >
+        orderId,
+      </if>
+      <if test="billId != null" >
+        billId,
+      </if>
+      <if test="memberId != null" >
+        memberId,
+      </if>
+      <if test="amount != null" >
+        amount,
+      </if>
+      <if test="fee != null" >
+        fee,
+      </if>
+      <if test="interest != null" >
+        interest,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="overdueStatus != null" >
+        overdueStatus,
+      </if>
+      <if test="createdDate != null" >
+        createdDate,
+      </if>
+      <if test="lastUpdatedDate != null" >
+        lastUpdatedDate,
+      </if>
+      <if test="sequence != null">
+        sequence,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="orderlegId != null" >
+        #{orderlegId,jdbcType=BIGINT},
+      </if>
+      <if test="orderId != null" >
+        #{orderId,jdbcType=BIGINT},
+      </if>
+      <if test="billId != null" >
+        #{billId,jdbcType=BIGINT},
+      </if>
+      <if test="memberId != null" >
+        #{memberId,jdbcType=BIGINT},
+      </if>
+      <if test="amount != null" >
+        #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="fee != null" >
+        #{fee,jdbcType=DECIMAL},
+      </if>
+      <if test="interest != null" >
+        #{interest,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="overdueStatus != null" >
+        #{overdueStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="createdDate != null" >
+        #{createdDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastUpdatedDate != null" >
+        #{lastUpdatedDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sequence != null">
+        #{sequence},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.shoumipay.v2.domain.DaifuOrderLeg" >
+    update daifu_order_leg
+    <set >
+      <if test="orderId != null" >
+        orderId = #{orderId,jdbcType=BIGINT},
+      </if>
+      <if test="billId != null" >
+        billId = #{billId,jdbcType=BIGINT},
+      </if>
+      <if test="memberId != null" >
+        billId = #{memberId,jdbcType=BIGINT},
+      </if>
+      <if test="amount != null" >
+        amount = #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="fee != null" >
+        fee = #{fee,jdbcType=DECIMAL},
+      </if>
+      <if test="interest != null" >
+        interest = #{interest,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="overdueStatus != null" >
+        overdueStatus = #{overdueStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="createdDate != null" >
+        createdDate = #{createdDate,jdbcType=TIMESTAMP},
+      </if>
+      lastUpdatedDate = NOW(),
+      <if test="sequence != null">
+        sequence = #{sequence},
+      </if>
+    </set>
+    where orderlegId = #{orderlegId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.shoumipay.v2.domain.DaifuOrderLeg" >
+    update daifu_order_leg
+    set orderId = #{orderId,jdbcType=BIGINT},
+      billId = #{billId,jdbcType=BIGINT},
+      memberId = #{memberId,jdbcType=BIGINT},
+      amount = #{amount,jdbcType=DECIMAL},
+      fee = #{fee,jdbcType=DECIMAL},
+      interest = #{interest,jdbcType=DECIMAL},
+      status = #{status,jdbcType=VARCHAR},
+      overdueStatus = #{overdueStatus,jdbcType=VARCHAR},
+      createdDate = #{createdDate,jdbcType=TIMESTAMP},
+      lastUpdatedDate = NOW(),
+    sequence = #{sequence}
+    where orderlegId = #{orderlegId,jdbcType=BIGINT}
+  </update>
+</mapper>

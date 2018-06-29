@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.shoumipay.v2.mapper.RegistrationMapper">
+
+    <insert id="save">
+        insert into registration (phonenum,username,education,jobType,jobHours,sesame,instructions)
+        values(#{phonenum},#{username},#{education},#{jobType},#{jobHours},#{sesame},#{instructions})
+    </insert>
+
+    <select id="selectByKey" resultType="String">
+        select cl_config.`value` from cl_config where cl_config.`key`=#{key}
+    </select>
+    
+</mapper>

@@ -1,0 +1,46 @@
+.qren_ts{width:100%;height:40px;padding:20px 0;background: #333;text-align: center;font-family: STHeitiSC-Light;
+font-size: 15px;color: #FFFFFF;letter-spacing: 0.15px;line-height: 20px;}
+.qren_ts span{font-family: STHeitiSC-Light;font-size: 18px;color: #FEB400;letter-spacing: 0.15px;line-height: 20px;}
+.qren_money{width:100%;height:45px;padding: 24px 0 31px;background: #fff;}
+.q_text{font-family: STHeitiSC-Light;font-size: 12px;color: #999999;letter-spacing: 0.12px;width:100%;text-align:center;height:12px;line-height: 12px;margin-bottom: 11px;}
+.q_money{font-family: STHeitiSC-Light;font-size: 22px;color: #333333;letter-spacing: 0.22px;float: left;text-align: center;line-height: 22px;display: inline-block;width:49%;}
+.q_add{margin-left: 20%;float: left;margin-top:3px;}
+.q_sub{margin-right: 20%;float:right;}
+.f_l{float: left;margin-left: 4%;}
+.f_r{float: right;margin-right: 4%;}
+.qren_list{margin-top: 20px;}
+.qren_list li{width:100%;height:50px;background: #fff;margin-bottom: 1px;line-height: 50px;overflow: hidden;}
+.qren_li_text{font-family: STHeitiSC-Light;font-size: 15px;color: #333333;letter-spacing: 0.15px;}
+.qren_list li img{margin-left: 3px;margin-top: 18px;float: right;}
+.qren_list li span{font-family:STHeitiSC-Light;font-size: 15px;color: #FEB400;letter-spacing: 0.15px;}
+.qren_qr button{border: none;width:92%;margin-left: 4%;background:#FEB400;height:40px;margin-top: 50px;}
+.qren_qr button a{font-family: STHeitiSC-Light;font-size: 16px;color: #FFFFFF;letter-spacing: 0.16px;width: 100%;display: block;}
+/*------bank_card-------*/
+.bank_card{width:100%;margin-top:54px;margin-bottom: 50px;}
+.bank_card li{width:100%;height:50px;margin-bottom: 1px;background: #fff;line-height: 50px;overflow: hidden;}
+.bank_card input{width: 180px;text-align: right;font-family: STHeitiSC-Light;font-size: 15px;color: #333;letter-spacing: 0.15px;border:none;}
+.bank_card span{font-family: STHeitiSC-Light;font-size: 15px;color: #333333;letter-spacing: 0.15px;}
+.bank_card li img{float: right;margin-left: 3px;margin-top: 18px;}
+.f_l_t{font-family: STHeitiSC-Light;font-size: 15px;color: #333333;letter-spacing: 0.15px;}
+.q_b button{width: 92%;margin-left: 4%;background:#FEB400;;height: 40px;border:none}
+.q_b a{display:block;font-family: STHeitiSC-Light;font-size: 16px;color: #FFFFFF;letter-spacing: 0.16px;}
+#myCheck{display: none;}
+#myCheck + label{background:url(../images/gg.png) no-repeat;width:14px;height:14px;display: inline-block;
+text-align: center;}
+#myCheck:checked + label{background:url(../images/g.png) no-repeat;width:14px;height:14px;}
+.tiaokuan{margin-top: 21px;margin-left: 4%;font-family: STHeitiSC-Light;font-size: 12px;color: #999999;
+letter-spacing: 0.12px;line-height: 14px;}
+.tiaokuan span{margin-right: 6px;float:left;height: 14px;display: inline-block;}
+.tiaokuan b{font-weight: 100;color:#FEB400;}
+.jjk_bg{width:100%;height: 100%;background: #000;opacity: 0.7;position: absolute;top:0;left: 0;display: none;}
+.jjk_ts{border-radius: 12px;width:270px;height: 165px;position:absolute;left: 50%;margin-left:-135px;margin-top:-82.5px;top:50%;background:url(../images/txtk.png) no-repeat;text-align: center;display: none;}
+.jjk_ts dt{font-family: .PingFangSC-Regular;font-size: 17px;color: #030303;letter-spacing: -0.41px;margin-top: 21px;margin-bottom: 15px;}
+.jjk_ts dd{font-family: .PingFangSC-Regular;font-size: 14px;color: #030303;letter-spacing: -0.08px;line-height: 22px;}
+.jjk_xz{width:100%;height:43px;border-top:1px solid #a4a097;margin-top:16px;}
+.jjk_xz li{width: 49%;float: left;text-align: center;font-family: .PingFangSC-Regular;
+font-size: 17px;color: #0076FF;letter-spacing: -0.41px;line-height:43px;}
+.jjk_xz li:nth-child(1){border-right: 1px solid #a4a097;}
+.bank_card .yzm{width:64%;text-align:center;font-family: STHeitiSC-Light;font-size: 15px;
+color: #999999;letter-spacing: 0.15px;border: none;}
+.bank_card .hq{float: right;width:35%;height:30px;margin-top:10px;text-align: right;font-family: STHeitiSC-Light;font-size: 15px;color: #FEB400;letter-spacing: 0.15px;line-height:30px;background: #fff;border-left:1px solid #d7d7d7;}
+.bank_card li div:nth-child(2){width:68%;text-align: right;}

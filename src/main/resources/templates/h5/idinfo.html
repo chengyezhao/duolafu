@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="x-ua-compatible" content="ie=edge"/>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0,minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <meta name="application-name" content=""/>
+    <meta name="description" content=""/>
+    <meta name="keywords" content=""/>
+    <meta content="yes" name="apple-mobile-web-app-capable"/>
+    <title>哆啦付</title>
+    <link rel="stylesheet" href="../../static/assets/h5/css/reset.css" th:href="@{/assets/h5/css/reset.css}"/>
+    <link rel="stylesheet" href="../../static/assets/h5/css/first.css" th:href="@{/assets/h5/css/first.css}"/>
+    <link rel="stylesheet" href="../../static/assets/h5/css/submit.css" th:href="@{/assets/h5/css/submit.css}"/>
+</head>
+<body>
+<div class="begin_title">
+    <a href="javascript:self.location=document.referrer;"><span class="back">
+			<img src="../../static/assets/h5/images/jiantouhl.png" th:src="@{/assets/h5/images/jiantouhl.png}"/></span></a>
+    身份认证
+    <a href="question">
+        <div class="head_querstion">常见问题</div>
+    </a>
+</div>
+<div class="id_card">
+    <ul>
+        <li>
+            <div class="f_l id_card_style01">姓名</div>
+            <div class="f_r id_card_style02">
+                <input type="text" id="fullName" style="border: none" th:value="${frontJSON.id_name}"/>
+            </div>
+        </li>
+        <li>
+            <div class="f_l id_card_style01">身份证号</div>
+            <div class="f_r id_card_style02" th:text="${frontJSON.id_number}"></div>
+        </li>
+        <li>
+            <div class="f_l id_card_style01">生日</div>
+            <div class="f_r id_card_style02" th:text="${frontJSON.birthday}">1994年07月08日</div>
+        </li>
+        <li>
+            <div class="f_l id_card_style01">性别</div>
+            <div class="f_r id_card_style02" th:text="${frontJSON.gender}">男</div>
+        </li>
+        <li>
+            <div class="f_l id_card_style01">民族</div>
+            <div class="f_r id_card_style02" th:text="${frontJSON.nation}">汉</div>
+        </li>
+        <li style="padding-top:29px;height:100px;">
+            <div class="f_l id_card_style01">地址</div>
+            <div class="f_r id_card_style02 id_card_width02" th:text="${frontJSON.address}">河南省义马市常村路北二段二十八区油库北自建房15号</div>
+        </li>
+        <li>
+            <div class="f_l id_card_style01">签发机构</div>
+            <div class="f_r id_card_style02" th:text="${backJSON.issuing_authority}">义马市公安局</div>
+        </li>
+        <li>
+            <div class="f_l id_card_style01">有效期</div>
+            <div class="f_r id_card_style02" th:text="${backJSON.validity_period}">2016.02.15-2026.02.15</div>
+        </li>
+    </ul>
+</div>
+<p class="id_card_js">请仔细核对信息，如识别有误，请返回再次拍摄核对无误后请点击下一步。</p>
+<button class="id_card_xyb" type="button" id="submit"><a>下一步</a></button>
+</body>
+<script src="../../static/assets/js/jquery-2.0.3.min.js" th:src="@{/assets/js/jquery-2.0.3.min.js}"/>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    var message = [[${msg}]];
+    if (message != null && message.trim().length > 0) {
+        alert(message.toString());
+    }
+    $("#submit").click(function () {
+        var fullName = $("#fullName").val();
+        if (fullName == "") {
+            alert("姓名不能为空");
+            return;
+        }
+        $.ajax({
+            url: "/wx/checkIdcardInfo",
+            cache: false,
+            dataType: 'json',
+            data: {
+                "fullName": fullName
+            },
+            type: 'post',
+            beforeSend: function () {
+                // 禁用按钮防止重复提交
+                $('#submit').attr({disabled: "disabled"});
+            },
+            success: function (result) {
+                if (result.flag == true) {
+                    window.location.href = result.message;
+                } else {
+                    window.location.href = result.message;
+                }
+            },
+            complete: function () {
+                $('#submit').removeAttr("disabled");
+            },
+            error: function (data) {
+                console.info("error: " + data.responseText);
+            }
+        });
+    });
+    /*]]>*/
+</script>
+</html>

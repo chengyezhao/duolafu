@@ -1,0 +1,330 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shoumipay.dao.MemberLinkmanMapper">
+  <resultMap id="BaseResultMap" type="com.shoumipay.domain.MemberLinkman">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="memberId" jdbcType="BIGINT" property="memberid" />
+    <result column="linkman_name" jdbcType="VARCHAR" property="linkmanName" />
+    <result column="linkman_relation" jdbcType="INTEGER" property="linkmanRelation" />
+    <result column="linkman_phone" jdbcType="VARCHAR" property="linkmanPhone" />
+    <result column="linkman_addtime" jdbcType="TIMESTAMP" property="linkmanAddtime" />
+    <result column="linkman_Add_channel" jdbcType="VARCHAR" property="linkmanAddChannel" />
+    <result column="linkman_name_two" jdbcType="VARCHAR" property="linkmanNameTwo" />
+    <result column="linkman_relation_two" jdbcType="INTEGER" property="linkmanRelationTwo" />
+    <result column="linkman_phone_two" jdbcType="VARCHAR" property="linkmanPhoneTwo" />
+    <result column="linkman_addtime_two" jdbcType="TIMESTAMP" property="linkmanAddtimeTwo" />
+    <result column="linkman_Add_channel_two" jdbcType="VARCHAR" property="linkmanAddChannelTwo" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, memberId, linkman_name, linkman_relation, linkman_phone, linkman_addtime, linkman_Add_channel, 
+    linkman_name_two, linkman_relation_two, linkman_phone_two, linkman_addtime_two, linkman_Add_channel_two
+  </sql>
+  <select id="selectByExample" parameterType="com.shoumipay.domain.MemberLinkmanExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from cl_member_linkman
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from cl_member_linkman
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="selectByMemberId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from cl_member_linkman
+    where memberId=#{1}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from cl_member_linkman
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.shoumipay.domain.MemberLinkmanExample">
+    delete from cl_member_linkman
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.shoumipay.domain.MemberLinkman">
+    insert into cl_member_linkman (id, memberId, linkman_name, 
+      linkman_relation, linkman_phone, linkman_addtime, 
+      linkman_Add_channel, linkman_name_two, linkman_relation_two, 
+      linkman_phone_two, linkman_addtime_two, linkman_Add_channel_two
+      )
+    values (#{id,jdbcType=BIGINT}, #{memberid,jdbcType=BIGINT}, #{linkmanName,jdbcType=VARCHAR}, 
+      #{linkmanRelation,jdbcType=INTEGER}, #{linkmanPhone,jdbcType=VARCHAR}, #{linkmanAddtime,jdbcType=TIMESTAMP}, 
+      #{linkmanAddChannel,jdbcType=VARCHAR}, #{linkmanNameTwo,jdbcType=VARCHAR}, #{linkmanRelationTwo,jdbcType=INTEGER}, 
+      #{linkmanPhoneTwo,jdbcType=VARCHAR}, #{linkmanAddtimeTwo,jdbcType=TIMESTAMP}, #{linkmanAddChannelTwo,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.shoumipay.domain.MemberLinkman">
+    insert into cl_member_linkman
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="memberid != null">
+        memberId,
+      </if>
+      <if test="linkmanName != null">
+        linkman_name,
+      </if>
+      <if test="linkmanRelation != null">
+        linkman_relation,
+      </if>
+      <if test="linkmanPhone != null">
+        linkman_phone,
+      </if>
+      <if test="linkmanAddtime != null">
+        linkman_addtime,
+      </if>
+      <if test="linkmanAddChannel != null">
+        linkman_Add_channel,
+      </if>
+      <if test="linkmanNameTwo != null">
+        linkman_name_two,
+      </if>
+      <if test="linkmanRelationTwo != null">
+        linkman_relation_two,
+      </if>
+      <if test="linkmanPhoneTwo != null">
+        linkman_phone_two,
+      </if>
+      <if test="linkmanAddtimeTwo != null">
+        linkman_addtime_two,
+      </if>
+      <if test="linkmanAddChannelTwo != null">
+        linkman_Add_channel_two,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="memberid != null">
+        #{memberid,jdbcType=BIGINT},
+      </if>
+      <if test="linkmanName != null">
+        #{linkmanName,jdbcType=VARCHAR},
+      </if>
+      <if test="linkmanRelation != null">
+        #{linkmanRelation,jdbcType=INTEGER},
+      </if>
+      <if test="linkmanPhone != null">
+        #{linkmanPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="linkmanAddtime != null">
+        #{linkmanAddtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="linkmanAddChannel != null">
+        #{linkmanAddChannel,jdbcType=VARCHAR},
+      </if>
+      <if test="linkmanNameTwo != null">
+        #{linkmanNameTwo,jdbcType=VARCHAR},
+      </if>
+      <if test="linkmanRelationTwo != null">
+        #{linkmanRelationTwo,jdbcType=INTEGER},
+      </if>
+      <if test="linkmanPhoneTwo != null">
+        #{linkmanPhoneTwo,jdbcType=VARCHAR},
+      </if>
+      <if test="linkmanAddtimeTwo != null">
+        #{linkmanAddtimeTwo,jdbcType=TIMESTAMP},
+      </if>
+      <if test="linkmanAddChannelTwo != null">
+        #{linkmanAddChannelTwo,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.shoumipay.domain.MemberLinkmanExample" resultType="java.lang.Long">
+    select count(*) from cl_member_linkman
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update cl_member_linkman
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.memberid != null">
+        memberId = #{record.memberid,jdbcType=BIGINT},
+      </if>
+      <if test="record.linkmanName != null">
+        linkman_name = #{record.linkmanName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.linkmanRelation != null">
+        linkman_relation = #{record.linkmanRelation,jdbcType=INTEGER},
+      </if>
+      <if test="record.linkmanPhone != null">
+        linkman_phone = #{record.linkmanPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.linkmanAddtime != null">
+        linkman_addtime = #{record.linkmanAddtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.linkmanAddChannel != null">
+        linkman_Add_channel = #{record.linkmanAddChannel,jdbcType=VARCHAR},
+      </if>
+      <if test="record.linkmanNameTwo != null">
+        linkman_name_two = #{record.linkmanNameTwo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.linkmanRelationTwo != null">
+        linkman_relation_two = #{record.linkmanRelationTwo,jdbcType=INTEGER},
+      </if>
+      <if test="record.linkmanPhoneTwo != null">
+        linkman_phone_two = #{record.linkmanPhoneTwo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.linkmanAddtimeTwo != null">
+        linkman_addtime_two = #{record.linkmanAddtimeTwo,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.linkmanAddChannelTwo != null">
+        linkman_Add_channel_two = #{record.linkmanAddChannelTwo,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update cl_member_linkman
+    set id = #{record.id,jdbcType=BIGINT},
+      memberId = #{record.memberid,jdbcType=BIGINT},
+      linkman_name = #{record.linkmanName,jdbcType=VARCHAR},
+      linkman_relation = #{record.linkmanRelation,jdbcType=INTEGER},
+      linkman_phone = #{record.linkmanPhone,jdbcType=VARCHAR},
+      linkman_addtime = #{record.linkmanAddtime,jdbcType=TIMESTAMP},
+      linkman_Add_channel = #{record.linkmanAddChannel,jdbcType=VARCHAR},
+      linkman_name_two = #{record.linkmanNameTwo,jdbcType=VARCHAR},
+      linkman_relation_two = #{record.linkmanRelationTwo,jdbcType=INTEGER},
+      linkman_phone_two = #{record.linkmanPhoneTwo,jdbcType=VARCHAR},
+      linkman_addtime_two = #{record.linkmanAddtimeTwo,jdbcType=TIMESTAMP},
+      linkman_Add_channel_two = #{record.linkmanAddChannelTwo,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.shoumipay.domain.MemberLinkman">
+    update cl_member_linkman
+    <set>
+      <if test="memberid != null">
+        memberId = #{memberid,jdbcType=BIGINT},
+      </if>
+      <if test="linkmanName != null">
+        linkman_name = #{linkmanName,jdbcType=VARCHAR},
+      </if>
+      <if test="linkmanRelation != null">
+        linkman_relation = #{linkmanRelation,jdbcType=INTEGER},
+      </if>
+      <if test="linkmanPhone != null">
+        linkman_phone = #{linkmanPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="linkmanAddtime != null">
+        linkman_addtime = #{linkmanAddtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="linkmanAddChannel != null">
+        linkman_Add_channel = #{linkmanAddChannel,jdbcType=VARCHAR},
+      </if>
+      <if test="linkmanNameTwo != null">
+        linkman_name_two = #{linkmanNameTwo,jdbcType=VARCHAR},
+      </if>
+      <if test="linkmanRelationTwo != null">
+        linkman_relation_two = #{linkmanRelationTwo,jdbcType=INTEGER},
+      </if>
+      <if test="linkmanPhoneTwo != null">
+        linkman_phone_two = #{linkmanPhoneTwo,jdbcType=VARCHAR},
+      </if>
+      <if test="linkmanAddtimeTwo != null">
+        linkman_addtime_two = #{linkmanAddtimeTwo,jdbcType=TIMESTAMP},
+      </if>
+      <if test="linkmanAddChannelTwo != null">
+        linkman_Add_channel_two = #{linkmanAddChannelTwo,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.shoumipay.domain.MemberLinkman">
+    update cl_member_linkman
+    set memberId = #{memberid,jdbcType=BIGINT},
+      linkman_name = #{linkmanName,jdbcType=VARCHAR},
+      linkman_relation = #{linkmanRelation,jdbcType=INTEGER},
+      linkman_phone = #{linkmanPhone,jdbcType=VARCHAR},
+      linkman_addtime = #{linkmanAddtime,jdbcType=TIMESTAMP},
+      linkman_Add_channel = #{linkmanAddChannel,jdbcType=VARCHAR},
+      linkman_name_two = #{linkmanNameTwo,jdbcType=VARCHAR},
+      linkman_relation_two = #{linkmanRelationTwo,jdbcType=INTEGER},
+      linkman_phone_two = #{linkmanPhoneTwo,jdbcType=VARCHAR},
+      linkman_addtime_two = #{linkmanAddtimeTwo,jdbcType=TIMESTAMP},
+      linkman_Add_channel_two = #{linkmanAddChannelTwo,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

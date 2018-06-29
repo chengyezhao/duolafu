@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shoumipay.dao.CertificationFileMapper">
+  <resultMap id="BaseResultMap" type="com.shoumipay.domain.CertificationFile">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="memberId" jdbcType="BIGINT" property="memberid" />
+    <result column="idcard_front_photo_path" jdbcType="VARCHAR" property="idcardFrontPhotoPath" />
+    <result column="idcard_portrait_photo_path" jdbcType="VARCHAR" property="idcardPortraitPhotoPath" />
+    <result column="idcard_back_photo_path" jdbcType="VARCHAR" property="idcardBackPhotoPath" />
+    <result column="living_photo_path" jdbcType="VARCHAR" property="livingPhotoPath" />
+    <result column="living_video_path" jdbcType="VARCHAR" property="livingVideoPath" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, memberId, idcard_front_photo_path, idcard_portrait_photo_path, idcard_back_photo_path, 
+    living_photo_path, living_video_path
+  </sql>
+  <select id="selectByExample" parameterType="com.shoumipay.domain.CertificationFileExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'false' as QUERYID,
+    <include refid="Base_Column_List" />
+    from cl_certification_file
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from cl_certification_file
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="selectByMemberId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from cl_certification_file
+    where memberId = #{memberid,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from cl_certification_file
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.shoumipay.domain.CertificationFileExample">
+    delete from cl_certification_file
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.shoumipay.domain.CertificationFile">
+    insert into cl_certification_file (id, memberId, idcard_front_photo_path, 
+      idcard_portrait_photo_path, idcard_back_photo_path, 
+      living_photo_path, living_video_path)
+    values (#{id,jdbcType=BIGINT}, #{memberid,jdbcType=BIGINT}, #{idcardFrontPhotoPath,jdbcType=VARCHAR}, 
+      #{idcardPortraitPhotoPath,jdbcType=VARCHAR}, #{idcardBackPhotoPath,jdbcType=VARCHAR}, 
+      #{livingPhotoPath,jdbcType=VARCHAR}, #{livingVideoPath,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.shoumipay.domain.CertificationFile">
+    insert into cl_certification_file
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="memberid != null">
+        memberId,
+      </if>
+      <if test="idcardFrontPhotoPath != null">
+        idcard_front_photo_path,
+      </if>
+      <if test="idcardPortraitPhotoPath != null">
+        idcard_portrait_photo_path,
+      </if>
+      <if test="idcardBackPhotoPath != null">
+        idcard_back_photo_path,
+      </if>
+      <if test="livingPhotoPath != null">
+        living_photo_path,
+      </if>
+      <if test="livingVideoPath != null">
+        living_video_path,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="memberid != null">
+        #{memberid,jdbcType=BIGINT},
+      </if>
+      <if test="idcardFrontPhotoPath != null">
+        #{idcardFrontPhotoPath,jdbcType=VARCHAR},
+      </if>
+      <if test="idcardPortraitPhotoPath != null">
+        #{idcardPortraitPhotoPath,jdbcType=VARCHAR},
+      </if>
+      <if test="idcardBackPhotoPath != null">
+        #{idcardBackPhotoPath,jdbcType=VARCHAR},
+      </if>
+      <if test="livingPhotoPath != null">
+        #{livingPhotoPath,jdbcType=VARCHAR},
+      </if>
+      <if test="livingVideoPath != null">
+        #{livingVideoPath,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.shoumipay.domain.CertificationFileExample" resultType="java.lang.Long">
+    select count(*) from cl_certification_file
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update cl_certification_file
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.memberid != null">
+        memberId = #{record.memberid,jdbcType=BIGINT},
+      </if>
+      <if test="record.idcardFrontPhotoPath != null">
+        idcard_front_photo_path = #{record.idcardFrontPhotoPath,jdbcType=VARCHAR},
+      </if>
+      <if test="record.idcardPortraitPhotoPath != null">
+        idcard_portrait_photo_path = #{record.idcardPortraitPhotoPath,jdbcType=VARCHAR},
+      </if>
+      <if test="record.idcardBackPhotoPath != null">
+        idcard_back_photo_path = #{record.idcardBackPhotoPath,jdbcType=VARCHAR},
+      </if>
+      <if test="record.livingPhotoPath != null">
+        living_photo_path = #{record.livingPhotoPath,jdbcType=VARCHAR},
+      </if>
+      <if test="record.livingVideoPath != null">
+        living_video_path = #{record.livingVideoPath,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update cl_certification_file
+    set id = #{record.id,jdbcType=BIGINT},
+      memberId = #{record.memberid,jdbcType=BIGINT},
+      idcard_front_photo_path = #{record.idcardFrontPhotoPath,jdbcType=VARCHAR},
+      idcard_portrait_photo_path = #{record.idcardPortraitPhotoPath,jdbcType=VARCHAR},
+      idcard_back_photo_path = #{record.idcardBackPhotoPath,jdbcType=VARCHAR},
+      living_photo_path = #{record.livingPhotoPath,jdbcType=VARCHAR},
+      living_video_path = #{record.livingVideoPath,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.shoumipay.domain.CertificationFile">
+    update cl_certification_file
+    <set>
+      <if test="memberid != null">
+        memberId = #{memberid,jdbcType=BIGINT},
+      </if>
+      <if test="idcardFrontPhotoPath != null">
+        idcard_front_photo_path = #{idcardFrontPhotoPath,jdbcType=VARCHAR},
+      </if>
+      <if test="idcardPortraitPhotoPath != null">
+        idcard_portrait_photo_path = #{idcardPortraitPhotoPath,jdbcType=VARCHAR},
+      </if>
+      <if test="idcardBackPhotoPath != null">
+        idcard_back_photo_path = #{idcardBackPhotoPath,jdbcType=VARCHAR},
+      </if>
+      <if test="livingPhotoPath != null">
+        living_photo_path = #{livingPhotoPath,jdbcType=VARCHAR},
+      </if>
+      <if test="livingVideoPath != null">
+        living_video_path = #{livingVideoPath,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.shoumipay.domain.CertificationFile">
+    update cl_certification_file
+    set memberId = #{memberid,jdbcType=BIGINT},
+      idcard_front_photo_path = #{idcardFrontPhotoPath,jdbcType=VARCHAR},
+      idcard_portrait_photo_path = #{idcardPortraitPhotoPath,jdbcType=VARCHAR},
+      idcard_back_photo_path = #{idcardBackPhotoPath,jdbcType=VARCHAR},
+      living_photo_path = #{livingPhotoPath,jdbcType=VARCHAR},
+      living_video_path = #{livingVideoPath,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

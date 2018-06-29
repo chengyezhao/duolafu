@@ -1,0 +1,439 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shoumipay.dao.MemberBankcardMapper">
+  <resultMap id="BaseResultMap" type="com.shoumipay.domain.MemberBankcard">
+    <id column="cardId" jdbcType="BIGINT" property="cardid" />
+    <result column="bankCard_Number" jdbcType="VARCHAR" property="bankcardNumber" />
+    <result column="card_type" jdbcType="INTEGER" property="cardType" />
+    <result column="bank_card_name" jdbcType="VARCHAR" property="bankCardName" />
+    <result column="bank_Of_Deposit" jdbcType="VARCHAR" property="bankOfDeposit" />
+    <result column="provinces_And_Cities" jdbcType="VARCHAR" property="provincesAndCities" />
+    <result column="opening_Branch" jdbcType="VARCHAR" property="openingBranch" />
+    <result column="phoneNumber" jdbcType="VARCHAR" property="phonenumber" />
+    <result column="bank_card_validity" jdbcType="TIMESTAMP" property="bankCardValidity" />
+    <result column="auditor" jdbcType="VARCHAR" property="auditor" />
+    <result column="card_addtime" jdbcType="TIMESTAMP" property="cardAddtime" />
+    <result column="card_upptime" jdbcType="TIMESTAMP" property="cardUpptime" />
+    <result column="card_bind_type" jdbcType="INTEGER" property="cardBindType" />
+    <result column="card_state" jdbcType="INTEGER" property="cardState" />
+    <result column="cardNum" jdbcType="INTEGER" property="cardnum" />
+    <result column="memberId" jdbcType="BIGINT" property="memberid" />
+    <result column="card_Protocol" jdbcType="VARCHAR" property="cardProtocol" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    cardId, bankCard_Number, card_type, bank_card_name, bank_Of_Deposit, provinces_And_Cities, 
+    opening_Branch, phoneNumber, bank_card_validity, auditor, card_addtime, card_upptime, 
+    card_bind_type, card_state, cardNum, memberId, card_Protocol
+  </sql>
+  <select id="selectByExample" parameterType="com.shoumipay.domain.MemberBankcardExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from cl_member_bankcard
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+    <select id="selectByMemberId" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from cl_member_bankcard
+        WHERE memberId=#{1}
+        order by cardNum
+    </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from cl_member_bankcard
+    where cardId = #{cardid,jdbcType=BIGINT}
+  </select>
+  <select id="selectByIdAndBindType" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from cl_member_bankcard
+        where memberId = #{memberId} and card_bind_type=#{bindType}
+    </select>
+    <select id="selectWithhold" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from cl_member_bankcard
+        where memberId = #{memberId,jdbcType=BIGINT}
+        AND card_type = 0
+        AND card_bind_type = 0
+    </select>
+  <select id="selectByUidBankNumber" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from cl_member_bankcard
+    where memberId = #{memberId,jdbcType=BIGINT}
+    AND bankCard_Number = #{bankcardNumber,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from cl_member_bankcard
+    where cardId = #{cardid,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.shoumipay.domain.MemberBankcardExample">
+    delete from cl_member_bankcard
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.shoumipay.domain.MemberBankcard">
+    insert into cl_member_bankcard (cardId, bankCard_Number, card_type, 
+      bank_card_name, bank_Of_Deposit, provinces_And_Cities, 
+      opening_Branch, phoneNumber, bank_card_validity, 
+      auditor, card_addtime, card_upptime, 
+      card_bind_type, card_state, cardNum, 
+      memberId, card_Protocol)
+    values (#{cardid,jdbcType=BIGINT}, #{bankcardNumber,jdbcType=VARCHAR}, #{cardType,jdbcType=INTEGER}, 
+      #{bankCardName,jdbcType=VARCHAR}, #{bankOfDeposit,jdbcType=VARCHAR}, #{provincesAndCities,jdbcType=VARCHAR}, 
+      #{openingBranch,jdbcType=VARCHAR}, #{phonenumber,jdbcType=VARCHAR}, #{bankCardValidity,jdbcType=TIMESTAMP}, 
+      #{auditor,jdbcType=VARCHAR}, #{cardAddtime,jdbcType=TIMESTAMP}, #{cardUpptime,jdbcType=TIMESTAMP}, 
+      #{cardBindType,jdbcType=INTEGER}, #{cardState,jdbcType=INTEGER}, #{cardnum,jdbcType=INTEGER}, 
+      #{memberid,jdbcType=BIGINT}, #{cardProtocol,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.shoumipay.domain.MemberBankcard">
+    insert into cl_member_bankcard
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="cardid != null">
+        cardId,
+      </if>
+      <if test="bankcardNumber != null">
+        bankCard_Number,
+      </if>
+      <if test="cardType != null">
+        card_type,
+      </if>
+      <if test="bankCardName != null">
+        bank_card_name,
+      </if>
+      <if test="bankOfDeposit != null">
+        bank_Of_Deposit,
+      </if>
+      <if test="provincesAndCities != null">
+        provinces_And_Cities,
+      </if>
+      <if test="openingBranch != null">
+        opening_Branch,
+      </if>
+      <if test="phonenumber != null">
+        phoneNumber,
+      </if>
+      <if test="bankCardValidity != null">
+        bank_card_validity,
+      </if>
+      <if test="auditor != null">
+        auditor,
+      </if>
+      <if test="cardAddtime != null">
+        card_addtime,
+      </if>
+      <if test="cardUpptime != null">
+        card_upptime,
+      </if>
+      <if test="cardBindType != null">
+        card_bind_type,
+      </if>
+      <if test="cardState != null">
+        card_state,
+      </if>
+      <if test="cardnum != null">
+        cardNum,
+      </if>
+      <if test="memberid != null">
+        memberId,
+      </if>
+      <if test="cardProtocol != null">
+        card_Protocol,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="cardid != null">
+        #{cardid,jdbcType=BIGINT},
+      </if>
+      <if test="bankcardNumber != null">
+        #{bankcardNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="cardType != null">
+        #{cardType,jdbcType=INTEGER},
+      </if>
+      <if test="bankCardName != null">
+        #{bankCardName,jdbcType=VARCHAR},
+      </if>
+      <if test="bankOfDeposit != null">
+        #{bankOfDeposit,jdbcType=VARCHAR},
+      </if>
+      <if test="provincesAndCities != null">
+        #{provincesAndCities,jdbcType=VARCHAR},
+      </if>
+      <if test="openingBranch != null">
+        #{openingBranch,jdbcType=VARCHAR},
+      </if>
+      <if test="phonenumber != null">
+        #{phonenumber,jdbcType=VARCHAR},
+      </if>
+      <if test="bankCardValidity != null">
+        #{bankCardValidity,jdbcType=TIMESTAMP},
+      </if>
+      <if test="auditor != null">
+        #{auditor,jdbcType=VARCHAR},
+      </if>
+      <if test="cardAddtime != null">
+        #{cardAddtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cardUpptime != null">
+        #{cardUpptime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cardBindType != null">
+        #{cardBindType,jdbcType=INTEGER},
+      </if>
+      <if test="cardState != null">
+        #{cardState,jdbcType=INTEGER},
+      </if>
+      <if test="cardnum != null">
+        #{cardnum,jdbcType=INTEGER},
+      </if>
+      <if test="memberid != null">
+        #{memberid,jdbcType=BIGINT},
+      </if>
+      <if test="cardProtocol != null">
+        #{cardProtocol,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.shoumipay.domain.MemberBankcardExample" resultType="java.lang.Long">
+    select count(*) from cl_member_bankcard
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective">
+    update cl_member_bankcard
+    <set>
+      <if test="record.cardid != null">
+        cardId = #{record.cardid,jdbcType=BIGINT},
+      </if>
+      <if test="record.bankcardNumber != null">
+        bankCard_Number = #{record.bankcardNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cardType != null">
+        card_type = #{record.cardType,jdbcType=INTEGER},
+      </if>
+      <if test="record.bankCardName != null">
+        bank_card_name = #{record.bankCardName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bankOfDeposit != null">
+        bank_Of_Deposit = #{record.bankOfDeposit,jdbcType=VARCHAR},
+      </if>
+      <if test="record.provincesAndCities != null">
+        provinces_And_Cities = #{record.provincesAndCities,jdbcType=VARCHAR},
+      </if>
+      <if test="record.openingBranch != null">
+        opening_Branch = #{record.openingBranch,jdbcType=VARCHAR},
+      </if>
+      <if test="record.phonenumber != null">
+        phoneNumber = #{record.phonenumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bankCardValidity != null">
+        bank_card_validity = #{record.bankCardValidity,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.auditor != null">
+        auditor = #{record.auditor,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cardAddtime != null">
+        card_addtime = #{record.cardAddtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.cardUpptime != null">
+        card_upptime = #{record.cardUpptime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.cardBindType != null">
+        card_bind_type = #{record.cardBindType,jdbcType=INTEGER},
+      </if>
+      <if test="record.cardState != null">
+        card_state = #{record.cardState,jdbcType=INTEGER},
+      </if>
+      <if test="record.cardnum != null">
+        cardNum = #{record.cardnum,jdbcType=INTEGER},
+      </if>
+      <if test="record.memberid != null">
+        memberId = #{record.memberid,jdbcType=BIGINT},
+      </if>
+      <if test="record.cardProtocol != null">
+        card_Protocol = #{record.cardProtocol,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update cl_member_bankcard
+    set cardId = #{record.cardid,jdbcType=BIGINT},
+      bankCard_Number = #{record.bankcardNumber,jdbcType=VARCHAR},
+      card_type = #{record.cardType,jdbcType=INTEGER},
+      bank_card_name = #{record.bankCardName,jdbcType=VARCHAR},
+      bank_Of_Deposit = #{record.bankOfDeposit,jdbcType=VARCHAR},
+      provinces_And_Cities = #{record.provincesAndCities,jdbcType=VARCHAR},
+      opening_Branch = #{record.openingBranch,jdbcType=VARCHAR},
+      phoneNumber = #{record.phonenumber,jdbcType=VARCHAR},
+      bank_card_validity = #{record.bankCardValidity,jdbcType=TIMESTAMP},
+      auditor = #{record.auditor,jdbcType=VARCHAR},
+      card_addtime = #{record.cardAddtime,jdbcType=TIMESTAMP},
+      card_upptime = #{record.cardUpptime,jdbcType=TIMESTAMP},
+      card_bind_type = #{record.cardBindType,jdbcType=INTEGER},
+      card_state = #{record.cardState,jdbcType=INTEGER},
+      cardNum = #{record.cardnum,jdbcType=INTEGER},
+      memberId = #{record.memberid,jdbcType=BIGINT},
+      card_Protocol = #{record.cardProtocol,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.shoumipay.domain.MemberBankcard">
+    update cl_member_bankcard
+    <set>
+      <if test="bankcardNumber != null">
+        bankCard_Number = #{bankcardNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="cardType != null">
+        card_type = #{cardType,jdbcType=INTEGER},
+      </if>
+      <if test="bankCardName != null">
+        bank_card_name = #{bankCardName,jdbcType=VARCHAR},
+      </if>
+      <if test="bankOfDeposit != null">
+        bank_Of_Deposit = #{bankOfDeposit,jdbcType=VARCHAR},
+      </if>
+      <if test="provincesAndCities != null">
+        provinces_And_Cities = #{provincesAndCities,jdbcType=VARCHAR},
+      </if>
+      <if test="openingBranch != null">
+        opening_Branch = #{openingBranch,jdbcType=VARCHAR},
+      </if>
+      <if test="phonenumber != null">
+        phoneNumber = #{phonenumber,jdbcType=VARCHAR},
+      </if>
+      <if test="bankCardValidity != null">
+        bank_card_validity = #{bankCardValidity,jdbcType=TIMESTAMP},
+      </if>
+      <if test="auditor != null">
+        auditor = #{auditor,jdbcType=VARCHAR},
+      </if>
+      <if test="cardAddtime != null">
+        card_addtime = #{cardAddtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cardUpptime != null">
+        card_upptime = #{cardUpptime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cardBindType != null">
+        card_bind_type = #{cardBindType,jdbcType=INTEGER},
+      </if>
+      <if test="cardState != null">
+        card_state = #{cardState,jdbcType=INTEGER},
+      </if>
+      <if test="cardnum != null">
+        cardNum = #{cardnum,jdbcType=INTEGER},
+      </if>
+      <if test="memberid != null">
+        memberId = #{memberid,jdbcType=BIGINT},
+      </if>
+      <if test="cardProtocol != null">
+        card_Protocol = #{cardProtocol,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where cardId = #{cardid,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.shoumipay.domain.MemberBankcard">
+    update cl_member_bankcard
+    set bankCard_Number = #{bankcardNumber,jdbcType=VARCHAR},
+      card_type = #{cardType,jdbcType=INTEGER},
+      bank_card_name = #{bankCardName,jdbcType=VARCHAR},
+      bank_Of_Deposit = #{bankOfDeposit,jdbcType=VARCHAR},
+      provinces_And_Cities = #{provincesAndCities,jdbcType=VARCHAR},
+      opening_Branch = #{openingBranch,jdbcType=VARCHAR},
+      phoneNumber = #{phonenumber,jdbcType=VARCHAR},
+      bank_card_validity = #{bankCardValidity,jdbcType=TIMESTAMP},
+      auditor = #{auditor,jdbcType=VARCHAR},
+      card_addtime = #{cardAddtime,jdbcType=TIMESTAMP},
+      card_upptime = #{cardUpptime,jdbcType=TIMESTAMP},
+      card_bind_type = #{cardBindType,jdbcType=INTEGER},
+      card_state = #{cardState,jdbcType=INTEGER},
+      cardNum = #{cardnum,jdbcType=INTEGER},
+      memberId = #{memberid,jdbcType=BIGINT},
+      card_Protocol = #{cardProtocol,jdbcType=VARCHAR}
+    where cardId = #{cardid,jdbcType=BIGINT}
+  </update>
+<update id="updateBindCard">
+     update cl_member_bankcard  set  card_bind_type=
+     (case
+       when cardid=#{cardId} then #{bindType}
+       when  card_bind_type!=#{bindTypeF} then 2
+       when card_bind_type=#{bindTypeF} then #{bindTypeF}
+     end)
+      where memberId=#{memberId};
+  </update>	
+</mapper>

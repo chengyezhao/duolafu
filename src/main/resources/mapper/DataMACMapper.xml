@@ -1,0 +1,334 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shoumipay.dao.DataMACMapper">
+    <resultMap id="BaseResultMap" type="com.shoumipay.domain.DataMAC">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="goods_id" jdbcType="BIGINT" property="goodsId"/>
+        <result column="channel" jdbcType="VARCHAR" property="channel"/>
+        <result column="alizhima_call" jdbcType="BIGINT" property="alizhimaCall"/>
+        <result column="blacklist" jdbcType="BIGINT" property="blacklist"/>
+        <result column="jiao_call" jdbcType="BIGINT" property="jiaoCall"/>
+        <result column="bank_call" jdbcType="BIGINT" property="bankCall"/>
+        <result column="sms_call" jdbcType="BIGINT" property="smsCall"/>
+        <result column="third_party_1" jdbcType="BIGINT" property="thirdParty1"/>
+        <result column="third_party_2" jdbcType="BIGINT" property="thirdParty2"/>
+        <result column="third_party_3" jdbcType="BIGINT" property="thirdParty3"/>
+        <result column="time" jdbcType="TIMESTAMP" property="time"/>
+    </resultMap>
+    <sql id="Example_Where_Clause">
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause">
+        <where>
+            <foreach collection="example.oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Base_Column_List">
+    id, goods_id, channel, alizhima_call, blacklist, jiao_call, bank_call, sms_call, 
+    third_party_1, third_party_2, third_party_3, time
+  </sql>
+    <select id="selectState" resultType="com.shoumipay.domain.DataMAC">
+    SELECT
+    (SELECT COUNT(id) FROM cl_verify_parameter WHERE createTime BETWEEN '${startTime}' AND '${endTime}' AND type LIKE '%芝麻%' ) alizhimaCall,
+     (SELECT COUNT(id) FROM cl_verify_parameter WHERE createTime BETWEEN '${startTime}' AND '${endTime}' AND type LIKE '%银行卡%') blacklist,
+     (SELECT COUNT(id) FROM cl_verify_parameter WHERE createTime BETWEEN '${startTime}' AND '${endTime}' AND type LIKE '%手机%') jiaoCall,
+     (SELECT COUNT(id) FROM cl_verify_parameter WHERE createTime BETWEEN '${startTime}' AND '${endTime}' AND type LIKE '%实名%') bankCall,
+     (SELECT COUNT(sid) FROM cl_sms_task WHERE createTime BETWEEN '${startTime}' AND '${endTime}' AND flag='1') smsCall
+  </select>
+    <select id="selectByExample" parameterType="com.shoumipay.domain.DataMACExample" resultMap="BaseResultMap">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        'true' as QUERYID,
+        <include refid="Base_Column_List"/>
+        from cl_data_mac
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+    </select>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from cl_data_mac
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from cl_data_mac
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+    <delete id="deleteByExample" parameterType="com.shoumipay.domain.DataMACExample">
+        delete from cl_data_mac
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </delete>
+    <insert id="insert" parameterType="com.shoumipay.domain.DataMAC">
+    insert into cl_data_mac (id, goods_id, channel, 
+      alizhima_call, blacklist, jiao_call, 
+      bank_call, sms_call, third_party_1, 
+      third_party_2, third_party_3, time
+      )
+    values (#{id,jdbcType=BIGINT}, #{goodsId,jdbcType=BIGINT}, #{channel,jdbcType=VARCHAR}, 
+      #{alizhimaCall,jdbcType=BIGINT}, #{blacklist,jdbcType=BIGINT}, #{jiaoCall,jdbcType=BIGINT}, 
+      #{bankCall,jdbcType=BIGINT}, #{smsCall,jdbcType=BIGINT}, #{thirdParty1,jdbcType=BIGINT}, 
+      #{thirdParty2,jdbcType=BIGINT}, #{thirdParty3,jdbcType=BIGINT}, #{time,jdbcType=TIMESTAMP}
+      )
+  </insert>
+    <insert id="insertSelective" parameterType="com.shoumipay.domain.DataMAC">
+        insert into cl_data_mac
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="goodsId != null">
+                goods_id,
+            </if>
+            <if test="channel != null">
+                channel,
+            </if>
+            <if test="alizhimaCall != null">
+                alizhima_call,
+            </if>
+            <if test="blacklist != null">
+                blacklist,
+            </if>
+            <if test="jiaoCall != null">
+                jiao_call,
+            </if>
+            <if test="bankCall != null">
+                bank_call,
+            </if>
+            <if test="smsCall != null">
+                sms_call,
+            </if>
+            <if test="thirdParty1 != null">
+                third_party_1,
+            </if>
+            <if test="thirdParty2 != null">
+                third_party_2,
+            </if>
+            <if test="thirdParty3 != null">
+                third_party_3,
+            </if>
+            <if test="time != null">
+                time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="goodsId != null">
+                #{goodsId,jdbcType=BIGINT},
+            </if>
+            <if test="channel != null">
+                #{channel,jdbcType=VARCHAR},
+            </if>
+            <if test="alizhimaCall != null">
+                #{alizhimaCall,jdbcType=BIGINT},
+            </if>
+            <if test="blacklist != null">
+                #{blacklist,jdbcType=BIGINT},
+            </if>
+            <if test="jiaoCall != null">
+                #{jiaoCall,jdbcType=BIGINT},
+            </if>
+            <if test="bankCall != null">
+                #{bankCall,jdbcType=BIGINT},
+            </if>
+            <if test="smsCall != null">
+                #{smsCall,jdbcType=BIGINT},
+            </if>
+            <if test="thirdParty1 != null">
+                #{thirdParty1,jdbcType=BIGINT},
+            </if>
+            <if test="thirdParty2 != null">
+                #{thirdParty2,jdbcType=BIGINT},
+            </if>
+            <if test="thirdParty3 != null">
+                #{thirdParty3,jdbcType=BIGINT},
+            </if>
+            <if test="time != null">
+                #{time,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <select id="countByExample" parameterType="com.shoumipay.domain.DataMACExample" resultType="java.lang.Long">
+        select count(*) from cl_data_mac
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
+        update cl_data_mac
+        <set>
+            <if test="record.id != null">
+                id = #{record.id,jdbcType=BIGINT},
+            </if>
+            <if test="record.goodsId != null">
+                goods_id = #{record.goodsId,jdbcType=BIGINT},
+            </if>
+            <if test="record.channel != null">
+                channel = #{record.channel,jdbcType=VARCHAR},
+            </if>
+            <if test="record.alizhimaCall != null">
+                alizhima_call = #{record.alizhimaCall,jdbcType=BIGINT},
+            </if>
+            <if test="record.blacklist != null">
+                blacklist = #{record.blacklist,jdbcType=BIGINT},
+            </if>
+            <if test="record.jiaoCall != null">
+                jiao_call = #{record.jiaoCall,jdbcType=BIGINT},
+            </if>
+            <if test="record.bankCall != null">
+                bank_call = #{record.bankCall,jdbcType=BIGINT},
+            </if>
+            <if test="record.smsCall != null">
+                sms_call = #{record.smsCall,jdbcType=BIGINT},
+            </if>
+            <if test="record.thirdParty1 != null">
+                third_party_1 = #{record.thirdParty1,jdbcType=BIGINT},
+            </if>
+            <if test="record.thirdParty2 != null">
+                third_party_2 = #{record.thirdParty2,jdbcType=BIGINT},
+            </if>
+            <if test="record.thirdParty3 != null">
+                third_party_3 = #{record.thirdParty3,jdbcType=BIGINT},
+            </if>
+            <if test="record.time != null">
+                time = #{record.time,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByExample" parameterType="map">
+        update cl_data_mac
+        set id = #{record.id,jdbcType=BIGINT},
+        goods_id = #{record.goodsId,jdbcType=BIGINT},
+        channel = #{record.channel,jdbcType=VARCHAR},
+        alizhima_call = #{record.alizhimaCall,jdbcType=BIGINT},
+        blacklist = #{record.blacklist,jdbcType=BIGINT},
+        jiao_call = #{record.jiaoCall,jdbcType=BIGINT},
+        bank_call = #{record.bankCall,jdbcType=BIGINT},
+        sms_call = #{record.smsCall,jdbcType=BIGINT},
+        third_party_1 = #{record.thirdParty1,jdbcType=BIGINT},
+        third_party_2 = #{record.thirdParty2,jdbcType=BIGINT},
+        third_party_3 = #{record.thirdParty3,jdbcType=BIGINT},
+        time = #{record.time,jdbcType=TIMESTAMP}
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="com.shoumipay.domain.DataMAC">
+        update cl_data_mac
+        <set>
+            <if test="goodsId != null">
+                goods_id = #{goodsId,jdbcType=BIGINT},
+            </if>
+            <if test="channel != null">
+                channel = #{channel,jdbcType=VARCHAR},
+            </if>
+            <if test="alizhimaCall != null">
+                alizhima_call = #{alizhimaCall,jdbcType=BIGINT},
+            </if>
+            <if test="blacklist != null">
+                blacklist = #{blacklist,jdbcType=BIGINT},
+            </if>
+            <if test="jiaoCall != null">
+                jiao_call = #{jiaoCall,jdbcType=BIGINT},
+            </if>
+            <if test="bankCall != null">
+                bank_call = #{bankCall,jdbcType=BIGINT},
+            </if>
+            <if test="smsCall != null">
+                sms_call = #{smsCall,jdbcType=BIGINT},
+            </if>
+            <if test="thirdParty1 != null">
+                third_party_1 = #{thirdParty1,jdbcType=BIGINT},
+            </if>
+            <if test="thirdParty2 != null">
+                third_party_2 = #{thirdParty2,jdbcType=BIGINT},
+            </if>
+            <if test="thirdParty3 != null">
+                third_party_3 = #{thirdParty3,jdbcType=BIGINT},
+            </if>
+            <if test="time != null">
+                time = #{time,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.shoumipay.domain.DataMAC">
+    update cl_data_mac
+    set goods_id = #{goodsId,jdbcType=BIGINT},
+      channel = #{channel,jdbcType=VARCHAR},
+      alizhima_call = #{alizhimaCall,jdbcType=BIGINT},
+      blacklist = #{blacklist,jdbcType=BIGINT},
+      jiao_call = #{jiaoCall,jdbcType=BIGINT},
+      bank_call = #{bankCall,jdbcType=BIGINT},
+      sms_call = #{smsCall,jdbcType=BIGINT},
+      third_party_1 = #{thirdParty1,jdbcType=BIGINT},
+      third_party_2 = #{thirdParty2,jdbcType=BIGINT},
+      third_party_3 = #{thirdParty3,jdbcType=BIGINT},
+      time = #{time,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

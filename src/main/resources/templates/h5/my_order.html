@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="x-ua-compatible" content="ie=edge"/>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0,minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <meta name="application-name" content=""/>
+    <meta name="description" content=""/>
+    <meta name="keywords" content=""/>
+    <meta content="yes" name="apple-mobile-web-app-capable"/>
+    <title>哆啦付</title>
+    <link rel="stylesheet" href="../../static/assets/h5/css/reset.css" th:href="@{/assets/h5/css/reset.css}"/>
+    <link rel="stylesheet" href="../../static/assets/h5/css/first.css" th:href="@{/assets/h5/css/first.css}"/>
+    <link rel="stylesheet" href="../../static/assets/h5/css/tab.css" th:href="@{/assets/h5/css/tab.css}"/>
+    <script type="text/javascript" src="../../static/assets/h5/js/jquery-1.8.3.min.js"
+            th:src="@{/assets/h5/js/jquery-1.8.3.min.js}"></script>
+
+</head>
+
+<body>
+<div class="begin_title">
+    <a href="index"><span class="back">
+				<img src="../../static/assets/h5/images/jiantouhl.png"
+                     th:src="@{/assets/h5/images/jiantouhl.png}"/></span></a>
+    我的订单
+</div>
+<article class="htmleaf-container">
+    <div class="tabs">
+        <div class="tabs-header">
+            <div class="border"></div>
+            <ul>
+                <li class="active"><a href="#tab-1" tab-id="1" ripple="ripple" ripple-color="#FFF">全部</a></li>
+                <li><a href="#tab-2" tab-id="2" ripple="ripple" ripple-color="#FFF">待确认</a></li>
+                <li><a href="#tab-3" tab-id="3" ripple="ripple" ripple-color="#FFF">待付款</a></li>
+                <li><a href="#tab-4" tab-id="4" ripple="ripple" ripple-color="#FFF">已拒绝</a></li>
+                <li><a href="#tab-5" tab-id="5" ripple="ripple" ripple-color="#FFF">已付款</a></li>
+                <li><a href="#tab-6" tab-id="6" ripple="ripple" ripple-color="#FFF">已退货</a></li>
+            </ul>
+        </div>
+        <div class="tabs-content">
+            <div tab-id="1" class="tab active">
+                <div class="order_list" th:each="jdOrder:${jdOrdeVOList}">
+                    <ul>
+                        <li class="order_name">
+                            <div class="o_l" th:if="${jdOrder.shareUrl=='1'}">淘宝</div>
+                            <div class="o_l" th:if="${jdOrder.shareUrl!='1'}">京东商城</div>
+                            <div class="o_r" th:if="${jdOrder.orderStatus==1||jdOrder.orderStatus==2}">待确认</div>
+                            <div class="o_r" th:if="${jdOrder.orderStatus==5||jdOrder.orderStatus==6}">待付款</div>
+                            <div class="o_r" th:if="${jdOrder.orderStatus==3||jdOrder.orderStatus==4}">已拒绝</div>
+                            <div class="o_r" th:if="${jdOrder.orderStatus==7}">已付款</div>
+                            <div class="o_r" th:if="${jdOrder.orderStatus==8||jdOrder.orderStatus==9}">已退货</div>
+                        </li>
+                        <li class="order_js">
+                            <div class="order_pic">
+                                <dl>
+                                    <dt><img src="../../static/assets/h5/images/pjpic.jpg"
+                                             th:src="${jdOrder.imageUrl}"/></dt>
+                                    <dd>
+                                        <p class="font_style01" th:text="${jdOrder.wareName}">converse匡威帆布男鞋匡威帆布男鞋</p>
+                                        <!--<p class="font_style02">颜色：黑色 尺码：40</p>-->
+                                    </dd>
+                                </dl>
+                            </div>
+                            <div class="order_money" th:text="${'¥'+jdOrder.price}">¥199.00</div>
+                        </li>
+                        <li class="order_shop"><span th:text="${'共'+jdOrder.count+'件商品 合计：¥'+jdOrder.price+'元'}">共1件商品 合计：¥199.00元</span>
+                            <sapn class="ws"></sapn>
+                        </li>
+                        <li class="order_number"><span style="margin-left: 4%;float: left;"
+                                                       th:text="${'订单编号：'+jdOrder.orderNumber}">订单编号：1234567890123456</span><span
+                                style="margin-right: 5%;float:right;"
+                                th:text="${jdOrder.orderCreateTime}">2017-10-13</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="order_pdd" th:if="${jdOrdeVOList.size()==0}">
+                    <div class="dingdhan01">
+                        <img src="../../static/assets/h5/images/order.png" th:src="@{/assets/h5/images/order.png}"/>
+                    </div>
+                    <div class="order_pdd_text">您还没有相关订单</div>
+                </div>
+            </div>
+            <div tab-id="2" class="tab">
+                <div class="order_list" id="tab2" th:each="jdOrder:${jdOrdeVOList}"
+                     th:if="${jdOrder.orderStatus==1||jdOrder.orderStatus==2}">
+                    <ul>
+                        <li class="order_name">
+                            <div class="o_l" th:if="${jdOrder.shareUrl=='1'}">淘宝</div>
+                            <div class="o_l" th:if="${jdOrder.shareUrl!='1'}">京东商城</div>
+                            <div class="o_r">待确认</div>
+                        </li>
+                        <li class="order_js">
+                            <div class="order_pic">
+                                <dl>
+                                    <dt><img src="../../static/assets/h5/images/pjpic.jpg"
+                                             th:src="${jdOrder.imageUrl}"/></dt>
+                                    <dd>
+                                        <p class="font_style01" th:text="${jdOrder.wareName}">converse匡威帆布男鞋匡威帆布男鞋</p>
+                                        <!--<p class="font_style02">颜色：黑色 尺码：40</p>-->
+                                    </dd>
+                                </dl>
+                            </div>
+                            <div class="order_money" th:text="${'¥'+jdOrder.price}">¥199.00</div>
+                        </li>
+                        <li class="order_shop"><span th:text="${'共'+jdOrder.count+'件商品 合计：¥'+jdOrder.price+'元'}">共1件商品 合计：¥199.00元</span>
+                            <sapn class="ws"></sapn>
+                        </li>
+                        <li class="order_number"><span style="margin-left: 4%;float: left;"
+                                                       th:text="${'订单编号：'+jdOrder.orderNumber}">订单编号：1234567890123456</span><span
+                                style="margin-right: 5%;float:right;"
+                                th:text="${jdOrder.orderCreateTime}">2017-10-13</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="order_pdd" id="pdd2">
+                    <div class="dingdhan01">
+                        <img src="../../static/assets/h5/images/order.png" th:src="@{/assets/h5/images/order.png}"/>
+                    </div>
+                    <div class="order_pdd_text">您还没有相关订单</div>
+                </div>
+            </div>
+            <div tab-id="3" class="tab">
+                <div class="order_list" id="tab3" th:each="jdOrder:${jdOrdeVOList}"
+                     th:if="${jdOrder.orderStatus==5||jdOrder.orderStatus==6}">
+                    <ul>
+                        <li class="order_name">
+                            <div class="o_l" th:if="${jdOrder.shareUrl=='1'}">淘宝</div>
+                            <div class="o_l" th:if="${jdOrder.shareUrl!='1'}">京东商城</div>
+                            <div class="o_r">待付款</div>
+                        </li>
+                        <li class="order_js">
+                            <div class="order_pic">
+                                <dl>
+                                    <dt><img src="../../static/assets/h5/images/pjpic.jpg"
+                                             th:src="${jdOrder.imageUrl}"/></dt>
+                                    <dd>
+                                        <p class="font_style01" th:text="${jdOrder.wareName}">converse匡威帆布男鞋匡威帆布男鞋</p>
+                                        <!--<p class="font_style02">颜色：黑色 尺码：40</p>-->
+                                    </dd>
+                                </dl>
+                            </div>
+                            <div class="order_money" th:text="${'¥'+jdOrder.price}">¥199.00</div>
+                        </li>
+                        <li class="order_shop"><span th:text="${'共'+jdOrder.count+'件商品 合计：¥'+jdOrder.price+'元'}">共1件商品 合计：¥199.00元</span>
+                            <sapn class="ws"></sapn>
+                        </li>
+                        <li class="order_number"><span style="margin-left: 4%;float: left;"
+                                                       th:text="${'订单编号：'+jdOrder.orderNumber}">订单编号：1234567890123456</span><span
+                                style="margin-right: 5%;float:right;"
+                                th:text="${jdOrder.orderCreateTime}">2017-10-13</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="order_pdd" id="pdd3">
+                    <div class="dingdhan01">
+                        <img src="../../static/assets/h5/images/order.png" th:src="@{/assets/h5/images/order.png}"/>
+                    </div>
+                    <div class="order_pdd_text">您还没有相关订单</div>
+                </div>
+            </div>
+            <div tab-id="4" class="tab">
+                <div class="order_list" id="tab4" th:each="jdOrder:${jdOrdeVOList}"
+                     th:if="${jdOrder.orderStatus==3||jdOrder.orderStatus==4}">
+                    <ul>
+                        <li class="order_name">
+                            <div class="o_l" th:if="${jdOrder.shareUrl=='1'}">淘宝</div>
+                            <div class="o_l" th:if="${jdOrder.shareUrl!='1'}">京东商城</div>
+                            <div class="o_r">已拒绝</div>
+                        </li>
+                        <li class="order_js">
+                            <div class="order_pic">
+                                <dl>
+                                    <dt><img src="../../static/assets/h5/images/pjpic.jpg"
+                                             th:src="${jdOrder.imageUrl}"/></dt>
+                                    <dd>
+                                        <p class="font_style01" th:text="${jdOrder.wareName}">converse匡威帆布男鞋匡威帆布男鞋</p>
+                                        <!--<p class="font_style02">颜色：黑色 尺码：40</p>-->
+                                    </dd>
+                                </dl>
+                            </div>
+                            <div class="order_money" th:text="${'¥'+jdOrder.price}">¥199.00</div>
+                        </li>
+                        <li class="order_shop"><span th:text="${'共'+jdOrder.count+'件商品 合计：¥'+jdOrder.price+'元'}">共1件商品 合计：¥199.00元</span>
+                            <sapn class="ws"></sapn>
+                        </li>
+                        <li class="order_number"><span style="margin-left: 4%;float: left;"
+                                                       th:text="${'订单编号：'+jdOrder.orderNumber}">订单编号：1234567890123456</span><span
+                                style="margin-right: 5%;float:right;"
+                                th:text="${jdOrder.orderCreateTime}">2017-10-13</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="order_pdd" id="pdd4">
+                    <div class="dingdhan01">
+                        <img src="../../static/assets/h5/images/order.png" th:src="@{/assets/h5/images/order.png}"/>
+                    </div>
+                    <div class="order_pdd_text">您还没有相关订单</div>
+                </div>
+            </div>
+            <div tab-id="5" class="tab">
+                <div class="order_list" id="tab5" th:each="jdOrder:${jdOrdeVOList}" th:if="${jdOrder.orderStatus==7}">
+                    <ul>
+                        <li class="order_name">
+                            <div class="o_l" th:if="${jdOrder.shareUrl=='1'}">淘宝</div>
+                            <div class="o_l" th:if="${jdOrder.shareUrl!='1'}">京东商城</div>
+                            <div class="o_r">已付款</div>
+                        </li>
+                        <li class="order_js">
+                            <div class="order_pic">
+                                <dl>
+                                    <dt><img src="../../static/assets/h5/images/pjpic.jpg"
+                                             th:src="${jdOrder.imageUrl}"/></dt>
+                                    <dd>
+                                        <p class="font_style01" th:text="${jdOrder.wareName}">converse匡威帆布男鞋匡威帆布男鞋</p>
+                                        <!--<p class="font_style02">颜色：黑色 尺码：40</p>-->
+                                    </dd>
+                                </dl>
+                            </div>
+                            <div class="order_money" th:text="${'¥'+jdOrder.price}">¥199.00</div>
+                        </li>
+                        <li class="order_shop"><span th:text="${'共'+jdOrder.count+'件商品 合计：¥'+jdOrder.price+'元'}">共1件商品 合计：¥199.00元</span>
+                            <sapn class="ws"></sapn>
+                        </li>
+                        <li class="order_number"><span style="margin-left: 4%;float: left;"
+                                                       th:text="${'订单编号：'+jdOrder.orderNumber}">订单编号：1234567890123456</span><span
+                                style="margin-right: 5%;float:right;"
+                                th:text="${jdOrder.orderCreateTime}">2017-10-13</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="order_pdd" id="pdd5">
+                    <div class="dingdhan01">
+                        <img src="../../static/assets/h5/images/order.png" th:src="@{/assets/h5/images/order.png}"/>
+                    </div>
+                    <div class="order_pdd_text">您还没有相关订单</div>
+                </div>
+            </div>
+            <div tab-id="6" class="tab">
+                <div class="order_list" id="tab6" th:each="jdOrder:${jdOrdeVOList}"
+                     th:if="${jdOrder.orderStatus==8||jdOrder.orderStatus==9}">
+                    <ul>
+                        <li class="order_name">
+                            <div class="o_l" th:if="${jdOrder.shareUrl=='1'}">淘宝</div>
+                            <div class="o_l" th:if="${jdOrder.shareUrl!='1'}">京东商城</div>
+                            <div class="o_r">已退货</div>
+                        </li>
+                        <li class="order_js">
+                            <div class="order_pic">
+                                <dl>
+                                    <dt><img src="../../static/assets/h5/images/pjpic.jpg"
+                                             th:src="${jdOrder.imageUrl}"/></dt>
+                                    <dd>
+                                        <p class="font_style01" th:text="${jdOrder.wareName}">converse匡威帆布男鞋匡威帆布男鞋</p>
+                                        <!--<p class="font_style02">颜色：黑色 尺码：40</p>-->
+                                    </dd>
+                                </dl>
+                            </div>
+                            <div class="order_money" th:text="${'¥'+jdOrder.price}">¥199.00</div>
+                        </li>
+                        <li class="order_shop"><span th:text="${'共'+jdOrder.count+'件商品 合计：¥'+jdOrder.price+'元'}">共1件商品 合计：¥199.00元</span>
+                            <sapn class="ws"></sapn>
+                        </li>
+                        <li class="order_number"><span style="margin-left: 4%;float: left;"
+                                                       th:text="${'订单编号：'+jdOrder.orderNumber}">订单编号：1234567890123456</span><span
+                                style="margin-right: 5%;float:right;"
+                                th:text="${jdOrder.orderCreateTime}">2017-10-13</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="order_pdd" id="pdd6">
+                    <div class="dingdhan01">
+                        <img src="../../static/assets/h5/images/order.png" th:src="@{/assets/h5/images/order.png}"/>
+                    </div>
+                    <div class="order_pdd_text">您还没有相关订单</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</article>
+<!-- 代码 结束 -->
+<script>
+    /*<![CDATA[*/
+    for (var i = 1; i < 7; i++) {
+        if ($("#tab" + i).length <= 0) {
+            $("#pdd" + i).show();
+        } else {
+            $("#pdd" + i).hide();
+        }
+    }
+    /*]]>*/
+</script>
+<script type="text/javascript" src="../../static/assets/h5/js/stopExecutionOnTimeout.js"
+        th:src="@{/assets/h5/js/stopExecutionOnTimeout.js}"></script>
+<script type="text/javascript" src="../../static/assets/h5/js/huadong.js" th:src="@{/assets/h5/js/huadong.js}"></script>
+</body>
+</html>
+

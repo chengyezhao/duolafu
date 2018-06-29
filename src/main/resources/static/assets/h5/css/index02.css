@@ -1,0 +1,58 @@
+.jianyi textarea{width:92%;height: 100%;background: #FFF;font-family: STHeitiSC-Light;
+font-size: 15px;color: #999999;letter-spacing: 0.15px;text-indent:15px;margin-left: 4%;}
+.grey{width:100%;height:10px;background: #f5f5f5;}
+.about{width:100%;text-align:center;}
+.about img{display:inline-block;width:80px;height:80px;margin-top:48px;margin-bottom:42px;}
+.f_l{float: left;margin-left: 4%;}
+.f_r{float: right;margin-right: 4%;}
+.tel_tel{width:100%;height: 50px;background: #fff;}
+.rel_l{font-family: STHeitiSC-Light;font-size: 15px;color: #333333;letter-spacing: 0.15px;line-height: 50px;}
+.rel_c{float: right;}
+.rel_c{font-family: STHeitiSC-Light;font-size: 15px;color: #FEB400;letter-spacing: 0.15px;line-height: 50px;}
+.rel_r{display: block;margin-top: 17px;margin-left: 2px;}
+.tishi{line-height:40px;font-family: STHeitiSC-Light;font-size: 14px;color: #999999;letter-spacing: 0.14px;text-align: center;width: 100%;}
+.mima ul li{width:100%;height:50px;background: #fff;margin-bottom: 1px;}
+.mima label{margin-left: 4%;font-family: STHeitiSC-Light;font-size: 15px;color: #333333;letter-spacing: 0.15px;line-height: 50px;}
+.mima input{float: right;width: 67%;font-family: STHeitiSC-Light;font-size: 15px;color: #999999;
+letter-spacing: 0.15px;line-height: 50px;height: 50px;border:none;}
+.q_d{width: 92%;margin-left: 4%;background:#FEB400;height: 40px;line-height: 40px;font-family: STHeitiSC-Light;
+font-size: 16px;color: #FFFFFF;letter-spacing: 0.16px;border: none;margin-top: 50px;}
+.mima01 ul li{width:100%;height:50px;background: #fff;margin-bottom: 1px;}
+.mima01 label{margin-left: 4%;font-family: STHeitiSC-Light;font-size: 15px;color: #333333;letter-spacing: 0.15px;line-height: 50px;float: left;}
+.mima01 input{width: 50.4%;font-family: STHeitiSC-Light;font-size: 15px;color: #999999;
+letter-spacing: 0.15px;line-height: 50px;height: 50px;border:none;margin-left: 9%;}
+.mima01 button{width:21%;font-family: STHeitiSC-Light;font-size: 15px;color: #3A7BD5;letter-spacing: 0.15px;line-height:40px;border:none;background: #fff;height: 40px;border-left:1px solid #eee;}
+.last_temp{width: 92%;margin-left: 4%;background:#FEB400;height: 40px;line-height: 40px;border: none;margin-top: 50px;}
+.last_temp a{font-family: STHeitiSC-Light;font-size: 16px;color: #FFFFFF;letter-spacing: 0.16px;display: block;width: 100%;}
+.zhuanghu ul li{width:100%;height:50px;background: #fff;margin-top: 10px;line-height: 50px;}
+.zhuanghu ul li div:nth-child(1){font-family: STHeitiSC-Light;font-size: 15px;color: #333333;letter-spacing: 0.15px;}
+.tuichu{width: 92%;height: 40px;background:#FEB400;line-height: 40px;margin-left:4%;border:none;margin-top: 90px;}
+.tuichu a{font-family: STHeitiSC-Light;font-size: 16px;color: #FFFFFF;letter-spacing: 0.16px;display: block;width: 100%;}
+/*------------------my_self----------------------*/
+.my_self{width: 100%;height: 170px;background:#FEB400;}
+.my_self_center{width: 70px;margin: 0 auto;}
+.my_self_center dl{padding-top: 27px;}
+.my_self_center dl dt{width:60px;height: 60px;border:5px solid #fff;border-radius:100%;}
+.my_self_center dl dt img{width: 100%;display: block;}
+.my_self_center dl dd{font-family: STHeitiSC-Medium;font-size: 15px;color: #FFFFFF;letter-spacing: 0.15px;text-align: center;margin-top: 12px;}
+.my_self_shezi{position: absolute;right: 33px;top:21px;}
+.my_self_list li{width: 100%;height: 50px;line-height: 50px;margin-bottom: 20px;background: #fff;line-height: 50px;}
+.img_l img{float:left;width:24px;height: 24px;margin-top: 13px;margin-right: 18px;}
+.img_l{font-family: STHeitiSC-Light;font-size: 16px;color: #333333;letter-spacing: 0.16px;}
+.tcz{width: 100%;height: 100%;position:absolute;z-index: 99;background: #000;opacity: 0.7;top:0;left: 0;display: none;}
+.touxiang{width: 92%;margin: 0 auto;position: absolute;bottom:9px;height: 178px;margin-left: 4%;}
+.touxiang ul li{background: #fff;height: 57px;width: 100%;text-align: center;}
+.size01{background:#e8e8e8;border-top-left-radius: 12px;border-top-right-radius: 12px;border-bottom:1px solid #a4a4a4;font-family: STHeitiSC-Light;font-size: 15px;color: #333333;letter-spacing: 0.28px;line-height:70px;}
+.size02{background:#e8e8e8;border-bottom-right-radius:12px;border-bottom-left-radius:12px;font-family: STHeitiSC-Light;font-size: 20px;color: #333333;letter-spacing: 0.38px;line-height: 57px;}
+.size03{margin-top: 6px;background: #FFFFFF;border-radius: 12px;font-family: STHeitiSC-Light;
+font-size: 20px;color: #0076FF;letter-spacing: 0.38px;line-height: 57px;}
+/*------------------------------*/
+.telnumber{width:100%;margin-top:54px;}
+.telnumber li{width:100%;height: 50px;background: #fff;margin-bottom: 1px;font-family: STHeitiSC-Light;font-size: 15px;color: #333333;letter-spacing: 0.15px;line-height: 50px;overflow: hidden;}
+.telnumber li label{width:61px;margin-right:12.8%;}
+.hqyzm{width:27%;float: right;font-family: STHeitiSC-Light;font-size: 15px;color: #FEB400;
+letter-spacing: 0.15px;border:none;height:30px;margin-top:10px;line-height: 30px;text-align: center;border-left:1px solid #D7D7D7;}
+.width3{width:60%;height: 50px;border:none;font-family: STHeitiSC-Light;
+font-size: 15px;color: #333;letter-spacing: 0.15px;}
+.width2{width:38%;height: 50px;border:none;font-family: STHeitiSC-Light;
+font-size: 15px;color: #333;letter-spacing: 0.15px;}

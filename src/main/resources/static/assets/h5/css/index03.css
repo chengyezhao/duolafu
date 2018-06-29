@@ -1,0 +1,95 @@
+.head{width:96%;padding-left: 4%;height: 44px;background:#3A7BD5;line-height: 44px;}
+.head_list{float: left;}
+.head_right{float: left;}
+.head_list a{display: block;width:9px;height:15px;padding-top:14.5px;}
+.head_list a img{display: block;width: 100%;}
+.head_center{font-family: "STHeitiSC-Light";font-size: 18px;color: #FFFFFF;letter-spacing: 0.18px;margin-left: 35.5%;}
+.head_center02{font-family: "STHeitiSC-Light";font-size: 18px;color: #FFFFFF;letter-spacing: 0.18px;margin-left: 44%;}
+body{background: #f5f5f5;}
+html{font-size:100px;}
+/*-----------------------jiekuan_qx-------------------------------*/
+.f_l{float: left;margin-left: 4%;}
+.f_r{float: right;margin-right: 4%;}
+/*----*/
+.cp_bg img{display: block;width: 100%;}
+.cpzq_center{width:92%;height: 506px;position: absolute;top:111px;left: 4%;z-index: 99;background: #fff;box-shadow: 0 4px 6px 0 #D5D7DA;border-radius: 10px;}
+.font_style02{margin-left: 15px;font-family: STHeitiSC-Light;font-size: 14px;color: #999999;letter-spacing: 0.14px;line-height: 25px;}
+.font_style01{font-family: STHeitiSC-Medium;font-size: 15px;color: #333333;letter-spacing: 0.15px;margin-left: 15px;height:60px;line-height: 70px;}
+.font_style03{font-family: STHeitiSC-Light;font-size: 12px;color: #999999;letter-spacing: 0.14px;line-height: 21px;margin-left: 15px;margin-top: 22px;}
+/*----------------------*/
+.jk_zl{width:203px;margin:44px auto 0;height: 73px;}
+.jk_zl_l{float: left;width:101px;}
+.jk_zl_r{float: right;width:102px;}
+.jk_zl dt{width: 100%;overflow: hidden;}
+.jk_zl_l b{width:16px;height: 16px;background:#FEB400;border-radius: 100%;display: block;text-align: center;line-height:16px;color: #fff;float: left;margin-top: 21px;margin-left: 25px;margin-bottom: 5px;}
+.jk_zl_r b{width:16px;height: 16px;background:#999;border-radius: 100%;display: block;text-align: center;line-height:16px;color: #fff;float: left;margin-top: 21px;margin-bottom: 5px;}
+.jk_zl_l span{background:#FEB400;height: 1px;width:60px;display: inline-block;float: left;margin-top: 29px;}
+.jk_zl_r span{background:#999;height: 1px;width:60px;display: inline-block;float: left;margin-top: 29px;}
+.jk_zl_l dd{font-family: STHeitiSC-Light;font-size: 12px;color: #FEB400;letter-spacing: 0.12px;}
+.jk_zl_r dd{margin-left:40px;font-family: STHeitiSC-Light;font-size: 12px;color: #999999;letter-spacing: 0.12px;}
+.jk_grzl li{width:100%;height:50px;margin-bottom:10px;background: #fff;line-height: 50px;overflow: hidden;}
+.jk_grzl{margin-top:63px;}
+.jk_grzl_l{font-family: STHeitiSC-Light;font-size: 15px;color: #333333;letter-spacing: 0.15px;line-height: 50px;}
+.jk_bottom img{float: right;margin-top:18px;display: block;margin-left: 6px;}
+.jk_bottom{font-family: STHeitiSC-Light;font-size: 12px;color: #FEB400;letter-spacing: 0.12px;}
+.jk_top img{margin-top: 15px;}
+.tijiao{width:92%;margin-left: 4%;position: absolute;bottom: 50px;}
+.tijiao input{width: 100%;height: 40px;0;line-height: 40px;color: #fff;font-size: 16px;background:#FEB400;border: none;margin-top: 20px;}
+/*--------------------------------------*/
+*::-webkit-input-placeholder {color: #999;}
+*:-moz-placeholder {color: #999;}
+*:-ms-input-placeholder {/* IE10+ */ color: #999;}
+.xiangxi_zl li{background:#fff;height:50px;margin-bottom: 1px;overflow: hidden;width:100%;line-height:50px;}
+.jb_zl{font-family: STHeitiSC-Light;font-size: 12px;color: #666666;letter-spacing: 0.12px;line-height: 12px;margin-top: 8px;margin-bottom: 10px;overflow: hidden;width:96%;}
+.jb_zl_font1{font-family: STHeitiSC-Light;font-size: 15px;color: #333333;letter-spacing: 0.15px;}
+.jb_zl_font2{font-family: STHeitiSC-Light;font-size: 15px;color: #999999;letter-spacing: 0.15px;}
+.jb_zl_font3{width: 70%;}
+.jb_zl_font3 input{font-family:STHeitiSC-Light;width:100%;height:50px;border:none;
+line-height:50px;text-align: right;font-size:15px;color: #333;letter-spacing: 0.15px;}
+.jb_zl_font2 img{float: right;margin-top: 18px;margin-left: 6px;}
+.margin20{margin-top: 20px;}
+.baocun button{width:92%;margin-left: 4%;background: #FEB400;height: 40px;font-family: STHeitiSC-Light;font-size: 16px;color: #FFFFFF;letter-spacing: 0.16px;border: none;margin-top: 50px;margin-bottom: 26px;}
+.jk_tvk{width: 100%;position: absolute;left: 0;top:0;background: #000;opacity: 0.7;height: 100%;}
+.jk_xz{width:94%;position: absolute;z-index: 99;background: #FFFFFF;border-radius: 12px;left: 0;bottom:9px;height:57px;margin-left: 3%;font-family: .PingFangSC-Regular;text-align: center;line-height: 57px;font-size: 20px;color: #0076FF;letter-spacing: 0.38px;}
+/*--------------------------------------*/
+.head_title{width:100%;height: 44px;background:#fff;line-height: 44px;}
+.head_name{font-family: STHeitiSC-Light;font-size: 18px;color: #333;letter-spacing: 0.18px;text-align:center;}
+.head_jt{position: absolute;left: 0;margin-left: 4%;top: 4px;}
+.layout-slider {margin-top:62px;width: 80%;margin-left: 10%;}
+.layout-slider-settings { font-size: 12px; padding-bottom: 10px; }
+.layout-slider-settings pre { font-family: Courier; }
+.xz_img img{display: block;width: 100%;}
+.progress-box{width:89%;}
+.progress-box .progress-bar-box{height:4px;overflow: inherit;border-radius: 5px;background: #D8D8D8;width: 100%;margin-left: 0px;}
+.progress-box .progress-bar-box .bar-scroll-box{background-color:#FEB400;;position: relative;
+border-radius: 5px;width:0%;height: 4px;}
+.progress-box .progress-bar-box .bar-scroll-box .bar-mark{display: inline-block;width: 26px;
+height:26px;background: #fff;position: absolute;top: -10px;right:-12px;border-radius: 100%;
+box-shadow: 0 1px 2px 0 rgba(0,0,0,0.20);}
+.progress-box .progress-bar-box .bar-scroll-box .bar-info{position: absolute;z-index: 1070;
+display: block;font-size: 12px;line-height: 1.4;visibility: visible;filter: alpha(opacity=0);
+color: #fff;right: -25px;top: -40px;min-width:50px;}
+.progress-box .progress-bar-box .bar-scroll-box .bar-info .info-inner{max-width: 200px;
+font-family: STHeitiSC-Light;font-size: 24px;color: #333333;letter-spacing: 0.24px;text-align: center;text-decoration: none;}
+.margin24{width:87%;margin-left:14px;margin-top:22px;font-family: STHeitiSC-Light;
+font-size: 15px;color: #999999;letter-spacing: 0.15px;overflow: hidden;}
+.f_f{float:left;}
+.r_r{float: right;}
+.progress-box01{width:89%;}
+.progress-box01 .progress-bar-box01{height:4px;overflow: inherit;border-radius: 5px;background: #D8D8D8;width: 100%;margin-left: 0px;}
+.progress-box01 .progress-bar-box01 .bar-scroll-box01{background-color:#FEB400;;position: relative;
+border-radius: 5px;width:0%;height: 4px;}
+.progress-box01 .progress-bar-box01 .bar-scroll-box01 .bar-mark01{display: inline-block;width: 26px;height:26px;background: #fff;position: absolute;top: -10px;right:-12px;border-radius: 100%;
+box-shadow: 0 1px 2px 0 rgba(0,0,0,0.20);}
+.progress-box01 .progress-bar-box01 .bar-scroll-box01 .bar-info01{position: absolute;z-index: 1070;display: block;font-size: 12px;line-height: 1.4;visibility: visible;filter: alpha(opacity=0);
+color: #fff;right: -30px;top: -40px;min-width:55px;}
+.progress-box01 .progress-bar-box01 .bar-scroll-box01 .bar-info01 .info-inner01{max-width: 200px;
+font-family: STHeitiSC-Light;font-size: 22px;color: #333333;letter-spacing: 0.24px;text-align: center;text-decoration: none;}
+.xz_center{background: #fff;padding-top: 43px;padding-bottom: 36px;}
+.font02{font-family: STHeitiSC-Light;font-size: 13px;color: #666666;letter-spacing: 0.13px;}
+.font01{font-family: STHeitiSC-Light;font-size: 15px;color: #333333;letter-spacing: 0.15px;}
+.ljsq_sq{width:92%;margin-left: 4%;height:40px;background:#FEB400;border:none;margin-top:30px;}
+.ljsq_sq a{display:block;width:100%;font-family: STHeitiSC-Light;font-size: 16px;
+color: #FFFFFF;letter-spacing: 0.16px;}
+#address span{margin-left: 3px;}
+#workaddress span{margin-left: 3px;}

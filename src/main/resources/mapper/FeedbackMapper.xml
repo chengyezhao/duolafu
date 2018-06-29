@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shoumipay.dao.FeedbackMapper">
+  <resultMap id="BaseResultMap" type="com.shoumipay.domain.Feedback">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="uid" jdbcType="BIGINT" property="uid" />
+    <result column="feedback" jdbcType="VARCHAR" property="feedback" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="processor" jdbcType="BIGINT" property="processor" />
+    <result column="process_time" jdbcType="TIMESTAMP" property="processTime" />
+    <result column="process_result" jdbcType="VARCHAR" property="processResult" />
+  </resultMap>
+  <resultMap id="BaseVOResultMap" type="com.shoumipay.vo.FeedbackVO">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="uid" jdbcType="BIGINT" property="uid" />
+    <result column="phoneNumber" jdbcType="VARCHAR" property="phoneNumber" />
+    <result column="feedback" jdbcType="VARCHAR" property="feedback" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="processor" jdbcType="BIGINT" property="processor" />
+    <result column="processorName" jdbcType="VARCHAR" property="processorName" />
+    <result column="process_time" jdbcType="TIMESTAMP" property="processTime" />
+    <result column="process_result" jdbcType="VARCHAR" property="processResult" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, uid, feedback, create_time, processor, process_time, process_result
+  </sql>
+  <select id="selectByExample" parameterType="com.shoumipay.domain.FeedbackExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'false' as QUERYID,
+    <include refid="Base_Column_List" />
+    from cl_feedback
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+
+  <select id="selectVO"  resultMap="BaseVOResultMap">
+    select
+        f.id AS id,
+        f.uid AS uid,
+        m.phone_number AS phoneNumber,
+        feedback,
+        f.create_time AS create_time,
+        processor,
+        u.username AS processName,
+        process_time,
+        process_result
+    from (cl_feedback AS f INNER JOIN cl_member AS m ON f.uid=m.uid) LEFT JOIN sys_user AS u ON f.processor=u.uid
+    WHERE 1=1
+        <if test="null != phoneNumber">
+            AND m.phone_number = #{phoneNumber}
+        </if>
+        <if test="null != key">
+            AND f.feedback LIKE #{key}
+        </if>
+        <if test="null != start">
+            AND f.create_time >= #{start}
+        </if>
+        <if test="null != end">
+            AND #{end} >= f.create_time
+        </if>
+    ORDER BY f.create_time DESC
+  </select>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from cl_feedback
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from cl_feedback
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.shoumipay.domain.FeedbackExample">
+    delete from cl_feedback
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.shoumipay.domain.Feedback">
+    insert into cl_feedback (id, uid, feedback, 
+      create_time, processor, process_time, 
+      process_result)
+    values (#{id,jdbcType=BIGINT}, #{uid,jdbcType=BIGINT}, #{feedback,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{processor,jdbcType=BIGINT}, #{processTime,jdbcType=TIMESTAMP}, 
+      #{processResult,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.shoumipay.domain.Feedback">
+    insert into cl_feedback
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="uid != null">
+        uid,
+      </if>
+      <if test="feedback != null">
+        feedback,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="processor != null">
+        processor,
+      </if>
+      <if test="processTime != null">
+        process_time,
+      </if>
+      <if test="processResult != null">
+        process_result,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="uid != null">
+        #{uid,jdbcType=BIGINT},
+      </if>
+      <if test="feedback != null">
+        #{feedback,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="processor != null">
+        #{processor,jdbcType=BIGINT},
+      </if>
+      <if test="processTime != null">
+        #{processTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="processResult != null">
+        #{processResult,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.shoumipay.domain.FeedbackExample" resultType="java.lang.Long">
+    select count(*) from cl_feedback
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update cl_feedback
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.uid != null">
+        uid = #{record.uid,jdbcType=BIGINT},
+      </if>
+      <if test="record.feedback != null">
+        feedback = #{record.feedback,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.processor != null">
+        processor = #{record.processor,jdbcType=BIGINT},
+      </if>
+      <if test="record.processTime != null">
+        process_time = #{record.processTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.processResult != null">
+        process_result = #{record.processResult,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update cl_feedback
+    set id = #{record.id,jdbcType=BIGINT},
+      uid = #{record.uid,jdbcType=BIGINT},
+      feedback = #{record.feedback,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      processor = #{record.processor,jdbcType=BIGINT},
+      process_time = #{record.processTime,jdbcType=TIMESTAMP},
+      process_result = #{record.processResult,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.shoumipay.domain.Feedback">
+    update cl_feedback
+    <set>
+      <if test="uid != null">
+        uid = #{uid,jdbcType=BIGINT},
+      </if>
+      <if test="feedback != null">
+        feedback = #{feedback,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="processor != null">
+        processor = #{processor,jdbcType=BIGINT},
+      </if>
+      <if test="processTime != null">
+        process_time = #{processTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="processResult != null">
+        process_result = #{processResult,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.shoumipay.domain.Feedback">
+    update cl_feedback
+    set uid = #{uid,jdbcType=BIGINT},
+      feedback = #{feedback,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      processor = #{processor,jdbcType=BIGINT},
+      process_time = #{processTime,jdbcType=TIMESTAMP},
+      process_result = #{processResult,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

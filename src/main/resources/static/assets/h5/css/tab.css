@@ -1,0 +1,318 @@
+html {
+	width: 100%;
+	height: 100%;
+}
+
+[ripple] {
+	z-index: 1;
+	position: relative;
+	overflow: hidden;
+}
+
+[ripple] .ripple {
+	position: absolute;
+	background: #FFFFFF;
+	width: 12px;
+	height: 12px;
+	border-radius: 100%;
+	-webkit-animation: ripple 1.6s;
+	animation: ripple 1.6s;
+}
+
+@-webkit-keyframes ripple {
+	0% {
+		-webkit-transform: scale(1);
+		transform: scale(1);
+	}
+	100% {
+		-webkit-transform: scale(40);
+		transform: scale(40);
+	}
+}
+
+@keyframes ripple {
+	0% {
+		-webkit-transform: scale(1);
+		transform: scale(1);
+		opacity: 0.2;
+	}
+	100% {
+		-webkit-transform: scale(40);
+		transform: scale(40);
+		opacity: 0;
+	}
+}
+
+.tabs {
+	z-index: 15px;
+	position: relative;
+	width: 100%;
+	margin-top: 5px;
+	overflow: hidden;
+}
+
+.tabs-header {
+	position: relative;
+	background: #fff;
+	overflow: hidden;
+}
+
+.tabs-header .border {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	background: #CC3333;
+	width: auto;
+	height: 2px;
+	-webkit-transition: 0.3s ease;
+	transition: 0.3s ease;
+}
+
+.tabs-header ul {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-orient: horizontal;
+	-webkit-box-direction: normal;
+	-webkit-flex-direction: row;
+	-ms-flex-direction: row;
+	flex-direction: row;
+	-webkit-flex-wrap: wrap;
+	-ms-flex-wrap: wrap;
+	flex-wrap: wrap;
+	width: 96%;
+	margin-left: 2%;
+}
+
+.tabs-header li {
+	-webkit-transition: 0.3s ease;
+	transition: 0.3s ease;
+	height: 63px;
+	line-height: 63px;
+	width: 16%;
+	text-align: center;
+}
+
+.tabs-header a {
+	z-index: 1;
+	display: block;
+	text-decoration: none;
+	font-family: PingFangSC-Light;
+	font-size: 14px;
+	color: #666666;
+	letter-spacing: 0.14px;
+}
+
+.tabs-nav {
+	position: absolute;
+	top: 0;
+	right: 0;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	-ms-flex-align: center;
+	align-items: center;
+	height: 100%;
+	padding: 0 10px;
+	color: #FFFFFF;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+.tabs-nav:before {
+	content: '';
+	z-index: 1;
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 100%;
+}
+
+.tabs-content {
+	position: relative;
+	-webkit-transition: 0.3s ease;
+	transition: 0.3s ease;
+	overflow: hidden;
+	margin-top: 10px;
+	max-height: 544px;
+	overflow-y: auto;
+}
+
+.tabs-content .tab {
+	display: none;
+}
+
+.tabs-content .tab.active {
+	display: block;
+}
+
+.tabs-header .active a {
+	color: #CC3333;
+}
+.order_pdd{
+	width: 100%;
+	height:176px;
+	text-align: center;
+	padding-top: 48px;
+}
+.dingdhan01{
+	display: block;
+	width:80px;
+	height: 84px;
+	margin: 0 auto 17px;
+} 
+.dingdhan01 img{
+	display: block;
+	width:80px;
+	height: 84px;
+}
+.order_pdd_text{
+font-family: PingFangSC-Light;
+font-size: 15px;
+color: #333333;
+letter-spacing: 0.15px;
+}
+.order_list {
+	width: 100%;
+	height: 190px;
+	margin-bottom: 10px;
+	background: #fff;
+}
+
+.order_name {
+	height: 25px;
+	line-height: 25px;
+}
+
+.o_l {
+	float: left;
+	margin-left: 3.7%;
+	font-family: PingFangSC-Light;
+	font-size: 15px;
+	color: #333333;
+	letter-spacing: 0.15px;
+}
+
+.o_r {
+	float: right;
+	margin-right: 4%;
+	font-family: PingFangSC-Light;
+	font-size: 15px;
+	color: #999999;
+	letter-spacing: 0.15px;
+}
+
+.order_js {
+	width: 100%;
+	height: 84px;
+	background: #F8F8F8;
+}
+
+.order_pic {
+	width: 73%;
+	float: left;
+}
+
+.order_money {
+	width: 17%;
+	float: right;
+	margin-top: 40px;
+	font-family: PingFangSC-Light;
+	font-size: 15px;
+	color: #CC3333;
+	letter-spacing: 0.15px;
+	line-height: 15px;
+	margin-right: 4%;
+	text-align: right;
+}
+
+.order_pic dt img {
+	display: inline-block;
+	width: 70px;
+	height: 70px;
+	margin-top: 8px;
+}
+
+.order_pic dt,
+.order_pic dd {
+	float: left;
+}
+
+.order_pic dt {
+	margin-left: 3.7%;
+}
+
+.order_pic dd {
+	width: 60%;
+	margin-left: 5px;
+}
+
+.font_style01 {
+	font-family: PingFangSC-Medium;
+	font-size: 16px;
+	color: #333333;
+	letter-spacing: 0.16px;
+	line-height: 16px;
+	margin: 15px 0;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.font_style02 {
+	font-family: PingFangSC-Light;
+	font-size: 15px;
+	color: #666666;
+	letter-spacing: 0.15px;
+}
+
+.order_shop {
+	height: 31px;
+	line-height: 31px;
+	width: 100%;
+	font-family: PingFangSC-Light;
+	font-size: 15px;
+	color: #333333;
+	letter-spacing: 0.15px;
+	border-bottom: 1px solid #D7D7D7;
+	text-align: right;
+}
+
+.ws {
+	display: inline-block;
+	width: 4%;
+}
+
+.order_number {
+	font-family: PingFangSC-Light;
+	font-size: 12px;
+	color: #333333;
+	letter-spacing: 0.12px;
+	margin-top: 21px;
+}
+
+.order_botton button {
+	display: block;
+	width: 100px;
+	height: 30px;
+	background: #fff;
+	border: 1px solid #CC3333;
+	border-radius: 100px;
+	font-family: PingFangSC-Light;
+	font-size: 15px;
+	color: #CC3333;
+	letter-spacing: 0.15px;
+	float: right;
+	margin-bottom: 10px;
+	margin-right: 4%;
+}
+
+.order_botton {
+	margin-top: 10px;
+}

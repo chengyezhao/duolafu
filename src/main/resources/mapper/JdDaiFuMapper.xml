@@ -1,0 +1,402 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shoumipay.dao.JdDaiFuMapper">
+  <resultMap id="BaseResultMap" type="com.shoumipay.domain.JdDaiFu">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="customer_Name" jdbcType="VARCHAR" property="customerName" />
+    <result column="wei_Xin_Dai_Fu_Status" jdbcType="INTEGER" property="weiXinDaiFuStatus" />
+    <result column="image_Url" jdbcType="VARCHAR" property="imageUrl" />
+    <result column="code" jdbcType="INTEGER" property="code" />
+    <result column="disable_Wish_List" jdbcType="INTEGER" property="disableWishList" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="failure_Time" jdbcType="BIGINT" property="failureTime" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+    <result column="share_Url" jdbcType="VARCHAR" property="shareUrl" />
+    <result column="order_Price" jdbcType="DECIMAL" property="orderPrice" />
+    <result column="friend_Title" jdbcType="VARCHAR" property="friendTitle" />
+    <result column="member_id" jdbcType="BIGINT" property="memberId" />
+    <result column="appId" jdbcType="VARCHAR" property="appid" />
+    <result column="payId" jdbcType="VARCHAR" property="payid" />
+    <result column="poundage_pay_flag" jdbcType="INTEGER" property="poundagePayFlag" />
+    <result column="poundage_pay_money" jdbcType="DECIMAL" property="poundagePayMoney" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, customer_Name, wei_Xin_Dai_Fu_Status, image_Url, code, disable_Wish_List, title, 
+    failure_Time, description, share_Url, order_Price, friend_Title, member_id, appId, 
+    payId, poundage_pay_flag, poundage_pay_money
+  </sql>
+  <select id="selectByExample" parameterType="com.shoumipay.domain.JdDaiFuExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from cl_jd_daifu
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from cl_jd_daifu
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from cl_jd_daifu
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.shoumipay.domain.JdDaiFuExample">
+    delete from cl_jd_daifu
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.shoumipay.domain.JdDaiFu">
+    insert into cl_jd_daifu (id, customer_Name, wei_Xin_Dai_Fu_Status, 
+      image_Url, code, disable_Wish_List, 
+      title, failure_Time, description, 
+      share_Url, order_Price, friend_Title, 
+      member_id, appId, payId, 
+      poundage_pay_flag, poundage_pay_money)
+    values (#{id,jdbcType=BIGINT}, #{customerName,jdbcType=VARCHAR}, #{weiXinDaiFuStatus,jdbcType=INTEGER}, 
+      #{imageUrl,jdbcType=VARCHAR}, #{code,jdbcType=INTEGER}, #{disableWishList,jdbcType=INTEGER}, 
+      #{title,jdbcType=VARCHAR}, #{failureTime,jdbcType=BIGINT}, #{description,jdbcType=VARCHAR}, 
+      #{shareUrl,jdbcType=VARCHAR}, #{orderPrice,jdbcType=DECIMAL}, #{friendTitle,jdbcType=VARCHAR}, 
+      #{memberId,jdbcType=BIGINT}, #{appid,jdbcType=VARCHAR}, #{payid,jdbcType=VARCHAR}, 
+      #{poundagePayFlag,jdbcType=INTEGER}, #{poundagePayMoney,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.shoumipay.domain.JdDaiFu" useGeneratedKeys="true" keyProperty="id">
+    insert into cl_jd_daifu
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="customerName != null">
+        customer_Name,
+      </if>
+      <if test="weiXinDaiFuStatus != null">
+        wei_Xin_Dai_Fu_Status,
+      </if>
+      <if test="imageUrl != null">
+        image_Url,
+      </if>
+      <if test="code != null">
+        code,
+      </if>
+      <if test="disableWishList != null">
+        disable_Wish_List,
+      </if>
+      <if test="title != null">
+        title,
+      </if>
+      <if test="failureTime != null">
+        failure_Time,
+      </if>
+      <if test="description != null">
+        description,
+      </if>
+      <if test="shareUrl != null">
+        share_Url,
+      </if>
+      <if test="orderPrice != null">
+        order_Price,
+      </if>
+      <if test="friendTitle != null">
+        friend_Title,
+      </if>
+      <if test="memberId != null">
+        member_id,
+      </if>
+      <if test="appid != null">
+        appId,
+      </if>
+      <if test="payid != null">
+        payId,
+      </if>
+      <if test="poundagePayFlag != null">
+        poundage_pay_flag,
+</if>
+      <if test="poundagePayMoney != null">
+        poundage_pay_money,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="customerName != null">
+        #{customerName,jdbcType=VARCHAR},
+      </if>
+      <if test="weiXinDaiFuStatus != null">
+        #{weiXinDaiFuStatus,jdbcType=INTEGER},
+      </if>
+      <if test="imageUrl != null">
+        #{imageUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null">
+        #{code,jdbcType=INTEGER},
+      </if>
+      <if test="disableWishList != null">
+        #{disableWishList,jdbcType=INTEGER},
+      </if>
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="failureTime != null">
+        #{failureTime,jdbcType=BIGINT},
+      </if>
+      <if test="description != null">
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="shareUrl != null">
+        #{shareUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="orderPrice != null">
+        #{orderPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="friendTitle != null">
+        #{friendTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="memberId != null">
+        #{memberId,jdbcType=BIGINT},
+      </if>
+      <if test="appid != null">
+        #{appid,jdbcType=VARCHAR},
+      </if>
+      <if test="payid != null">
+        #{payid,jdbcType=VARCHAR},
+      </if>
+      <if test="poundagePayFlag != null">
+        #{poundagePayFlag,jdbcType=INTEGER},
+      </if>
+  <if test="poundagePayMoney != null">
+        #{poundagePayMoney,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.shoumipay.domain.JdDaiFuExample" resultType="java.lang.Long">
+    select count(*) from cl_jd_daifu
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update cl_jd_daifu
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.customerName != null">
+        customer_Name = #{record.customerName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.weiXinDaiFuStatus != null">
+        wei_Xin_Dai_Fu_Status = #{record.weiXinDaiFuStatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.imageUrl != null">
+        image_Url = #{record.imageUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.code != null">
+        code = #{record.code,jdbcType=INTEGER},
+      </if>
+      <if test="record.disableWishList != null">
+        disable_Wish_List = #{record.disableWishList,jdbcType=INTEGER},
+      </if>
+      <if test="record.title != null">
+        title = #{record.title,jdbcType=VARCHAR},
+      </if>
+      <if test="record.failureTime != null">
+        failure_Time = #{record.failureTime,jdbcType=BIGINT},
+      </if>
+      <if test="record.description != null">
+        description = #{record.description,jdbcType=VARCHAR},
+      </if>
+      <if test="record.shareUrl != null">
+        share_Url = #{record.shareUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderPrice != null">
+        order_Price = #{record.orderPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="record.friendTitle != null">
+        friend_Title = #{record.friendTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="record.memberId != null">
+        member_id = #{record.memberId,jdbcType=BIGINT},
+      </if>
+      <if test="record.appid != null">
+        appId = #{record.appid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.payid != null">
+        payId = #{record.payid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.poundagePayFlag != null">
+        poundage_pay_flag = #{record.poundagePayFlag,jdbcType=INTEGER},
+      </if>
+ <if test="record.poundagePayMoney != null">
+        poundage_pay_money = #{record.poundagePayMoney,jdbcType=DECIMAL},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update cl_jd_daifu
+    set id = #{record.id,jdbcType=BIGINT},
+      customer_Name = #{record.customerName,jdbcType=VARCHAR},
+      wei_Xin_Dai_Fu_Status = #{record.weiXinDaiFuStatus,jdbcType=INTEGER},
+      image_Url = #{record.imageUrl,jdbcType=VARCHAR},
+      code = #{record.code,jdbcType=INTEGER},
+      disable_Wish_List = #{record.disableWishList,jdbcType=INTEGER},
+      title = #{record.title,jdbcType=VARCHAR},
+      failure_Time = #{record.failureTime,jdbcType=BIGINT},
+      description = #{record.description,jdbcType=VARCHAR},
+      share_Url = #{record.shareUrl,jdbcType=VARCHAR},
+      order_Price = #{record.orderPrice,jdbcType=DECIMAL},
+      friend_Title = #{record.friendTitle,jdbcType=VARCHAR},
+      member_id = #{record.memberId,jdbcType=BIGINT},
+      appId = #{record.appid,jdbcType=VARCHAR},
+      payId = #{record.payid,jdbcType=VARCHAR},
+      poundage_pay_flag = #{record.poundagePayFlag,jdbcType=INTEGER},
+      poundage_pay_money = #{record.poundagePayMoney,jdbcType=DECIMAL}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.shoumipay.domain.JdDaiFu">
+    update cl_jd_daifu
+    <set>
+      <if test="customerName != null">
+        customer_Name = #{customerName,jdbcType=VARCHAR},
+      </if>
+      <if test="weiXinDaiFuStatus != null">
+        wei_Xin_Dai_Fu_Status = #{weiXinDaiFuStatus,jdbcType=INTEGER},
+      </if>
+      <if test="imageUrl != null">
+        image_Url = #{imageUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null">
+        code = #{code,jdbcType=INTEGER},
+      </if>
+      <if test="disableWishList != null">
+        disable_Wish_List = #{disableWishList,jdbcType=INTEGER},
+      </if>
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="failureTime != null">
+        failure_Time = #{failureTime,jdbcType=BIGINT},
+      </if>
+      <if test="description != null">
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="shareUrl != null">
+        share_Url = #{shareUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="orderPrice != null">
+        order_Price = #{orderPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="friendTitle != null">
+        friend_Title = #{friendTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="memberId != null">
+        member_id = #{memberId,jdbcType=BIGINT},
+      </if>
+      <if test="appid != null">
+        appId = #{appid,jdbcType=VARCHAR},
+      </if>
+      <if test="payid != null">
+        payId = #{payid,jdbcType=VARCHAR},
+      </if>
+      <if test="poundagePayFlag != null">
+        poundage_pay_flag = #{poundagePayFlag,jdbcType=INTEGER},
+      </if>
+<if test="poundagePayMoney != null">
+        poundage_pay_money = #{poundagePayMoney,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.shoumipay.domain.JdDaiFu">
+    update cl_jd_daifu
+    set customer_Name = #{customerName,jdbcType=VARCHAR},
+      wei_Xin_Dai_Fu_Status = #{weiXinDaiFuStatus,jdbcType=INTEGER},
+      image_Url = #{imageUrl,jdbcType=VARCHAR},
+      code = #{code,jdbcType=INTEGER},
+      disable_Wish_List = #{disableWishList,jdbcType=INTEGER},
+      title = #{title,jdbcType=VARCHAR},
+      failure_Time = #{failureTime,jdbcType=BIGINT},
+      description = #{description,jdbcType=VARCHAR},
+      share_Url = #{shareUrl,jdbcType=VARCHAR},
+      order_Price = #{orderPrice,jdbcType=DECIMAL},
+      friend_Title = #{friendTitle,jdbcType=VARCHAR},
+      member_id = #{memberId,jdbcType=BIGINT},
+      appId = #{appid,jdbcType=VARCHAR},
+      payId = #{payid,jdbcType=VARCHAR},
+      poundage_pay_flag = #{poundagePayFlag,jdbcType=INTEGER},
+      poundage_pay_money = #{poundagePayMoney,jdbcType=DECIMAL}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

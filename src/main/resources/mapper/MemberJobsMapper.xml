@@ -1,0 +1,330 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shoumipay.dao.MemberJobsMapper">
+  <resultMap id="BaseResultMap" type="com.shoumipay.domain.MemberJobs">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="memberId" jdbcType="BIGINT" property="memberid" />
+    <result column="corporate_name" jdbcType="VARCHAR" property="corporateName" />
+    <result column="industry" jdbcType="VARCHAR" property="industry" />
+    <result column="company_positions" jdbcType="VARCHAR" property="companyPositions" />
+    <result column="Company_Address" jdbcType="VARCHAR" property="companyAddress" />
+    <result column="business_city" jdbcType="VARCHAR" property="businessCity" />
+    <result column="jobs_add_Company_time" jdbcType="TIMESTAMP" property="jobsAddCompanyTime" />
+    <result column="jobs_time" jdbcType="INTEGER" property="jobsTime" />
+    <result column="is_accumulation_fund" jdbcType="TINYINT" property="isAccumulationFund" />
+    <result column="wages" jdbcType="INTEGER" property="wages" />
+    <result column="jobs_addtime" jdbcType="TIMESTAMP" property="jobsAddtime" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, memberId, corporate_name, industry, company_positions, Company_Address, business_city, 
+    jobs_add_Company_time, jobs_time, is_accumulation_fund, wages, jobs_addtime
+  </sql>
+  <select id="selectByExample" parameterType="com.shoumipay.domain.MemberJobsExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from cl_member_jobs
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from cl_member_jobs
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="selectByMemberId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from cl_member_jobs
+    where memberId=#{1}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from cl_member_jobs
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.shoumipay.domain.MemberJobsExample">
+    delete from cl_member_jobs
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.shoumipay.domain.MemberJobs">
+    insert into cl_member_jobs (id, memberId, corporate_name, 
+      industry, company_positions, Company_Address, 
+      business_city, jobs_add_Company_time, jobs_time, 
+      is_accumulation_fund, wages, jobs_addtime
+      )
+    values (#{id,jdbcType=BIGINT}, #{memberid,jdbcType=BIGINT}, #{corporateName,jdbcType=VARCHAR}, 
+      #{industry,jdbcType=VARCHAR}, #{companyPositions,jdbcType=VARCHAR}, #{companyAddress,jdbcType=VARCHAR}, 
+      #{businessCity,jdbcType=VARCHAR}, #{jobsAddCompanyTime,jdbcType=TIMESTAMP}, #{jobsTime,jdbcType=INTEGER}, 
+      #{isAccumulationFund,jdbcType=TINYINT}, #{wages,jdbcType=INTEGER}, #{jobsAddtime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.shoumipay.domain.MemberJobs">
+    insert into cl_member_jobs
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="memberid != null">
+        memberId,
+      </if>
+      <if test="corporateName != null">
+        corporate_name,
+      </if>
+      <if test="industry != null">
+        industry,
+      </if>
+      <if test="companyPositions != null">
+        company_positions,
+      </if>
+      <if test="companyAddress != null">
+        Company_Address,
+      </if>
+      <if test="businessCity != null">
+        business_city,
+      </if>
+      <if test="jobsAddCompanyTime != null">
+        jobs_add_Company_time,
+      </if>
+      <if test="jobsTime != null">
+        jobs_time,
+      </if>
+      <if test="isAccumulationFund != null">
+        is_accumulation_fund,
+      </if>
+      <if test="wages != null">
+        wages,
+      </if>
+      <if test="jobsAddtime != null">
+        jobs_addtime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="memberid != null">
+        #{memberid,jdbcType=BIGINT},
+      </if>
+      <if test="corporateName != null">
+        #{corporateName,jdbcType=VARCHAR},
+      </if>
+      <if test="industry != null">
+        #{industry,jdbcType=VARCHAR},
+      </if>
+      <if test="companyPositions != null">
+        #{companyPositions,jdbcType=VARCHAR},
+      </if>
+      <if test="companyAddress != null">
+        #{companyAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="businessCity != null">
+        #{businessCity,jdbcType=VARCHAR},
+      </if>
+      <if test="jobsAddCompanyTime != null">
+        #{jobsAddCompanyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="jobsTime != null">
+        #{jobsTime,jdbcType=INTEGER},
+      </if>
+      <if test="isAccumulationFund != null">
+        #{isAccumulationFund,jdbcType=TINYINT},
+      </if>
+      <if test="wages != null">
+        #{wages,jdbcType=INTEGER},
+      </if>
+      <if test="jobsAddtime != null">
+        #{jobsAddtime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.shoumipay.domain.MemberJobsExample" resultType="java.lang.Long">
+    select count(*) from cl_member_jobs
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update cl_member_jobs
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.memberid != null">
+        memberId = #{record.memberid,jdbcType=BIGINT},
+      </if>
+      <if test="record.corporateName != null">
+        corporate_name = #{record.corporateName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.industry != null">
+        industry = #{record.industry,jdbcType=VARCHAR},
+      </if>
+      <if test="record.companyPositions != null">
+        company_positions = #{record.companyPositions,jdbcType=VARCHAR},
+      </if>
+      <if test="record.companyAddress != null">
+        Company_Address = #{record.companyAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="record.businessCity != null">
+        business_city = #{record.businessCity,jdbcType=VARCHAR},
+      </if>
+      <if test="record.jobsAddCompanyTime != null">
+        jobs_add_Company_time = #{record.jobsAddCompanyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.jobsTime != null">
+        jobs_time = #{record.jobsTime,jdbcType=INTEGER},
+      </if>
+      <if test="record.isAccumulationFund != null">
+        is_accumulation_fund = #{record.isAccumulationFund,jdbcType=TINYINT},
+      </if>
+      <if test="record.wages != null">
+        wages = #{record.wages,jdbcType=INTEGER},
+      </if>
+      <if test="record.jobsAddtime != null">
+        jobs_addtime = #{record.jobsAddtime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update cl_member_jobs
+    set id = #{record.id,jdbcType=BIGINT},
+      memberId = #{record.memberid,jdbcType=BIGINT},
+      corporate_name = #{record.corporateName,jdbcType=VARCHAR},
+      industry = #{record.industry,jdbcType=VARCHAR},
+      company_positions = #{record.companyPositions,jdbcType=VARCHAR},
+      Company_Address = #{record.companyAddress,jdbcType=VARCHAR},
+      business_city = #{record.businessCity,jdbcType=VARCHAR},
+      jobs_add_Company_time = #{record.jobsAddCompanyTime,jdbcType=TIMESTAMP},
+      jobs_time = #{record.jobsTime,jdbcType=INTEGER},
+      is_accumulation_fund = #{record.isAccumulationFund,jdbcType=TINYINT},
+      wages = #{record.wages,jdbcType=INTEGER},
+      jobs_addtime = #{record.jobsAddtime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.shoumipay.domain.MemberJobs">
+    update cl_member_jobs
+    <set>
+      <if test="memberid != null">
+        memberId = #{memberid,jdbcType=BIGINT},
+      </if>
+      <if test="corporateName != null">
+        corporate_name = #{corporateName,jdbcType=VARCHAR},
+      </if>
+      <if test="industry != null">
+        industry = #{industry,jdbcType=VARCHAR},
+      </if>
+      <if test="companyPositions != null">
+        company_positions = #{companyPositions,jdbcType=VARCHAR},
+      </if>
+      <if test="companyAddress != null">
+        Company_Address = #{companyAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="businessCity != null">
+        business_city = #{businessCity,jdbcType=VARCHAR},
+      </if>
+      <if test="jobsAddCompanyTime != null">
+        jobs_add_Company_time = #{jobsAddCompanyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="jobsTime != null">
+        jobs_time = #{jobsTime,jdbcType=INTEGER},
+      </if>
+      <if test="isAccumulationFund != null">
+        is_accumulation_fund = #{isAccumulationFund,jdbcType=TINYINT},
+      </if>
+      <if test="wages != null">
+        wages = #{wages,jdbcType=INTEGER},
+      </if>
+      <if test="jobsAddtime != null">
+        jobs_addtime = #{jobsAddtime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.shoumipay.domain.MemberJobs">
+    update cl_member_jobs
+    set memberId = #{memberid,jdbcType=BIGINT},
+      corporate_name = #{corporateName,jdbcType=VARCHAR},
+      industry = #{industry,jdbcType=VARCHAR},
+      company_positions = #{companyPositions,jdbcType=VARCHAR},
+      Company_Address = #{companyAddress,jdbcType=VARCHAR},
+      business_city = #{businessCity,jdbcType=VARCHAR},
+      jobs_add_Company_time = #{jobsAddCompanyTime,jdbcType=TIMESTAMP},
+      jobs_time = #{jobsTime,jdbcType=INTEGER},
+      is_accumulation_fund = #{isAccumulationFund,jdbcType=TINYINT},
+      wages = #{wages,jdbcType=INTEGER},
+      jobs_addtime = #{jobsAddtime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

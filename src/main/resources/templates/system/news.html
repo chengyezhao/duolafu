@@ -1,0 +1,144 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <link rel="stylesheet" href="../static/assets/css/bootstrap.min.css" th:href="@{/assets/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" href="../static/assets/css/font-awesome.min.css"
+          th:href="@{/assets/css/font-awesome.min.css}"/>
+    <link rel="stylesheet" href="../static/assets/css/jquery-ui-1.10.3.full.min.css"
+          th:href="@{/assets/css/jquery-ui-1.10.3.full.min.css}"/>
+    <link rel="stylesheet" href="../static/assets/css/datepicker.css" th:href="@{/assets/css/datepicker.css}"/>
+    <link rel="stylesheet" href="../static/assets/css/googleFamily.css" th:href="@{/assets/css/googleFamily.css}"/>
+    <link rel="stylesheet" href="../static/assets/css/ui.jqgrid.css" th:href="@{/assets/css/ui.jqgrid.css}"/>
+    <link rel="stylesheet" href="../static/assets/css/chosen.css" th:href="@{/assets/css/chosen.css}"/>
+    <link rel="stylesheet" href="../static/assets/css/custom.css" th:href="@{/assets/css/custom.css}"/>
+    <link rel="stylesheet" href="../static/assets/css/ace.min.css" th:href="@{/assets/css/ace.min.css}"/>
+    <link rel="stylesheet" href="../static/assets/css/ace-rtl.min.css" th:href="@{/assets/css/ace-rtl.min.css}"/>
+    <link rel="stylesheet" href="../static/assets/css/ace-skins.min.css" th:href="@{/assets/css/ace-skins.min.css}"/>
+    <script src="../static/assets/js/jquery-2.0.3.min.js" th:src="@{/assets/js/jquery-2.0.3.min.js}"></script>
+    <title>未放款业务</title>
+    <style>
+        .form-group > div {
+            margin-top: 10px;
+        }
+        .form-group * {
+            padding: 0;
+        }
+        .form-group input{
+            padding: 3px;
+        }
+        .form-group div{
+            padding: 3px;
+        }
+        .form-group button{
+            padding: 4px;
+        }
+        .form-group label{
+            padding: 3px;
+        }
+        .form-group .control-label{
+            padding-top: 9px;
+        }
+    </style>
+</head>
+<body>
+<div class="row">
+    <div class="col-sm-12">
+        <div class="widget-box">
+            <div class="widget-header widget-header-small">
+                <h4>新闻中心</h4>
+            </div>
+            <div class="widget-body widget-body-inner widget-main" style="display: block;"> <div class="row">
+                <div class="col-sm-12">
+                    <div class="panel panel-default" style="margin-bottom:10px;">
+                        <div class="panel-body">
+                            <form class="form-horizontal" role="form" onsubmit="return false;">
+                                <div class="form-group" style="margin-bottom: 0;">
+                                    <div class="col-sm-4">
+                                        <button id="add" class="btn btn-info btn-sm btn-label-left radius" data-toggle="modal" data-target="#bannerModal">
+                                            <i class="fa fa-search"></i>添加
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-12">
+                    <table id="jqGrid"></table>
+                    <div id="jqGridPager"></div>
+                </div>
+            </div> </div>
+        </div>
+    </div>
+</div>
+<div id="bannerModal" class="bootbox modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog " style="width:600px" >
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="myModalBankcardLabel">横幅</h4>
+            </div>
+            <div class="modal-body" id="bankcardDiv">
+                <table class="table">
+                    <tr>
+                        <th>名称</th>
+                        <th>值</th>
+                        <th>说明</th>
+                    </tr>
+                    <tr> <td>id</td> <td id="id"></td> <td></td> </tr>
+                    <tr> <td>title</td> <td><input id="title" /></td> <td></td>  </tr>
+                    <tr> <td>url</td> <td ><input id="url" /><input type="file" /></td> <td>可不填写，同时点击选择上传图片</td>  </tr>
+                    <tr> <td>link</td> <td ><input id="link" /></td> <td>点击横幅图片指向的地址。例：<div>http://www.baidu.com/music... 网页</div><div>app://1 借款页，指向产品1</div></td>  </tr>
+                    <tr> <td>order</td> <td ><input id="order" /></td> <td>APP首先显示顺序(只允许填写整数)</td>  </tr>
+                    <tr> <td>active</td> <td> <input id="active" /> </td> <td>0: 可用，1:不可用(只允许填写整数)</td>  </tr>
+                    <tr><td></td><td></td><td style="text-align: right"><button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                        <button type="button" onclick="save()" class="btn btn-primary"> 提交更改 </button></td></tr>
+                </table>
+            </div>
+
+        </div>
+    </div>
+</div>
+<script src="../static/assets/js/ace-extra.min.js" th:src="@{/assets/js/ace-extra.min.js}"></script>
+<!--[if lt IE 9]>
+<script src="../static/assets/js/html5shiv.js" th:src="@{/assets/js/html5shiv.js}"></script>
+<script src="../static/assets/js/respond.min.js" th:src="@{/assets/js/respond.min.js}"></script>
+<![endif]-->
+<script src="../static/assets/js/jqGrid/jquery.jqGrid.min.js"
+        th:src="@{/assets/js/jqGrid/jquery.jqGrid.min.js}"></script>
+<script src="../static/assets/js/jqGrid/i18n/grid.locale-en.js"
+        th:src="@{/assets/js/jqGrid/i18n/grid.locale-en.js}"></script>
+<script src="../static/assets/js/bootstrap.min.js" th:src="@{/assets/js/bootstrap.min.js}"></script>
+<script src="../static/assets/js/typeahead-bs2.min.js" th:src="@{/assets/js/typeahead-bs2.min.js}"></script>
+<!-- page specific plugin scripts -->
+<script src="../static/assets/js/jquery-ui-1.10.3.custom.min.js"
+        th:src="@{/assets/js/jquery-ui-1.10.3.custom.min.js}"></script>
+<script src="../static/assets/js/date-time/moment.min.js" th:src="@{/assets/js/date-time/moment.min.js}"></script>
+<script src="../static/assets/js/date-time/bootstrap-datepicker.min.js"
+        th:src="@{/assets/js/date-time/bootstrap-datepicker.min.js}"></script>
+<script src="../static/assets/js/jquery.slimscroll.min.js" th:src="@{/assets/js/jquery.slimscroll.min.js}"></script>
+<script src="../static/assets/js/chosen.jquery.min.js" th:src="@{/assets/js/chosen.jquery.min.js}"></script>
+<script src="../static/assets/js/ace-elements.min.js" th:src="@{/assets/js/ace-elements.min.js}"></script>
+<script src="../static/assets/js/ace.min.js" th:src="@{/assets/js/ace.min.js}"></script>
+<script src="../static/assets/js/md5.js" th:src="@{/assets/js/md5.js}"></script>
+<script src="../static/assets/js/custom.js" th:src="@{/assets/js/custom.js}"></script>
+<script src="../static/assets/js/jquery.messager.js" th:src="@{/assets/js/jquery.messager.js}"></script>
+<script src="../static/assets/js/layer/layer.js" th:src="@{/assets/js/layer/layer.js}"></script>
+<script src="../static/assets/js/bootbox.min.js" th:src="@{/assets/js/bootbox.min.js}"></script>
+<script th:src="@{/js/system/news.js}"></script>
+<script type="text/javascript">
+    $(function () {
+        $('.date-picker').datepicker({
+            autoclose: true,
+            language: "cn",
+            format: "yyyy-mm-dd"
+        }).next().on(ace.click_event, function () {
+            $(this).prev().focus();
+        });
+    });
+</script>
+
+</body>
+</html>

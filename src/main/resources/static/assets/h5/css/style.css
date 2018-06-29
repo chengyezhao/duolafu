@@ -1,0 +1,273 @@
+/*------------platform_related----*/
+
+.platform {
+	background: #fff;
+	height: 50px;
+	line-height: 50px;
+	margin-top: 5px;
+	width: 100%;
+}
+
+.platform_l {
+	float: left;
+	width: 100%;
+	font-family: PingFangSC-Light;
+	font-size: 15px;
+	color: #666666;
+	letter-spacing: 0.15px;
+}
+
+.platform_l span {
+	margin-left: 4%;
+	display: block;
+	float: left;
+	width: 14px;
+	height: 20px;
+	margin-top: 14px;
+	margin-right: 7%;
+}
+
+.platform_l img {
+	display: block;
+	width: 100%;
+}
+
+.platform_number {
+	margin-left: 6.4%;
+	font-family: PingFangSC-Light;
+	font-size: 16px;
+	color: #333333;
+	letter-spacing: 0.16px;
+	font-weight: 100;
+}
+
+.platform_pt {
+	font-family: PingFangSC-Light;
+	font-size: 15px;
+	color: #999999;
+	letter-spacing: 0.15px;
+	height: 51px;
+	line-height: 51px;
+	margin-left: 4%;
+}
+
+.pt_list {
+	width: 92%;
+	padding: 0 4%;
+	height: 100px;
+	line-height: 100px;
+	background: #fff;
+}
+
+.pt_list li {
+	float: left;
+	width: 50px;
+	height: 50px;
+	background: #CC3333;
+	border-radius: 100px;
+	margin-right: 6.5%;
+	margin-top: 25px;
+	font-family: PingFangSC-Light;
+	font-size: 16px;
+	color: #FFFFFF;
+	letter-spacing: 0.16px;
+	text-align: center;
+	line-height: 50px;
+}
+
+@media only screen and (max-width: 414px) {
+	.pt_list li {
+		float: left;
+		width: 48px;
+		height: 48px;
+		background: #CC3333;
+		border-radius: 100px;
+		margin-right: 9%;
+		margin-top: 25px;
+		font-family: PingFangSC-Light;
+		font-size: 12px;
+		color: #FFFFFF;
+		letter-spacing: 0.16px;
+		text-align: center;
+		line-height: 48px;
+	}
+}
+
+@media only screen and (max-width: 375px) {
+	.pt_list li {
+		float: left;
+		width: 48px;
+		height: 48px;
+		background: #CC3333;
+		border-radius: 100px;
+		margin-right: 6.5%;
+		margin-top: 25px;
+		font-family: PingFangSC-Light;
+		font-size: 12px;
+		color: #FFFFFF;
+		letter-spacing: 0.16px;
+		text-align: center;
+		line-height: 48px;
+	}	
+}
+
+@media only screen and (max-width: 345px) {
+	.pt_list li {
+		float: left;
+		width: 48px;
+		height: 48px;
+		background: #CC3333;
+		border-radius: 100px;
+		margin-right: 4%;
+		margin-top: 25px;
+		font-family: PingFangSC-Light;
+		font-size: 12px;
+		color: #FFFFFF;
+		letter-spacing: 0.16px;
+		text-align: center;
+		line-height: 48px;
+	}
+}
+
+.platform_wgl {
+	font-family: PingFangSC-Light;
+	font-size: 15px;
+	color: #999999;
+	letter-spacing: 0.15px;
+	height: 45px;
+	line-height: 45px;
+	margin-left: 4%;
+}
+
+.platform_swgl {
+	width: 96%;
+	height: 165px;
+	background: #FFFFFF;
+	padding-left: 4%;
+	overflow:hidden;
+}
+
+.platform_swgl dl {
+	width: 91px;
+	text-align: center;
+	float: left;
+	margin-right:10px;
+}
+
+.platform_swgl dt {
+	width:48px;
+	height: 48px;
+	background: #D8D8D8;
+	border-radius: 100px;
+	line-height: 48px;
+	text-align: center;
+	font-family: PingFangSC-Medium;
+	font-size: 15px;
+	color: #FFFFFF;
+	letter-spacing: 0.15px;
+	margin: 24px auto 10px; 
+	
+}
+
+.platform_name {
+	font-family: PingFangSC-Medium;
+	font-size: 15px;
+	color: #333333;
+	letter-spacing: 0.15px;
+	line-height: 21px;
+	font-weight: 700;
+}
+
+.platform_mgl button {
+	background: #fff;
+	width: 100%;
+	display: block;
+	border: none;
+	font-family: PingFangSC-Light;
+	font-size: 12px;
+	color: #999999;
+	letter-spacing: 0.12px;
+	line-height: 17px;
+}
+
+
+/*-----ptgl----------*/
+
+.password_name {
+	float: left;
+	margin-left: 17%;
+	font-weight: 100;
+	font-size: 15px;
+	color: #666666;
+	letter-spacing: 0.15px;
+}
+
+.password_begin img,
+.zhnghao_begin img {
+	float: left;
+	width: 14px;
+	height: 16px;
+	margin-top: 17px;
+}
+
+.password_input {
+	width: 62%;
+	height: 48px;
+	line-height: 48px;
+	border: none;
+	font-family: PingFangSC-Light;
+	font-size: 15px;
+	color: #333333;
+	letter-spacing: 0.16px;
+	display: block;
+	float: left;
+}
+
+.password_jc {
+	float: right;
+	width: 34%;
+	margin-top: 14px;
+}
+
+.password_eye {
+	background: url(../images/eyeopen.png) no-repeat;
+	width: 16px;
+	height: 10px;
+	background-size: 100%;
+	display: block;
+	float: right;
+	margin-right: 20%;
+	margin-top: 4px;
+}
+
+.password_eyec {
+	background: url(../images/eyeclose.png) no-repeat;
+	width: 16px;
+	height: 10px;
+	background-size: 100%;
+	display: block;
+	float: right;
+	margin-right: 20%;
+	margin-top: 4px;
+}
+
+.qk {
+	display: inline-block;
+	float: left;
+	width: 16px;
+	height: 16px;
+}
+
+.begin_buttonr {
+	background: #CC3333;
+	color: #fff;
+	width: 92%;
+	height: 40px;
+	border: none;
+	display: inline-block;
+	margin-left: 4%;
+	margin-top: 40px;
+	font-family: PingFangSC-Light;
+	font-size: 18px;
+	letter-spacing: 0.18px;
+}

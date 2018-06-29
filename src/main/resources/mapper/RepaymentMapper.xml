@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shoumipay.v2.mapper.RepaymentMapper" >
+  <resultMap id="BaseResultMap" type="com.shoumipay.v2.domain.Repayment" >
+    <id column="repaymentId" property="repaymentId" jdbcType="BIGINT" />
+    <result column="orderId" property="orderId" jdbcType="BIGINT" />
+    <result column="orderLegId" property="orderLegId" jdbcType="BIGINT" />
+    <result column="memberId" property="memberId" jdbcType="BIGINT" />
+    <result column="operatorId" property="operatorId" jdbcType="VARCHAR" />
+    <result column="transId" property="transId" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="price" property="price" jdbcType="DECIMAL" />
+    <result column="fee" property="fee" jdbcType="DECIMAL" />
+    <result column="interest" property="interest" jdbcType="DECIMAL" />
+    <result column="createdDate" property="createdDate" jdbcType="TIMESTAMP" />
+    <result column="lastUpdatedDate" property="lastUpdatedDate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    repaymentId, orderId, orderLegId, memberId, operatorId, transId, type, status, price, 
+    fee, interest, createdDate, lastUpdatedDate
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from repayment
+    where repaymentId = #{repaymentId,jdbcType=BIGINT}
+  </select>
+  <select id="selectByOrderId" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select
+    <include refid="Base_Column_List" />
+    from repayment
+    where orderId = #{repaymentId,jdbcType=BIGINT}
+  </select>
+  <select id="selectByTransId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from repayment
+    where transId = #{transId,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByOrderLegId" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select
+    <include refid="Base_Column_List" />
+    from repayment
+    where orderLegId = #{repaymentId,jdbcType=BIGINT}
+  </select>
+  <select id="selectPendingRepayment" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select
+    <include refid="Base_Column_List" />
+    from repayment
+    where status = 'pending';
+  </select>
+
+
+
+
+
+  <select id="queryList" resultMap="BaseResultMap">
+    select * from repayment
+    inner join daifu_order_leg on(repayment.orderLegId = daifu_order_leg.orderlegId )
+    inner join bill_collection on(daifu_order_leg.billId = bill_collection.billId)
+    where 1=1
+    <if test="orderId != null">
+        and repayment.orderId = #{orderId}
+    </if>
+    <if test="orderLegId != null">
+        and repayment.orderLegId = #{orderLegId}
+    </if>
+    <if test="billId != null">
+        and bill_collection.billId = #{billId}
+    </if>
+  </select>
+
+
+
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from repayment
+    where repaymentId = #{repaymentId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.shoumipay.v2.domain.Repayment" >
+    insert into repayment (repaymentId, orderId, orderLegId, 
+      memberId, operatorId, transId, 
+      type, status, price, 
+      fee, interest, createdDate, 
+      lastUpdatedDate)
+    values (#{repaymentId,jdbcType=BIGINT}, #{orderId,jdbcType=BIGINT}, #{orderLegId,jdbcType=BIGINT}, 
+      #{memberId,jdbcType=BIGINT}, #{operatorId,jdbcType=VARCHAR}, #{transId,jdbcType=VARCHAR}, 
+      #{type,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, #{price,jdbcType=DECIMAL}, 
+      #{fee,jdbcType=DECIMAL}, #{interest,jdbcType=DECIMAL}, NOW(), NOW())
+  </insert>
+  <insert id="insertSelective" parameterType="com.shoumipay.v2.domain.Repayment" >
+    insert into repayment
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="repaymentId != null" >
+        repaymentId,
+      </if>
+      <if test="orderId != null" >
+        orderId,
+      </if>
+      <if test="orderLegId != null" >
+        orderLegId,
+      </if>
+      <if test="memberId != null" >
+        memberId,
+      </if>
+      <if test="operatorId != null" >
+        operatorId,
+      </if>
+      <if test="transId != null" >
+        transId,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="price != null" >
+        price,
+      </if>
+      <if test="fee != null" >
+        fee,
+      </if>
+      <if test="interest != null" >
+        interest,
+      </if>
+      <if test="createdDate != null" >
+        createdDate,
+      </if>
+      <if test="lastUpdatedDate != null" >
+        lastUpdatedDate,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="repaymentId != null" >
+        #{repaymentId,jdbcType=BIGINT},
+      </if>
+      <if test="orderId != null" >
+        #{orderId,jdbcType=BIGINT},
+      </if>
+      <if test="orderLegId != null" >
+        #{orderLegId,jdbcType=BIGINT},
+      </if>
+      <if test="memberId != null" >
+        #{memberId,jdbcType=BIGINT},
+      </if>
+      <if test="operatorId != null" >
+        #{operatorId,jdbcType=VARCHAR},
+      </if>
+      <if test="transId != null" >
+        #{transId,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null" >
+        #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="fee != null" >
+        #{fee,jdbcType=DECIMAL},
+      </if>
+      <if test="interest != null" >
+        #{interest,jdbcType=DECIMAL},
+      </if>
+      <if test="createdDate != null" >
+        #{createdDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastUpdatedDate != null" >
+        #{lastUpdatedDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.shoumipay.v2.domain.Repayment" >
+    update repayment
+    <set >
+      <if test="orderId != null" >
+        orderId = #{orderId,jdbcType=BIGINT},
+      </if>
+      <if test="orderLegId != null" >
+        orderLegId = #{orderLegId,jdbcType=BIGINT},
+      </if>
+      <if test="memberId != null" >
+        memberId = #{memberId,jdbcType=BIGINT},
+      </if>
+      <if test="operatorId != null" >
+        operatorId = #{operatorId,jdbcType=VARCHAR},
+      </if>
+      <if test="transId != null" >
+        transId = #{transId,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null" >
+        price = #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="fee != null" >
+        fee = #{fee,jdbcType=DECIMAL},
+      </if>
+      <if test="interest != null" >
+        interest = #{interest,jdbcType=DECIMAL},
+      </if>
+      <if test="createdDate != null" >
+        createdDate = #{createdDate,jdbcType=TIMESTAMP},
+      </if>
+      lastUpdatedDate = NOW(),
+    </set>
+    where repaymentId = #{repaymentId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.shoumipay.v2.domain.Repayment" >
+    update repayment
+    set orderId = #{orderId,jdbcType=BIGINT},
+      orderLegId = #{orderLegId,jdbcType=BIGINT},
+      memberId = #{memberId,jdbcType=BIGINT},
+      operatorId = #{operatorId,jdbcType=VARCHAR},
+      transId = #{transId,jdbcType=VARCHAR},
+      type = #{type,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR},
+      price = #{price,jdbcType=DECIMAL},
+      fee = #{fee,jdbcType=DECIMAL},
+      interest = #{interest,jdbcType=DECIMAL},
+      createdDate = #{createdDate,jdbcType=TIMESTAMP},
+      lastUpdatedDate = NOW()
+    where repaymentId = #{repaymentId,jdbcType=BIGINT}
+  </update>
+</mapper>

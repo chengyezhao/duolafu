@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shoumipay.dao.LevelOfRiskMapper">
+  <resultMap id="BaseResultMap" type="com.shoumipay.domain.LevelOfRisk">
+    <id column="level_Of_Risk" jdbcType="CHAR" property="levelOfRisk" />
+    <result column="annual_Interest_Rate" jdbcType="DECIMAL" property="annualInterestRate" />
+    <result column="product_Rate" jdbcType="DECIMAL" property="productRate" />
+    <result column="total_Rate" jdbcType="DECIMAL" property="totalRate" />
+    <result column="platform_Management_Fee" jdbcType="DECIMAL" property="platformManagementFee" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    level_Of_Risk, annual_Interest_Rate, product_Rate, total_Rate, platform_Management_Fee
+  </sql>
+  <select id="selectByExample" parameterType="com.shoumipay.domain.LevelOfRiskExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from cl_level_of_risk
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from cl_level_of_risk
+    where level_Of_Risk = #{levelOfRisk,jdbcType=CHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from cl_level_of_risk
+    where level_Of_Risk = #{levelOfRisk,jdbcType=CHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.shoumipay.domain.LevelOfRiskExample">
+    delete from cl_level_of_risk
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.shoumipay.domain.LevelOfRisk">
+    insert into cl_level_of_risk (level_Of_Risk, annual_Interest_Rate, product_Rate, 
+      total_Rate, platform_Management_Fee)
+    values (#{levelOfRisk,jdbcType=CHAR}, #{annualInterestRate,jdbcType=DECIMAL}, #{productRate,jdbcType=DECIMAL}, 
+      #{totalRate,jdbcType=DECIMAL}, #{platformManagementFee,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.shoumipay.domain.LevelOfRisk">
+    insert into cl_level_of_risk
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="levelOfRisk != null">
+        level_Of_Risk,
+      </if>
+      <if test="annualInterestRate != null">
+        annual_Interest_Rate,
+      </if>
+      <if test="productRate != null">
+        product_Rate,
+      </if>
+      <if test="totalRate != null">
+        total_Rate,
+      </if>
+      <if test="platformManagementFee != null">
+        platform_Management_Fee,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="levelOfRisk != null">
+        #{levelOfRisk,jdbcType=CHAR},
+      </if>
+      <if test="annualInterestRate != null">
+        #{annualInterestRate,jdbcType=DECIMAL},
+      </if>
+      <if test="productRate != null">
+        #{productRate,jdbcType=DECIMAL},
+      </if>
+      <if test="totalRate != null">
+        #{totalRate,jdbcType=DECIMAL},
+      </if>
+      <if test="platformManagementFee != null">
+        #{platformManagementFee,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.shoumipay.domain.LevelOfRiskExample" resultType="java.lang.Long">
+    select count(*) from cl_level_of_risk
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update cl_level_of_risk
+    <set>
+      <if test="record.levelOfRisk != null">
+        level_Of_Risk = #{record.levelOfRisk,jdbcType=CHAR},
+      </if>
+      <if test="record.annualInterestRate != null">
+        annual_Interest_Rate = #{record.annualInterestRate,jdbcType=DECIMAL},
+      </if>
+      <if test="record.productRate != null">
+        product_Rate = #{record.productRate,jdbcType=DECIMAL},
+      </if>
+      <if test="record.totalRate != null">
+        total_Rate = #{record.totalRate,jdbcType=DECIMAL},
+      </if>
+      <if test="record.platformManagementFee != null">
+        platform_Management_Fee = #{record.platformManagementFee,jdbcType=DECIMAL},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update cl_level_of_risk
+    set level_Of_Risk = #{record.levelOfRisk,jdbcType=CHAR},
+      annual_Interest_Rate = #{record.annualInterestRate,jdbcType=DECIMAL},
+      product_Rate = #{record.productRate,jdbcType=DECIMAL},
+      total_Rate = #{record.totalRate,jdbcType=DECIMAL},
+      platform_Management_Fee = #{record.platformManagementFee,jdbcType=DECIMAL}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.shoumipay.domain.LevelOfRisk">
+    update cl_level_of_risk
+    <set>
+      <if test="annualInterestRate != null">
+        annual_Interest_Rate = #{annualInterestRate,jdbcType=DECIMAL},
+      </if>
+      <if test="productRate != null">
+        product_Rate = #{productRate,jdbcType=DECIMAL},
+      </if>
+      <if test="totalRate != null">
+        total_Rate = #{totalRate,jdbcType=DECIMAL},
+      </if>
+      <if test="platformManagementFee != null">
+        platform_Management_Fee = #{platformManagementFee,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where level_Of_Risk = #{levelOfRisk,jdbcType=CHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.shoumipay.domain.LevelOfRisk">
+    update cl_level_of_risk
+    set annual_Interest_Rate = #{annualInterestRate,jdbcType=DECIMAL},
+      product_Rate = #{productRate,jdbcType=DECIMAL},
+      total_Rate = #{totalRate,jdbcType=DECIMAL},
+      platform_Management_Fee = #{platformManagementFee,jdbcType=DECIMAL}
+    where level_Of_Risk = #{levelOfRisk,jdbcType=CHAR}
+  </update>
+</mapper>
